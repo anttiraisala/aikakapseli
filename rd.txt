@@ -1,0 +1,281 @@
+
+
+avrdude
+avrdude: stk500_getsync() attempt 6 of 10: not in sync: resp=0xef
+-----------------------------------------------------------------------
+https://arduino.stackexchange.com/questions/17/avrdude-stk500-getsync-not-in-sync-resp-0x00-aka-some-dude-named-avr-won
+
+
+How do I burn the bootloader?
+--------------------------------------
+https://arduino.stackexchange.com/questions/473/how-do-i-burn-the-bootloader/474#474
+
+
+
+
+
+
+
+How to install Arduino library
+-----------------------------------------
+https://wiki.seeedstudio.com/How_to_install_Arduino_Library
+
+Sketch -> Include Librari -> Add .ZIP Library ...
+
+
+A0 pin number
+--------------------------
+https://forum.arduino.cc/t/saving-analog-pin-name-in-variable/542847/2
+
+A0 is pin 14 
+A1 is pin 15
+A2 is pin 16
+A3 is pin 17
+
+
+
+Serial
+---------------------
+Serial.begin(9600);
+Serial.println("Start");
+
+
+
+
+Grove - RGB LED Stick (10 - WS2813 Mini)
+----------------------------------------------------
+https://wiki.seeedstudio.com/Grove-RGB_LED_Stick-10-WS2813_Mini/
+
+Kirjasto, ZIP
+https://github.com/Seeed-Studio/Seeed_Led_Strip
+Seeed_Led_Strip-master.zip
+
+Lähdekoodi:
+https://github.com/Seeed-Studio/Seeed_Led_Strip/blob/master/examples/simple/simple.ino
+
+
+Grove - Ultrasonic Ranger
+------------------------------------------
+https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/
+
+Library, ZIP
+https://github.com/Seeed-Studio/Seeed_Arduino_UltrasonicRanger/archive/master.zip
+Seeed_Arduino_UltrasonicRanger-master.zip
+
+Koodi:
+https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/
+
+
+
+Grove - Infrared Reflective Sensor
+---------------------------------------
+When the reflected light is detected, it produces Digital LOW (or Binary 0) output on the SIG pin.
+The detectable range of this sensor is 4–16 mm.
+
+Library ZIP
+https://files.seeedstudio.com/wiki/Grove-Infrared_Reflective_Sensor/res/TimerOne-ArduinoLib.zip
+TimerOne-ArduinoLib.zip
+
+
+Koodi:
+https://wiki.seeedstudio.com/Grove-Infrared_Reflective_Sensor/
+
+
+
+Grove - Light Sensor
+------------------------------------
+https://wiki.seeedstudio.com/Grove-Light_Sensor/
+
+pinMode(17, INPUT);
+int lightSensorValue = analogRead(17);
+
+
+
+SEEED OLED Display 1.12 (SH1107) V3.0 - SPI/IIC -3.3V/5V I2C
+------------------------------------------------------------------
+128×128 pixels
+https://wiki.seeedstudio.com/Grove-OLED-Display-1.12-SH1107_V3.0/
+https://github.com/olikraus/u8g2/wiki
+https://github.com/olikraus/u8g2/wiki/u8x8setupcpp#sh1107-seeed_128x128
+https://github.com/olikraus/u8g2/wiki/fntlist8x8
+
+Library:
+u8g2 by oliver
+
+#include <Arduino.h>
+#include <U8g2lib.h>
+#include <SPI.h>
+#include <Wire.h>
+
+U8G2_SH1107_SEEED_128X128_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);
+
+void setup(void) {
+  u8g2.begin();
+}
+ 
+void loop(void) {
+  u8g2.firstPage();
+
+  do {
+    u8g2.setFont(u8g2_font_luBIS08_tf);
+    u8g2.drawStr(0,24,"Hello Seeed!");
+  } while ( u8g2.nextPage() );
+}
+
+------
+
+
+#include <Arduino.h>
+#include <U8g2lib.h>
+#include <SPI.h>
+#include <Wire.h>
+
+#ifdef U8X8_HAVE_HW_SPI
+#include <SPI.h>
+#endif
+//U8X8_SH1107_SEEED_128X128_SW_I2C u8x8(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);
+U8X8_SH1107_SEEED_128X128_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
+
+
+  u8x8.begin();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.clearDisplay(); // 175ms
+
+  // Display initial message
+  u8x8.drawString(0, 0, "Hello 2,");
+  u8x8.drawString(0, 2, "U8g2!");
+  char buf[16];
+  ltoa(millis(),buf,10);
+  u8x8.drawString(0, 1, buf);
+  Serial.print("millis :");
+  Serial.println(buf);
+  u8x8.drawString(0, 4, "4. rivi");
+  // sprintf(mystr,"Millis: %lu",num);
+
+
+
+Grove - 16x2 LCD (I2C)
+------------------------------------------
+https://wiki.seeedstudio.com/Grove-16x2_LCD_Series/
+https://www.seeedstudio.com/blog/2020/01/20/how-to-use-16x2-lcd-with-arduino-grove-lcd-rgb-backlight/
+
+Library ZIP
+https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight/archive/master.zip
+Grove_LCD_RGB_Backlight-master.zip
+
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
+lcd.begin(16, 2);
+
+  // Clear the display
+  lcd.clear();
+
+lcd.setCursor(0, 1);
+lcd.print("Hello, world!");
+
+lcd.noBlink();
+lcd.blink();
+
+    // Turn off the display:
+    lcd.noDisplay();
+    delay(500);
+    // Turn on the display:
+    lcd.display();
+    delay(500);
+
+
+
+Grove - Adjustable PIR Motion Sensor
+------------------------------------------------
+https://wiki.seeedstudio.com/Grove-Adjustable_PIR_Motion_Sensor/
+
+And you can adjust the SIG HIGH time up to 130s via the potentiometer, moreover, you can adjust the detect range via the other potentiometer.
+SENS: ccw low 12cm, cw high 300cm
+ONTIME: ccw high 130s, cw low 3s
+
+
+#define PIR_MOTION_SENSOR 16
+
+pinMode(PIR_MOTION_SENSOR, INPUT);
+
+boolean isPeopleDetected()
+{
+	int sensorValue = digitalRead(PIR_MOTION_SENSOR);
+	if(sensorValue == HIGH)//if the sensor value is HIGH?
+	{
+		return true;//yes,return ture
+	}
+	else
+	{
+		return false;//no,return false
+	}
+}
+
+
+Grove - DS1307 RTC (Real Time Clock) for Arduino (I2C)
+------------------------------------------------
+https://wiki.seeedstudio.com/Grove-RTC/
+
+Lithium cell battery (CR1225)
+Battery Voltage：2.0~3.5 V
+
+
+Library ZIP
+https://github.com/Seeed-Studio/RTC_DS1307/archive/master.zip
+RTC_DS1307-master.zip
+
+Kirjastossa on bugi, täytyy kommentoida rivejä pois:
+
+????/libraries/GROVE_-_RTC_DS1307/DS1307.cpp
+
+//void DS1307::begin(uint16_t SDA ,uint16_t SCL) {
+//    Wire.begin(SDA,SCL);
+//}
+
+
+
+#include <Wire.h>
+#include "DS1307.h"
+
+DS1307 clock;//define a object of DS1307 class
+void setup()
+{
+    Serial.begin(9600);
+    clock.begin();
+    clock.fillByYMD(2013,1,19);//Jan 19,2013
+    clock.fillByHMS(15,28,30);//15:28 30"
+    clock.fillDayOfWeek(SAT);//Saturday
+    clock.setTime();//write time to the RTC chip
+}
+
+clock.getTime();
+
+Serial.print(clock.hour, DEC);
+
+
+
+
+Grove - Triple Color E-Ink Display 1.54"
+------------------------------------------------------------
+152*152 pixels
+https://wiki.seeedstudio.com/Grove-Triple_Color_E-Ink_Display_1_54/
+
+image2lcd online:
+https://lvgl.io/tools/imageconverter
+
+
+UART connection
+
+Demo code:
+https://github.com/Seeed-Studio/Grove_Triple_Color_E-lnk_1.54/tree/master/examples/E_ink154_factoryCode
+E_ink154_factoryCode.ino
+
+
+
+QVGA 2.2 TFT SPI 240x320
+----------------------------
+https://forum.arduino.cc/t/serial-spi-2-2-tft-lcd-ili9341/195018/81?page=5
+https://www.instructables.com/Arduino-serial-UART-scrolling-display-terminal-usi/
