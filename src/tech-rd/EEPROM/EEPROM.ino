@@ -19,9 +19,11 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  Serial.print("Sizeof:");
+  Serial.print("Sizeof magicNumber:");
   Serial.println(strlen(magicNumber), DEC);
 
+  Serial.print("EEPROM.length():");
+  Serial.println(EEPROM.length(), DEC);
 
   AikakapseliEepromObject eepromObjectIn;
 
