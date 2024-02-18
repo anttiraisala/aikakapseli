@@ -1,0 +1,94 @@
+
+
+
+Edestäpäin katsottuna vasemmalla sivulla on
+---------------------------
+LED-stick 0 ( D2 )
+
+, sitten edessä vasemmalta lukien
+---------------------------
+LED-stick 1 ( D3 )
+LED-stick 2 ( D4 )
+
+keskellä edessä
+---------------------------
+Adjustable PIR Motion Sensor ( A0 )
+16x2 LCD (I2C)
+
+keskellä ylhäällä aukon sisäpuolella
+---------------------------
+Infrared Reflective Sensor ( A1 )
+( LED-stick 6 ) ( D9 )
+( LED-stick 7 ) ( D10 )
+
+oikeallä edessä
+---------------------------
+LED-stick 3 ( D5 )
+LED-stick 4 ( D6 )
+
+oikealla sivustalla
+---------------------------
+LED-stick 5 ( D7 )
+
+
+Tilakaavio
+-----------------------
+graphviz ( sudo apt install graphviz )
+
+touch tilakaavio.gv ; truncate -s0 tilakaavio.gv ; nano tilakaavio.gv
+dot -Tpng tilakaavio.gv -o tilakaavio.png ; xdg-open tilakaavio.png ;
+dot -Tplain tilakaavio.gv -o tilakaavio.txt ; cat tilakaavio.txt ;
+
+Tilat:
+idle, odottaa ja ketään ei ole lähellä
+near, joku lähestyy
+insert, lappua ollaan laittamassa sisään
+
+Pitää varmaan olla kaksi tilakonetta
+- lähestymis tai etäisyys tilakone, onko asikasta lähellä vai ei
+  "distance_state"
+  - far, ei asiakasta lähellä
+  - near, asiakas on vieressä
+  - retreating, asiakas hävisi
+
+- lapunlaittamistilakone, odotetaanko lappua, onko lappu juuri menossa sisään, lappu on tiputettu tai vedetty pois
+  "note_state"
+  - no note
+  - inserting note
+  - dropped note
+
+digraph {
+	label="Abloy Aikakapseli -tilakaavio"
+
+	subgraph {
+		label="asiakkaan etäisyys, distance_state"
+		cluster="true"
+
+		D_F [label="far"]
+		D_N [label="near"]
+		D_R [label="retreating"]
+		D_ENTRY [shape=point,label=""]
+
+		D_ENTRY->D_F [label=""]
+		D_F -> D_N [label="SIG HIGH"]
+		D_N -> D_R [label="SIG LOW"]
+		D_R -> D_F [label="5s"]
+		D_R -> D_N [label="SIG HIGH"]
+	}
+
+	subgraph {
+		label="viestin asettaminen, note_state"
+		cluster="true"
+
+		N_N [label="no_note"]
+		N_I [label="inserting"]
+		N_D [label="dropped"]
+		N_ENTRY [shape=point,label=""]
+
+		N_ENTRY->N_N [label=""]
+		N_N -> N_I [label="SIG HIGH"]
+		N_I -> N_D [label="SIG LOW"]
+		N_D -> N_N [label="5s"]
+		N_D -> N_I [label="SIG HIGH"]
+	}
+}
