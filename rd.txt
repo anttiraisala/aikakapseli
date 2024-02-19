@@ -23,14 +23,30 @@ https://wiki.seeedstudio.com/How_to_install_Arduino_Library
 Sketch -> Include Librari -> Add .ZIP Library ...
 
 
+Arduino Seeed Base Shield v2.1
+---------------------------------------
+
+A3 (17)  D4  D3  D2  UART
+
+A2 (16)
+         D8  D7  D6  D5
+A1 (15)  
+         
+A0 (14)  I2C I2C I2C I2C
+
+
 A0 pin number
 --------------------------
 https://forum.arduino.cc/t/saving-analog-pin-name-in-variable/542847/2
 
+D2 - D8
 A0 is pin 14 
 A1 is pin 15
 A2 is pin 16
 A3 is pin 17
+
+INT0 is associated with digital pin 2
+INT1 is associated with digital pin 3
 
 
 
@@ -67,7 +83,7 @@ https://wiki.seeedstudio.com/Grove-Ultrasonic_Ranger/
 
 
 
-Grove - Infrared Reflective Sensor
+Grove - Infrared Reflective Sensor, IR sensor
 ---------------------------------------
 When the reflected light is detected, it produces Digital LOW (or Binary 0) output on the SIG pin.
 The detectable range of this sensor is 4–16 mm.

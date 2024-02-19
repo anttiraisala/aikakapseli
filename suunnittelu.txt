@@ -1,5 +1,17 @@
 
 
+Arduino Seeed Base Shield v2.1
+---------------------------------------
+
+A3 (17)  D4  D3  D2  UART
+
+A2 (16)
+         D8  D7  D6  D5
+A1 (15)  
+         
+A0 (14)  I2C I2C I2C I2C
+
+
 
 Edestäpäin katsottuna vasemmalla sivulla on
 ---------------------------
@@ -12,14 +24,14 @@ LED-stick 2 ( D4 )
 
 keskellä edessä
 ---------------------------
-Adjustable PIR Motion Sensor ( A0 )
+Adjustable PIR Motion Sensor ( A0/14 )
 16x2 LCD (I2C)
 
 keskellä ylhäällä aukon sisäpuolella
 ---------------------------
-Infrared Reflective Sensor ( A1 )
-( LED-stick 6 ) ( D9 )
-( LED-stick 7 ) ( D10 )
+Infrared Reflective Sensor ( A1/15 )
+( LED-stick 6 ) ( D8 )
+( LED-stick 7 ) ( A3/17 )
 
 oikeallä edessä
 ---------------------------
@@ -29,6 +41,18 @@ LED-stick 4 ( D6 )
 oikealla sivustalla
 ---------------------------
 LED-stick 5 ( D7 )
+
+
+
+16x2 -näytön tekstit
+--------------------------------
+1234567890123456
+
+YYY:DDD:HH:MM:SS
+100:100:23:40:01
+
+
+
 
 
 Tilakaavio
