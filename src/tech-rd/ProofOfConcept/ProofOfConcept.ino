@@ -54,6 +54,7 @@ U8X8_SH1107_SEEED_128X128_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
 //U8G2_SH1107_SEEED_128X128_1_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);
 
 #define PIR_MOTION_SENSOR 14
+#define IR_SENSOR 15
 
 // How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      10
@@ -86,22 +87,10 @@ rgb_lcd lcd;
 
 
 
-unsigned int counter=0;
-void blink()
-{
-    counter++;
-}
-void timerIsr()
-{
-    Timer1.detachInterrupt();  //disable the timer1
-    Serial.print("IR refl. sens. : ");
-    Serial.println(counter,DEC);
-    Timer1.attachInterrupt( timerIsr );  //enable the timer1
-}
-
 // the setup function runs once when you press reset or power the board
 void setup() {
   pinMode(PIR_MOTION_SENSOR, INPUT);
+  pinMode(IR_SENSOR, INPUT);
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(17, INPUT);
@@ -122,12 +111,6 @@ void setup() {
     Serial.begin(9600);
     Serial.println("Start");
 
-    Timer1.initialize();
-
-    Timer1.initialize(1000000); // set a timer of length 1sec
-    attachInterrupt(0, blink, RISING);  //INT0
-    Timer1.attachInterrupt( timerIsr ); // attach the service routine here
-    
 
    //u8g2.begin();
 
@@ -246,6 +229,15 @@ u8g2.firstPage();
   }
 
 
+int irSensorValue = digitalRead(IR_SENSOR);
+  Serial.print("IR sensor value: ");
+  if(irSensorValue == HIGH)
+  {
+    Serial.println("HIGH: ei paperia edessä");
+  } else
+  {
+    Serial.println("LOW: on paperi edessä");
+  }
 
 
   delay(1000);
