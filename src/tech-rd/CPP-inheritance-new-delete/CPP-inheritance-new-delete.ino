@@ -1,7 +1,6 @@
 #include "Shape.h"
 #include "Rectangle.h"
 #include "Circle.h"
-#include <MemoryFree.h>
 
 
 // Create instances of the classes
@@ -20,8 +19,6 @@ void setup() {
       shapeCount++;
        Serial.print("shapeCount: ");
        Serial.println(shapeCount, DEC);
-       Serial.print("freeMemory(): ");
-       Serial.println(freeMemory(), DEC);
     } else {
       break;
     }    
