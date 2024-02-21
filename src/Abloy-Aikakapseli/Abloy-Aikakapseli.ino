@@ -61,11 +61,10 @@ Timer *stateChangeTimer;
 
 void setup() {
   delay(3000);
-  
+
   // put your setup code here, to run once:
   Serial.begin(9600);
   DEBUG_PRINTLN("setup()");
-  Serial.println("jee");
 
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
