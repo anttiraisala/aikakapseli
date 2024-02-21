@@ -2,4 +2,6 @@
 GIT
 -----------------------------------------------
 
-git add . ; git commit -m "Minor change" ; git push ;
+git add /home/anttir/projects-own/aikakapseli/. ; git commit -m "Minor change" ; git push ;
+
+
