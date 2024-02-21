@@ -46,9 +46,11 @@ long nextMillisTo_printState=0;
 void checkForStateChanges();
 Timer *stateChangeTimer;
 //
+
+// Tällä tulostetaan debug-juttuja tiloista
 #ifdef DEBUG_MODE
   Timer *debugPrintStatesTimer;
-  // Tällä tulostetaan debug-juttuja tiloista
+  
   void debugPrintStates(){
     DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
     DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
@@ -58,6 +60,8 @@ Timer *stateChangeTimer;
 
 
 void setup() {
+  delay(3000);
+  
   // put your setup code here, to run once:
   Serial.begin(9600);
   DEBUG_PRINTLN("setup()");
@@ -76,24 +80,9 @@ void loop() {
   currentTimeMillis = millis();
 
   // Tilanvahdot 10ms välein
-  /*
-  if(currentTimeMillis > nextMillisTo_checkForStateChanges)
-  {
-    nextMillisTo_checkForStateChanges = currentTimeMillis + 1000 ;
-    checkForStateChanges();
-  }
-  */
   stateChangeTimer->loop(currentTimeMillis);
 
   // debug-tulostuksia 250ms välein
-  /*
-  if(currentTimeMillis > nextMillisTo_printState)
-  {
-    nextMillisTo_printState = currentTimeMillis + 250 ;
-    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
-    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
-  }
-  */
   #ifdef DEBUG_MODE
   debugPrintStatesTimer->loop(currentTimeMillis);
   #endif // DEBUG_MODE
