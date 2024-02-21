@@ -126,3 +126,7 @@ digraph {
 
 Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljellä oleva aika.
 
+Luultavasti myös ohjelma, jolla säädetään liiketunnistin.
+
+
+

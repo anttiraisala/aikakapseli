@@ -97,6 +97,20 @@ Koodi:
 https://wiki.seeedstudio.com/Grove-Infrared_Reflective_Sensor/
 
 
+Voidaan myös lukea digitaalisesti, 
+HIGH = ei paperia edessä
+LOW = on paperi edessä :
+
+int irSensorValue = digitalRead(IR_SENSOR);
+  Serial.print("IR sensor value: ");
+  if(irSensorValue == HIGH)
+  {
+    Serial.println("HIGH: ei paperia edessä");
+  } else
+  {
+    Serial.println("LOW: on paperi edessä");
+  }
+
 
 Grove - Light Sensor
 ------------------------------------
