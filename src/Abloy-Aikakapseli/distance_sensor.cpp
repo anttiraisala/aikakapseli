@@ -3,7 +3,6 @@
 
 #define PIR_MOTION_SENSOR 14
 /* HIGH = lähellä, LOW = kaukana */
-bool isCustomerNear = false;
 
 bool isCustomerDetected(){
   int sensorValue = digitalRead(PIR_MOTION_SENSOR);

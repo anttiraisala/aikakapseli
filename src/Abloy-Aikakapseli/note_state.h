@@ -7,5 +7,7 @@ enum class NoteState {
     DROPPED
 };
 
+char* getCurrentNoteStateString(NoteState state);
+
 #endif // NOTE_STATE_H
 

@@ -13,14 +13,15 @@ Liitettävät komponentit:
 
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
-extern long millisWhenEnteredRetreatingState;
+extern long millisWhenToExitRetreatingState;
+
+// Tällä havaitaan viestin laittaminen
+#include "note_sensor.h"
+extern long millisWhenToExitDroppedState;
 
 
-
-/* */
 
 /* Asiakkaan etäisyys -tilat */
-
 #include "distance_state.h"
 DistanceState distanceState = DistanceState::FAR ;
 
@@ -30,8 +31,12 @@ DistanceState distanceState = DistanceState::FAR ;
 NoteState noteState = NoteState::NO_NOTE;
 
 
+
 // Tällä pidetään kirjaa kuluneista millisekunneista
 long currentTimeMillis = 0;
+//
+long nextMillisTo_checkForStateChanges=0;
+long nextMillisTo_printState=0;
 
 
 void setup() {
@@ -42,8 +47,7 @@ void setup() {
 
 
 
-long nextMillisTo_checkForStateChanges=0;
-long nextMillisTo_printDistanceState=0;
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -56,13 +60,12 @@ void loop() {
     checkForStateChanges();
   }
 
-  if(currentTimeMillis > nextMillisTo_printDistanceState)
+  if(currentTimeMillis > nextMillisTo_printState)
   {
-    nextMillisTo_printDistanceState = currentTimeMillis + 250 ;
-    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentStateString(distanceState));
+    nextMillisTo_printState = currentTimeMillis + 250 ;
+    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
+    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
   }
-
-  
 
 }
 
@@ -81,7 +84,7 @@ void checkForStateChanges(){
     case DistanceState::NEAR :
       if(isCustomerDetected() == false){
         distanceState = DistanceState::RETREATING ;
-        millisWhenEnteredRetreatingState = currentTimeMillis;
+        millisWhenToExitRetreatingState = currentTimeMillis + 10000;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
@@ -92,7 +95,8 @@ void checkForStateChanges(){
         distanceState = DistanceState::NEAR ;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
-      } else if(currentTimeMillis > millisWhenEnteredRetreatingState+10000){
+      } 
+      if(currentTimeMillis > millisWhenToExitRetreatingState){
         distanceState = DistanceState::FAR ;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
@@ -104,12 +108,33 @@ void checkForStateChanges(){
   /* Viestin asettaminen -tilat */
     switch (noteState) {
     case NoteState::NO_NOTE :
+      if(isNoteDetected() == true){
+        noteState = NoteState::INSERTING ;
+
+        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+      }
     break;
 
     case NoteState::INSERTING :
+      if(isNoteDetected() == false){
+        noteState = NoteState::DROPPED ;
+        millisWhenToExitDroppedState = currentTimeMillis + 5000;
+
+        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
+      }
     break;
 
     case NoteState::DROPPED :
+      if(isNoteDetected() == true){
+        noteState = NoteState::INSERTING ;
+
+        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+      } 
+      if(currentTimeMillis > millisWhenToExitDroppedState){
+        noteState = NoteState::NO_NOTE ;
+
+        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
+      }
     break;
   }
 

@@ -7,6 +7,6 @@ enum class DistanceState {
     RETREATING
 };
 
-char* getCurrentStateString(DistanceState state);
+char* getCurrentDistanceStateString(DistanceState state);
 
 #endif // DISTANCE_STATE_H

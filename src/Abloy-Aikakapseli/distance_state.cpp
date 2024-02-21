@@ -1,9 +1,9 @@
 #include "distance_state.h"
 #include <Arduino.h>
 
-long millisWhenEnteredRetreatingState = 0;
+long millisWhenToExitRetreatingState = 0;
 
-char* getCurrentStateString(DistanceState state) {
+char* getCurrentDistanceStateString(DistanceState state) {
   if(state == DistanceState::FAR){
     return "DistanceState::FAR";
   }
