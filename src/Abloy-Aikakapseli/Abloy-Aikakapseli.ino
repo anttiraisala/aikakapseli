@@ -11,6 +11,9 @@ Liitettävät komponentit:
 // Tällä voidaan kehityksen aikana tulostella juttuja. Muista kytkeä pois päältä tuotannossa.
 #include "debug.h"
 
+// Tällä ajastetaan tehtävät tapahtumaan loop()-silmukassa
+#include "Timer.h"
+
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
 extern long millisWhenToExitRetreatingState;
@@ -33,43 +36,73 @@ NoteState noteState = NoteState::NO_NOTE;
 
 
 // Tällä pidetään kirjaa kuluneista millisekunneista
-long currentTimeMillis = 0;
+long currentTimeMillis = millis();
 //
 long nextMillisTo_checkForStateChanges=0;
 long nextMillisTo_printState=0;
+
+
+// Tehdään ajastus, että tilat tarkastetaan 10ms välein
+void checkForStateChanges();
+Timer *stateChangeTimer;
+//
+#ifdef DEBUG_MODE
+  Timer *debugPrintStatesTimer;
+  // Tällä tulostetaan debug-juttuja tiloista
+  void debugPrintStates(){
+    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
+    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
+  }
+
+#endif // DEBUG_MODE
 
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   DEBUG_PRINTLN("setup()");
+  Serial.println("jee");
+
+  stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
+
+  #ifdef DEBUG_MODE
+  debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
+  #endif // DEBUG_MODE
 }
-
-
-
-
 
 void loop() {
   // put your main code here, to run repeatedly:
 
   currentTimeMillis = millis();
 
+  // Tilanvahdot 10ms välein
+  /*
   if(currentTimeMillis > nextMillisTo_checkForStateChanges)
   {
-    nextMillisTo_checkForStateChanges = currentTimeMillis + 10 ;
+    nextMillisTo_checkForStateChanges = currentTimeMillis + 1000 ;
     checkForStateChanges();
   }
+  */
+  stateChangeTimer->loop(currentTimeMillis);
 
+  // debug-tulostuksia 250ms välein
+  /*
   if(currentTimeMillis > nextMillisTo_printState)
   {
     nextMillisTo_printState = currentTimeMillis + 250 ;
     DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
     DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
   }
+  */
+  #ifdef DEBUG_MODE
+  debugPrintStatesTimer->loop(currentTimeMillis);
+  #endif // DEBUG_MODE
+
 
 }
 
 void checkForStateChanges(){
+  //Serial.println(millis(), DEC);
 
   /* Asiakkaan etäisyys -tilat */
   switch (distanceState) {
@@ -84,7 +117,7 @@ void checkForStateChanges(){
     case DistanceState::NEAR :
       if(isCustomerDetected() == false){
         distanceState = DistanceState::RETREATING ;
-        millisWhenToExitRetreatingState = currentTimeMillis + 10000;
+        millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
