@@ -116,3 +116,13 @@ digraph {
 		N_D -> N_I [label="SIG HIGH"]
 	}
 }
+
+
+
+
+-----------------------------------------
+
+
+
+Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljellä oleva aika.
+
