@@ -34,6 +34,10 @@ DistanceState distanceState = DistanceState::FAR ;
 NoteState noteState = NoteState::NO_NOTE;
 
 
+/* Tällä hoidetaan LCD-näytön tekstit */
+#include "lcd_screen.h"
+
+
 
 // Tällä pidetään kirjaa kuluneista millisekunneista
 long currentTimeMillis = millis();
