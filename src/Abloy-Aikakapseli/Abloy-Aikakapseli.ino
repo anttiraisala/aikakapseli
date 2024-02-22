@@ -72,7 +72,6 @@ void setup() {
   DEBUG_PRINTLN("setup()");
 
   lcd = new Lcd_screen();
-  lcd->init(); 
 
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 

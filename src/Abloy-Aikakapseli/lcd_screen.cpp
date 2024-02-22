@@ -13,7 +13,7 @@
 */
 
 Lcd_screen::Lcd_screen(void){
-  
+  this->init();  
 }
 
 void Lcd_screen::loop(unsigned long currentTime){
