@@ -36,6 +36,7 @@ NoteState noteState = NoteState::NO_NOTE;
 
 /* Tällä hoidetaan LCD-näytön tekstit */
 #include "lcd_screen.h"
+Lcd_screen *lcd;
 
 
 
@@ -69,6 +70,9 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   DEBUG_PRINTLN("setup()");
+
+  lcd = new Lcd_screen();
+  lcd->init();
 
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
