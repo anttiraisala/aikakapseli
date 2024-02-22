@@ -135,38 +135,45 @@ void checkForStateChanges(){
 
 
   /* Viestin asettaminen -tilat */
+  static unsigned long nextAllowedNoteStateChange=0;
+  if(currentTimeMillis > nextAllowedNoteStateChange){
     switch (noteState) {
-    case NoteState::NO_NOTE :
-      if(isNoteDetected() == true){
-        noteState = NoteState::INSERTING ;
+      case NoteState::NO_NOTE :
+        if(isNoteDetected() == true){
+          noteState = NoteState::INSERTING ;
 
-        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
-        lcd->setText("Anna lupaus...", 0, currentTimeMillis, 2000);
-      }
-    break;
+          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+          lcd->setText("Anna lupaus...", 0, currentTimeMillis, 2000);
+          nextAllowedNoteStateChange = currentTimeMillis + 1000;
+        }
+      break;
 
-    case NoteState::INSERTING :
-      if(isNoteDetected() == false){
-        noteState = NoteState::DROPPED ;
-        millisWhenToExitDroppedState = currentTimeMillis + 5000;
+      case NoteState::INSERTING :
+        if(isNoteDetected() == false){
+          noteState = NoteState::DROPPED ;
+          millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
-        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
-        lcd->setText("Kiitos!", 0, currentTimeMillis, 2000);
-      }
-    break;
+          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
+          lcd->setText("Kiitos!", 0, currentTimeMillis, 2000);
+          nextAllowedNoteStateChange = currentTimeMillis + 1000;
+        }
+      break;
 
-    case NoteState::DROPPED :
-      if(isNoteDetected() == true){
-        noteState = NoteState::INSERTING ;
+      case NoteState::DROPPED :
+        if(isNoteDetected() == true){
+          noteState = NoteState::INSERTING ;
 
-        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
-        lcd->setText("Anna lupaus...", 0, currentTimeMillis, 2000);
-      } 
-      if(currentTimeMillis > millisWhenToExitDroppedState){
-        noteState = NoteState::NO_NOTE ;
+          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+          lcd->setText("Anna lupaus...", 0, currentTimeMillis, 2000);
+          nextAllowedNoteStateChange = currentTimeMillis + 1000;
+        } 
+        if(currentTimeMillis > millisWhenToExitDroppedState){
+          noteState = NoteState::NO_NOTE ;
 
-        DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
-      }
-    break;
+          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
+          nextAllowedNoteStateChange = currentTimeMillis + 1000;
+        }
+      break;
+    }
   }
 }
