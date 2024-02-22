@@ -40,11 +40,18 @@ Lcd_screen *lcd;
 
 
 /* Tämä hoitaa 100-vuotisen laskurin */
-#include "Countdown.h"
-Countdown *countdown;
-
+//
 #include "AikakapseliEeprom.h"
 AikakapseliEeprom aikakapseliEeprom;
+void decreaseTimeAndShow(void){
+  aikakapseliEeprom.decreaseTime();
+  lcd->setText(aikakapseliEeprom.getTimeString(), 0);
+}
+Timer *decreaseTimeAndShowTimer;
+void writeTime(void){
+  aikakapseliEeprom.write();
+}
+Timer *writeCountdownTimeToEepromTimer;
 
 
 
@@ -82,7 +89,18 @@ void setup() {
 
   lcd = new Lcd_screen();
 
+  /* Vähän aikaa näytetään alkutekstiä, sitten alkaa varsinainen toiminta */
+  delay(3000);
+  lcd->clear();
+  delay(1000);
+
+  currentTimeMillis = millis();
+
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
+
+  decreaseTimeAndShowTimer = new Timer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
+  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000);
+
 
   #ifdef DEBUG_MODE
   debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
@@ -103,6 +121,11 @@ void loop() {
 
   // Tilanvahdot 10ms välein
   stateChangeTimer->loop(currentTimeMillis);
+
+  // Countdown -laskurin ajan vähentäminen ja arvon tulostus tasan sekunnin välein
+  decreaseTimeAndShowTimer->loop(currentTimeMillis);
+  // Countdown -laskurin ajan tallennus EEPROM:iin sähkökatkojen varalle
+  writeCountdownTimeToEepromTimer->loop(currentTimeMillis);
 
   // debug-tulostuksia 250ms välein
   #ifdef DEBUG_MODE

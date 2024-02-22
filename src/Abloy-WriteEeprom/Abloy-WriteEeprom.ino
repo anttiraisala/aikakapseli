@@ -56,6 +56,11 @@ void loop() {
 void write(void){
   Serial.println("Writing...");
   aikakapseliEeprom.setToTime(100, 1, 12, 34, 56);
+  /*
+  aikakapseliEeprom.setToTime(100, 0, 0, 0, 56);
+  aikakapseliEeprom.setToTime(0, 0, 0, 0, 6);
+  */
+  aikakapseliEeprom.setToTime(10, 0, 0, 1, 1);
   aikakapseliEeprom.write();
 
   Serial.println("Reading after write...");

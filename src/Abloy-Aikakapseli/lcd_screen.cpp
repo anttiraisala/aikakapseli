@@ -58,7 +58,7 @@ void Lcd_screen::init(void){
   disappearTime0=0;
   disappearTime1=0; 
 
-  this->setText("     ABLOY", 0, millis(), 4000);
-  this->setText("  Aikakapseli", 1, millis(), 4000);
+  this->setText("     ABLOY", 0, millis(), 3000);
+  this->setText("  Aikakapseli", 1, millis(), 3000);
 }
 
