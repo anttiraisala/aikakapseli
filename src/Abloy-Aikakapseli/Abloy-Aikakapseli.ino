@@ -150,6 +150,7 @@ void checkForStateChanges(){
         millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
         DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
+        lcd->setText("Kiitos!", 0, currentTimeMillis, 2000);
       }
     break;
 
