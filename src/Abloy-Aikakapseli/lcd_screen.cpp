@@ -5,20 +5,47 @@
 #include <Wire.h>
 #include "rgb_lcd.h"
 
+/*
+
+  lcd->setText("Hello", 0);
+  lcd->setText("World", 1);
+
+*/
+
 Lcd_screen::Lcd_screen(void){
   
+}
+
+void Lcd_screen::setText(char *text, int row){
+  this->setText(text, row, 0, 0);
+}
+
+void Lcd_screen::setText(char *text, int row, unsigned long currentTime, unsigned long duration){
+  this->lcd.setCursor(0, row);
+  this->lcd.print("                ");
+  this->lcd.setCursor(0, row);
+  this->lcd.print(text);
+
+  if(row==0){
+    disappearTime0 = currentTime + duration;
+  } else {
+    disappearTime1 = currentTime + duration;
+  }
+}
+
+void Lcd_screen::clear(void){
+  this->lcd.clear();
+  this->lcd.noBlink();
 }
 
 void Lcd_screen::init(void){
   this->lcd.begin(16, 2);
   this->lcd.clear();
   this->lcd.noBlink();
+  disappearTime0=0;
+  disappearTime1=0; 
 
-
-  this->lcd.setCursor(0, 0);
-  this->lcd.print("     ABLOY");
-  
-  this->lcd.setCursor(0, 1);
-  this->lcd.print("  Aikakapseli");
+  this->setText("     ABLOY", 0);
+  this->setText("  Aikakapseli", 1);
 }
 
