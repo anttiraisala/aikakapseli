@@ -74,7 +74,7 @@ Timer *stateChangeTimer;
 
 
 void setup() {
-  delay(3000);
+  delay(1500);
 
   // put your setup code here, to run once:
   Serial.begin(9600);
