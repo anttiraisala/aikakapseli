@@ -16,6 +16,19 @@ Lcd_screen::Lcd_screen(void){
   
 }
 
+void Lcd_screen::loop(unsigned long currentTime){
+  if(disappearTime0>0){
+    if(currentTime>disappearTime0){
+      this->setText("", 0);
+    }
+  }
+  if(disappearTime1>0){
+    if(currentTime>disappearTime1){
+      this->setText("", 1);
+    }
+  }
+}
+
 void Lcd_screen::setText(char *text, int row){
   this->setText(text, row, 0, 0);
 }
@@ -45,7 +58,7 @@ void Lcd_screen::init(void){
   disappearTime0=0;
   disappearTime1=0; 
 
-  this->setText("     ABLOY", 0);
-  this->setText("  Aikakapseli", 1);
+  this->setText("     ABLOY", 0, millis(), 4000);
+  this->setText("  Aikakapseli", 1, millis(), 4000);
 }
 

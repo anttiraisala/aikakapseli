@@ -17,6 +17,7 @@ public:
   Lcd_screen(void);
   void init(void);
   void clear(void);
+  void loop(unsigned long currentTime);
 
   void setText(char *text, int row);
   void setText(char *text, int row, unsigned long currentTime, unsigned long duration);

@@ -72,8 +72,7 @@ void setup() {
   DEBUG_PRINTLN("setup()");
 
   lcd = new Lcd_screen();
-  lcd->init();
-  delay(3000);
+  lcd->init(); 
 
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
@@ -95,7 +94,8 @@ void loop() {
   debugPrintStatesTimer->loop(currentTimeMillis);
   #endif // DEBUG_MODE
 
-
+  /* Hoidetaan LCD-näytön tekstien häviäminen ajallaan */
+  lcd->loop(currentTimeMillis);
 }
 
 void checkForStateChanges(){
