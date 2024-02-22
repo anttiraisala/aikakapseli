@@ -143,7 +143,7 @@ void checkForStateChanges(){
           noteState = NoteState::INSERTING ;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
-          lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
+          lcd->setText("Anna viesti...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
       break;
@@ -164,7 +164,7 @@ void checkForStateChanges(){
           noteState = NoteState::INSERTING ;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
-          lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
+          lcd->setText("Anna viesti...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         } 
         if(currentTimeMillis > millisWhenToExitDroppedState){
