@@ -7,8 +7,8 @@
 // Uncomment some of the next lines to enable debugging
 /////////////////////////////////////////
 #define DEBUG_MODE
-#define DEBUG_DISTANCE_STATE
-#define DEBUG_NOTE_STATE
+//#define DEBUG_DISTANCE_STATE
+//#define DEBUG_NOTE_STATE
 /////////////////////////////////////////
 
 

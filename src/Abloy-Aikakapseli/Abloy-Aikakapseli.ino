@@ -39,6 +39,15 @@ NoteState noteState = NoteState::NO_NOTE;
 Lcd_screen *lcd;
 
 
+/* Tämä hoitaa 100-vuotisen laskurin */
+#include "Countdown.h"
+Countdown *countdown;
+
+#include "AikakapseliEeprom.h"
+AikakapseliEeprom aikakapseliEeprom;
+
+
+
 
 // Tällä pidetään kirjaa kuluneista millisekunneista
 long currentTimeMillis = millis();
@@ -78,6 +87,13 @@ void setup() {
   #ifdef DEBUG_MODE
   debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
   #endif // DEBUG_MODE
+
+  aikakapseliEeprom.init();
+  if(aikakapseliEeprom.load()){
+    DEBUG_PRINTLN("aikakapseliEeprom.load() == true");
+  } else {
+    DEBUG_PRINTLN("aikakapseliEeprom.load() == false");
+  }
 }
 
 void loop() {
