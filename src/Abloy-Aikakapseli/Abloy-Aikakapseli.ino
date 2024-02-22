@@ -89,10 +89,10 @@ void setup() {
   #endif // DEBUG_MODE
 
   aikakapseliEeprom.init();
-  if(aikakapseliEeprom.load()){
-    DEBUG_PRINTLN("aikakapseliEeprom.load() == true");
+  if(aikakapseliEeprom.read()){
+    DEBUG_PRINTLN("aikakapseliEeprom.read() == true");
   } else {
-    DEBUG_PRINTLN("aikakapseliEeprom.load() == false");
+    DEBUG_PRINTLN("aikakapseliEeprom.read() == false");
   }
 }
 

@@ -2,12 +2,23 @@
 AikakapseliEeprom aikakapseliEeprom;
 
 
+
+/*
+
+setup() -funktiossa on funktiokutsut:
+
+- read()
+- write()
+- clear()
+
+, kommentoi ne käyttöön / pois tarpeen mukaan ja aja ohjelma.
+
+*/
+
+
 void read(void);
 void write(void);
 void clear(void);
-
-
-
 
 void setup() {
   // put your setup code here, to run once:
