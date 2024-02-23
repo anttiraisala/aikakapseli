@@ -129,7 +129,7 @@ Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljell
 
 Luultavasti myös ohjelma, jolla säädetään liiketunnistin.
 
-Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia?
+Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia? Nyt 15min => wear levelingllä 200v, ilman wearlevelingiä 3v
 
 Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään", mistä ajasta lähdetään laskemaan alaspäin? Nyt ohjelmassa on 10pv.
 
