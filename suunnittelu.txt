@@ -129,15 +129,19 @@ Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljell
 
 Luultavasti myös ohjelma, jolla säädetään liiketunnistin.
 
-Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia? Nyt 15min => wear levelingllä 200v, ilman wearlevelingiä 3v
+Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia? Nyt 15min => wear levelingllä 200v, ilman wearlevelingiä 3v .
 
-Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään", mistä ajasta lähdetään laskemaan alaspäin? Nyt ohjelmassa on 10pv.
+Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään", mistä ajasta lähdetään laskemaan alaspäin? Nyt ohjelmassa on 10pv .
 
 
 
 Kuinka usein aika pitäisi kirjoittaa muistiin
 -----------------------------------------------------------
 https://arduino.stackexchange.com/questions/226/what-is-the-real-lifetime-of-eeprom
+
+SD Card wear leveling
+https://forum.arduino.cc/t/sdcard-data-logging-wearing-down-the-sdcard/272072/2
+
 
 Jos writecyclejä on melko varmasti 100000...
 
