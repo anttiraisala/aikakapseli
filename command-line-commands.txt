@@ -4,5 +4,5 @@ GIT
 
 git add /home/anttir/projects-own/aikakapseli/. ; git commit -m "Minor change" ; git push ;
 
-git pull ; git branch -a ;
+git pull ; git branch -a ; git log ;
 
