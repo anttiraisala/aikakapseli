@@ -32,6 +32,7 @@ void setup() {
 
 
   Serial.println("Let's start...");
+  ///////////////////////////////////////////////////////////////
   /* Kommentoi pois / päälle sopiva koodi ja aja */
 
 
@@ -40,7 +41,7 @@ void setup() {
   write();
 
   //clear();
-
+  ///////////////////////////////////////////////////////////////
   Serial.println("Done.");
 }
 
@@ -60,7 +61,7 @@ void write(void){
   aikakapseliEeprom.setToTime(100, 0, 0, 0, 56);
   aikakapseliEeprom.setToTime(0, 0, 0, 0, 6);
   */
-  aikakapseliEeprom.setToTime(10, 0, 0, 1, 1);
+  aikakapseliEeprom.setToTime(100, 0, 0, 1, 1);
   aikakapseliEeprom.write();
 
   Serial.println("Reading after write...");
@@ -77,6 +78,7 @@ void clear(void){
 
 void read(void){
   Serial.println("Reading...");
+  aikakapseliEeprom.init();
   bool success=aikakapseliEeprom.read();
   if(success){
     Serial.println("aikakapseliEeprom.load() == true");

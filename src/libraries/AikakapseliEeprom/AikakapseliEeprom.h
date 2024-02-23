@@ -6,14 +6,15 @@
 
 #include <Arduino.h>
 
-#define AIKAKAPSELI_MAGICNUMBER "AikakapseliEepromObject"
+#define AIKAKAPSELI_MAGICNUMBER 169
 
 
 class AikakapseliEeprom {
 private:
 
   struct AikakapseliEepromObject {
-    char magicNumber[sizeof(AIKAKAPSELI_MAGICNUMBER)];
+    //char magicNumber[sizeof(AIKAKAPSELI_MAGICNUMBER)];
+    byte magicNumber;
 
     /*
 16x2 -näytön tekstit

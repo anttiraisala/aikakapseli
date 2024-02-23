@@ -139,3 +139,7 @@ Jos writecyclejä on melko varmasti 100000...
 100×365×24×60×60×1000÷100000 -> millisekunnin välein ( 31536000ms = 0,365 päivää )
 
 /(1000*60*60*24) -> päivän välein
+/(1000*60*60) -> tunnin välein
+/(1000*60) -> minuutin välein
+
+Käytössä on "wear leveling". https://github.com/chayanforyou/WearLeveling

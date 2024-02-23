@@ -106,10 +106,12 @@ void setup() {
   debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
   #endif // DEBUG_MODE
 
+  /* Alustetaan aikalaskuri, yritetään lukea arvo EEPROM:sta */
   aikakapseliEeprom.init();
   if(aikakapseliEeprom.read()){
     DEBUG_PRINTLN("aikakapseliEeprom.read() == true");
   } else {
+    aikakapseliEeprom.setToTime(0, 10, 0, 0, 0);
     DEBUG_PRINTLN("aikakapseliEeprom.read() == false");
   }
 }
