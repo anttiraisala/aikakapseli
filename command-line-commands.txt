@@ -4,8 +4,15 @@ GIT
 
 https://github.com/anttiraisala/aikakapseli
 
+git clone https://github.com/anttiraisala/aikakapseli.git
 
+
+#
 git add /home/anttir/projects-own/aikakapseli/. ; git commit -m "Minor change" ; git push ;
 
 git pull ; git branch -a ; git log ;
 
+git clone https://github.com/anttiraisala/aikakapseli.git
+
+
+# 
