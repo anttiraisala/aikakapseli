@@ -122,11 +122,16 @@ digraph {
 
 -----------------------------------------
 
-
+Kysymyksiä ja ajatuksia:
+====================
 
 Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljellä oleva aika.
 
 Luultavasti myös ohjelma, jolla säädetään liiketunnistin.
+
+Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia?
+
+Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään", mistä ajasta lähdetään laskemaan alaspäin? Nyt ohjelmassa on 10pv.
 
 
 
@@ -143,3 +148,28 @@ Jos writecyclejä on melko varmasti 100000...
 /(1000*60) -> minuutin välein
 
 Käytössä on "wear leveling". https://github.com/chayanforyou/WearLeveling
+
+  --
+
+EEPROM:n koko
+1024 tavua
+
+EEPROM:iin tallennettavan tietorakenteen koko
+6*2 tavua = 12 tavua
+
+EEPROM:n write cycle
+100000
+
+Kirjoituskertoja on siis:
+100000 * 1024 / 12 = 8 533 333
+
+Aikakapselin kestoaika on leikillisesti 100v, mutta realistinen kestoaika ehkä 25v, eli monenko millisekunnin välein tallennetaan, jotta saavutetaan realistinen kestoaika?
+
+ 25 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 1024 / 12 ) = 92390ms = 92s
+100 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 1024 / 12 ) = 369563ms = 6,2min
+
+verrataan tilanteeseen ilman wear levelingiä:
+
+ 25 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 12 / 12 ) = 7884000ms = 131min
+100 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 12 / 12 ) = 31536000ms = 8,76h
+
