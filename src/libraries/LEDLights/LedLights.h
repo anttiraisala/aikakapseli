@@ -3,6 +3,11 @@
 
 #include <Arduino.h>
 
+/* Asiakkaan etäisyys -tilat */
+#include "distance_state.h"
+
+/* Viestin asettaminen -tilat */
+#include "note_state.h"
 
 #include "Adafruit_NeoPixel.h"
 #ifdef __AVR__
@@ -17,7 +22,7 @@ private:
 public:
 
   void init(void);
-  void loopSetColors(unsigned long currentTimeMillis, byte noteState, byte distanceState);
+  void loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState);
   void loopShow(void);
 };
 
