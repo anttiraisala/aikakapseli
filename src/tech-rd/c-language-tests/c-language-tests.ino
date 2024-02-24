@@ -4,10 +4,10 @@ struct StructA {
   byte b;
 };
 
-StructA getStructA(int i) {
+StructA getStructA(int i, StructA b) {
   StructA result;
-  result.a = 33;
-  result.b = i;
+  result.a = 33 + b.a;
+  result.b = i + b.b;
 
   return result;
 }
@@ -16,13 +16,18 @@ StructA getStructA(int i) {
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  delay(2000);
 
-  StructA result = getStructA(15);
+  StructA b;
+  b.a=3;
+  b.b=4;
+
+  StructA result = getStructA(15, b);
   Serial.print("result.a :");
   Serial.println(result.a);
   Serial.print("result.b :");
   Serial.println(result.b);
-  result = getStructA(17);
+  result = getStructA(17, b);
   Serial.print("result.a :");
   Serial.println(result.a);
   Serial.print("result.b :");
