@@ -38,9 +38,9 @@ void setup() {
 
   //read();
 
-  write();
+  //write();
 
-  //clear();
+  clear();
   ///////////////////////////////////////////////////////////////
   Serial.println("Done.");
 }
