@@ -12,6 +12,10 @@ StructA getStructA(int i, StructA b) {
   return result;
 }
 
+StructA f2(StructA a){
+  return a;
+}
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -32,6 +36,26 @@ void setup() {
   Serial.println(result.a);
   Serial.print("result.b :");
   Serial.println(result.b);
+
+
+  Serial.println("");
+  Serial.println("");
+
+
+  StructA c;
+  c.a=4;
+  c.b=5;
+  StructA d = f2(c);
+  c.a=6;
+ Serial.print("c.a :");
+  Serial.println(c.a);
+ Serial.print("c.b :");
+  Serial.println(c.b);
+ Serial.print("d.a :");
+  Serial.println(d.a);
+ Serial.print("d.b :");
+  Serial.println(d.b);
+
 }
 
 void loop() {
