@@ -35,8 +35,13 @@ void setup() {
   delay(1000);
 
   ledLights.init();
+  delay(1000);
   ledLights.debugPrintLedSticks();
+  delay(1000);
+  ledLights.setLightsToRandom();
+  delay(1000);
   ledLights.setLightsToZero();
+  delay(1000);
 
   ledLights.setLightsToTestPattern();
 

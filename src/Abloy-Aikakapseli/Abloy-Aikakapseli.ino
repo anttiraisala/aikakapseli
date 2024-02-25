@@ -41,6 +41,10 @@ Lcd_screen *lcd;
 /* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
 LedLights ledLights;
+Timer *setLightsToRandomTimer;
+void setLightsToRandom(void){
+  ledLights.setLightsToRandom();
+}
 
 
 /* Tämä hoitaa 100-vuotisen laskurin */
@@ -92,10 +96,11 @@ void setup() {
   DEBUG_PRINTLN("setup()");
 
   ledLights.init();
-  delay(500);
+  delay(1000);
   ledLights.setLightsToTestPattern();
-  delay(500);
+  delay(1000);
   ledLights.setLightsToZero();
+  delay(1000);
 
   lcd = new Lcd_screen();
 
@@ -110,6 +115,8 @@ void setup() {
 
   decreaseTimeAndShowTimer = new Timer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
   writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000*60*15);
+
+  setLightsToRandomTimer = new Timer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
 
 
   #ifdef DEBUG_MODE
@@ -138,6 +145,10 @@ void loop() {
   decreaseTimeAndShowTimer->loop(currentTimeMillis);
   // Countdown -laskurin ajan tallennus EEPROM:iin sähkökatkojen varalle
   writeCountdownTimeToEepromTimer->loop(currentTimeMillis);
+
+
+  // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti
+  setLightsToRandomTimer->loop(currentTimeMillis);
 
   // debug-tulostuksia 250ms välein
   #ifdef DEBUG_MODE

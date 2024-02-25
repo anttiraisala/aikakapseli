@@ -39,6 +39,7 @@ public:
   void setLedStick(byte index, byte pin);
   void setLightsToZero(void);
   void setLightsToTestPattern(void);
+  void setLightsToRandom(void);
   void loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState);
   void loopShow(void);
 

@@ -76,6 +76,26 @@ void LedLights::setLightsToZero(void) {
   Serial.println("LedLights::setLightsToZero() end");
 }
 
+void LedLights::setLightsToRandom(void) {
+  Serial.println("LedLights::setLightsToZero() begin");
+
+  Adafruit_NeoPixel *ledStick;
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+    ledStick = this->sLedSticks[i].neoPixel;
+    Serial.print("pin :");
+    Serial.println(ledStick->getPin(), DEC);
+    for (byte led = 0; led < 10; led++) {
+      ledStick->setPixelColor(led, random(256), random(256), random(256));
+    }
+  }
+
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+    ledStick = this->sLedSticks[i].neoPixel;
+    ledStick->show();
+  }
+  Serial.println("LedLights::setLightsToZero() end");
+}
+
 void LedLights::setLightsToTestPattern(void) {
   Serial.println("LedLights::setLightsToTestPattern() begin");
 
