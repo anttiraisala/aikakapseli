@@ -37,29 +37,12 @@ void setup() {
 
   ledLights.setLightsToTestPattern();
 
-  /*pixels = Adafruit_NeoPixel(10, 7, NEO_GRB + NEO_KHZ800);
-  pixels.begin();
-  pixels.setBrightness(255);*/
-  pixels = getAdafruit_NeoPixel(7);
-  //pixels->begin();
-  //pixels->setBrightness(255);
-
-  for (int i = 0; i < 10; i++) {
-    pixels->setPixelColor(i, random(256), random(256), random(256));
-  }
-  pixels->show();
-
-
 
   Serial.println("setup done.");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  for (int i = 0; i < 10; i++) {
-    pixels->setPixelColor(i, random(256), random(256), random(256));
-  }
-  pixels->show();
+  
 
   delay(100);
 }

@@ -32,7 +32,7 @@ void LedLights::init(void) {
   this->setLedStick(2, 4);
   this->setLedStick(3, 5);
   this->setLedStick(4, 6);
-  //this->setLedStick(5, 7);
+  this->setLedStick(5, 7);
 
   Serial.println("LedLights::init() end");
 }
@@ -64,7 +64,6 @@ void LedLights::setLightsToZero(void) {
     ledStick = this->sLedSticks[i].neoPixel;
     Serial.print("pin :");
     Serial.println(ledStick->getPin(), DEC);
-    //ledStick->begin();
     for (byte led = 0; led < 10; led++) {
       ledStick->setPixelColor(led, 0, 0, 255);
     }
