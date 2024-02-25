@@ -1,4 +1,7 @@
+
+/* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
+LedLights ledLights;
 
 /* Asiakkaan etäisyys -tilat */
 #include "distance_state.h"
@@ -10,7 +13,7 @@ DistanceState distanceState = DistanceState::FAR;
 NoteState noteState = NoteState::NO_NOTE;
 
 
-LedLights ledLights;
+
 
 
 Adafruit_NeoPixel *pixels;

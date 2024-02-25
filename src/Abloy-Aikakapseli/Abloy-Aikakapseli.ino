@@ -38,6 +38,10 @@ NoteState noteState = NoteState::NO_NOTE;
 #include "lcd_screen.h"
 Lcd_screen *lcd;
 
+/* Tällä kontrolloidaan LED-Stickejä */
+#include "LedLights.h"
+LedLights ledLights;
+
 
 /* Tämä hoitaa 100-vuotisen laskurin */
 //
@@ -86,6 +90,12 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   DEBUG_PRINTLN("setup()");
+
+  ledLights.init();
+  delay(500);
+  ledLights.setLightsToTestPattern();
+  delay(500);
+  ledLights.setLightsToZero();
 
   lcd = new Lcd_screen();
 
