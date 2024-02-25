@@ -2,7 +2,7 @@
 
 /* Asiakkaan etäisyys -tilat */
 #include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR ;
+DistanceState distanceState = DistanceState::FAR;
 
 
 /* Viestin asettaminen -tilat */
@@ -13,7 +13,14 @@ NoteState noteState = NoteState::NO_NOTE;
 LedLights ledLights;
 
 
-Adafruit_NeoPixel pixels;
+Adafruit_NeoPixel *pixels;
+
+Adafruit_NeoPixel *getAdafruit_NeoPixel(byte pin) {
+  Adafruit_NeoPixel *pixels = new Adafruit_NeoPixel(10, pin, NEO_GRB + NEO_KHZ800);
+  pixels->begin();
+  pixels->setBrightness(255);
+  return pixels;
+}
 
 void setup() {
   randomSeed(analogRead(0));
@@ -28,16 +35,20 @@ void setup() {
   ledLights.debugPrintLedSticks();
   ledLights.setLightsToZero();
 
-  //ledLights.debugPrintLedSticks();
+  ledLights.setLightsToTestPattern();
 
-  pixels = Adafruit_NeoPixel(10, 7, NEO_GRB + NEO_KHZ800);
+  /*pixels = Adafruit_NeoPixel(10, 7, NEO_GRB + NEO_KHZ800);
   pixels.begin();
-  pixels.setBrightness(255);
+  pixels.setBrightness(255);*/
+  pixels = getAdafruit_NeoPixel(7);
+  //pixels->begin();
+  //pixels->setBrightness(255);
+
   for (int i = 0; i < 10; i++) {
-    pixels.setPixelColor(i, pixels.Color(random(256), random(256), random(256)));
+    pixels->setPixelColor(i, random(256), random(256), random(256));
   }
-  pixels.show();
-  
+  pixels->show();
+
 
 
   Serial.println("setup done.");
@@ -46,10 +57,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   for (int i = 0; i < 10; i++) {
-    pixels.setPixelColor(i, random(256), random(256), random(256));
+    pixels->setPixelColor(i, random(256), random(256), random(256));
   }
-  pixels.show();
+  pixels->show();
 
   delay(100);
-
 }
