@@ -30,8 +30,8 @@ Adjustable PIR Motion Sensor ( A0/14 )
 keskellä ylhäällä aukon sisäpuolella
 ---------------------------
 Infrared Reflective Sensor ( A1/15 )
-( LED-stick 6 ) ( D8 )
-( LED-stick 7 ) ( A3/17 )
+( LED-stick 6, taaempana ) ( D8 )
+( LED-stick 7, lähempänä etupuolta ) ( A3/17 )
 
 oikeallä edessä
 ---------------------------

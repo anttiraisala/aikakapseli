@@ -34,6 +34,12 @@ void LedLights::init(void) {
   this->setLedStick(4, 6);
   this->setLedStick(5, 7);
 
+  this->setLedStick(6, 8);
+  this->setLedStick(7, 17);
+
+  
+  
+
   Serial.println("LedLights::init() end");
 }
 
@@ -93,7 +99,7 @@ void LedLights::setLightsToRandom(void) {
     ledStick = this->sLedSticks[i].neoPixel;
     ledStick->show();
   }
-  Serial.println("LedLights::setLightsToZero() end");
+  Serial.println("LedLights::setLightsToRandom() end");
 }
 
 void LedLights::setLightsToTestPattern(void) {

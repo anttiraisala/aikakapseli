@@ -27,7 +27,7 @@ private:
     Adafruit_NeoPixel *neoPixel;
   };
 
-  #define LED_STICK_COUNT 6
+  #define LED_STICK_COUNT 8
 
   sLedStick sLedSticks[LED_STICK_COUNT];
 
