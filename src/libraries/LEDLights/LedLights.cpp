@@ -37,8 +37,8 @@ void LedLights::init(void) {
   this->setLedStick(6, 8);
   this->setLedStick(7, 17);
 
-  
-  
+
+
 
   Serial.println("LedLights::init() end");
 }
@@ -126,5 +126,43 @@ void LedLights::setLightsToTestPattern(void) {
   Serial.println("LedLights::setLightsToTestPattern() end");
 }
 
-void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {}
-void LedLights::loopShow(void) {}
+void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {
+  //calculationElement
+  Serial.println("LedLights::loopSetColors() begin");
+
+  Adafruit_NeoPixel *ledStick;
+  LedLightCalculationElement *calculationElement;
+
+  // Loop through LEDSticks
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+
+    ledStick = this->sLedSticks[i].neoPixel;
+    calculationElement = this->sLedSticks[i].calculationElement;
+    CalculationElementPhaseMapping calculationElementPhaseMapping = this->sLedSticks[i].calculationElementPhaseMapping;
+
+    // Loopt throught single LEDs
+    for (byte led = 0; led < 10; led++) {
+
+      byte r = 150;
+      byte g = 150;
+      byte b = 150;
+
+      ledStick->setPixelColor(led, r, g, b);
+    }
+  }
+
+  Serial.println("LedLights::loopSetColors() end");
+}
+
+void LedLights::loopShow(void) {
+  Serial.println("LedLights::loopShow() begin");
+
+  Adafruit_NeoPixel *ledStick;
+
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+    ledStick = this->sLedSticks[i].neoPixel;
+    ledStick->show();
+  }
+
+  Serial.println("LedLights::loopShow() end");
+}
