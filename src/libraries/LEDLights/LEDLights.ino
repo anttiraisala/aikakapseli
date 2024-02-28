@@ -46,12 +46,14 @@ void setup() {
   ledLights.setLightsToTestPattern();
   delay(1000);
 
-
+/*
   ledLights.loopSetColors(1000, NoteState::NO_NOTE, DistanceState::FAR);
   ledLights.loopShow();
 
+*/
 
-
+  Serial.println("");
+  Serial.println("");
   Serial.println("setup done.");
 }
 

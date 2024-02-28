@@ -23,6 +23,9 @@ public:
 
   virtual ~LedLightCalculationElement() {}  // Virtual destructor for proper object cleanup in inheritance
   virtual LedLightCalculationValue getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) {}
+  void setValue(LedLightCalculationValue value){
+    this->ledLightCalculationValue = value;
+  }
 
 private:
 
