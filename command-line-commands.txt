@@ -19,6 +19,9 @@ git rebase main ;
 
 # 
 
+git clean -n
+git clean -f
+
 
 Arduinon kytkeminen portteihin
 ------------------------------------------

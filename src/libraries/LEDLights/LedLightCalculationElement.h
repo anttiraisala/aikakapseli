@@ -1,6 +1,9 @@
 #ifndef LEDLIGHT_CALCULATION_ELEMENT_H
 #define LEDLIGHT_CALCULATION_ELEMENT_H
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 #include <Arduino.h>
 
 /* Asiakkaan etäisyys -tilat */
