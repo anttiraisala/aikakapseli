@@ -68,10 +68,10 @@ void tests(void) {
   ledLights.setCalculations(3, new LedLightCalculationConstant(255.0, 255.0, 0.0), cepm);
   ledLights.setCalculations(4, new LedLightCalculationConstant(255.0, 0.0, 255.0), cepm);
   ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
-  ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);
+/*  ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);
   ledLights.setCalculations(7, new LedLightCalculationConstant(0.0, 128.0, 255.0), cepm);
 
-
+*/
 
   Serial.println("");
   Serial.println("tests done.");
