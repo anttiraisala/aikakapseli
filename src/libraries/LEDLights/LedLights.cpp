@@ -24,7 +24,7 @@ void LedLights::debugPrintLedSticks(void) {
 void LedLights::init(void) {
   Serial.println("LedLights::init() begin");
 
-  previousTimeMillis = millis();
+  currentTimeMillis = previousTimeMillis = millis();
   deltaTimeMillis = 0;
 
   this->setLedStick(0, 2);
@@ -145,6 +145,10 @@ void LedLights::setLightsToTestPattern(void) {
 void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {
   //calculationElement
   Serial.println("LedLights::loopSetColors() begin");
+
+  this->previousTimeMillis = this->currentTimeMillis;
+  this->currentTimeMillis = currentTimeMillis;
+  this->deltaTimeMillis = this->currentTimeMillis - this->previousTimeMillis;
 
   Adafruit_NeoPixel *ledStick;
   LedLightCalculationElement *calculationElement;

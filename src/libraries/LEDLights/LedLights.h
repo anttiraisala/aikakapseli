@@ -31,6 +31,7 @@ class LedLights {
 
 private:
 
+  unsigned long currentTimeMillis = 0;
   unsigned long previousTimeMillis = 0;
   unsigned long deltaTimeMillis = 0;
   NoteState noteState;
