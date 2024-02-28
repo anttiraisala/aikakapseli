@@ -19,11 +19,13 @@
 
 
 
-  struct sLedStick {
-    Adafruit_NeoPixel *neoPixel;
-    CalculationElementPhaseMapping calculationElementPhaseMapping;
-    LedLightCalculationElement *calculationElement;
-  };
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementPhaseMapping calculationElementPhaseMapping;
+  LedLightCalculationElement *calculationElement;
+};
+
+
 
 class LedLights {
 
@@ -36,9 +38,11 @@ private:
 
 public:
 
+
+
   void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
 
-  #define LED_STICK_COUNT 8
+#define LED_STICK_COUNT 8
 
   sLedStick sLedSticks[LED_STICK_COUNT];
 
