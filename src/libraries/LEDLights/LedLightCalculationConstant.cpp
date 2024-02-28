@@ -10,7 +10,7 @@ LedLightCalculationConstant::LedLightCalculationConstant(double valueR, double v
   this->ledLightCalculationValue.setValue(valueR, valueG, valueB);
 }
 
-LedLightCalculationValue LedLightCalculationConstant::getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping){
+LedLightCalculationValue LedLightCalculationConstant::getValue(double currentTimeSeconds, double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping){
   return this->getValue();
 }
 
