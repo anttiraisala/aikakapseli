@@ -188,3 +188,7 @@ void LedLights::loopShow(void) {
 
   Serial.println("LedLights::loopShow() end");
 }
+
+double LedLights::getCurrentTimeSeconds(void) {
+  return (double)(this->currentTimeMillis)/1000.0f;
+}

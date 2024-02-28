@@ -58,6 +58,8 @@ public:
 
   void debugPrintLedSticks(void);
   void setLightsToTestPattern(void);
+
+  double getCurrentTimeSeconds(void);
 };
 
 
