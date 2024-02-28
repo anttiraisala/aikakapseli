@@ -43,6 +43,22 @@ void LedLights::init(void) {
   Serial.println("LedLights::init() end");
 }
 
+void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
+
+void LedLights::setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping) {
+  Serial.print("LedLights::setCalculations() begin :");
+  Serial.print(index, DEC);
+  Serial.println();
+
+  sLedStick ledStick = this->sLedSticks[index];
+  ledStick.calculationElement = calculationElement;
+  ledStick.calculationElementPhaseMapping = calculationElementPhaseMapping;
+
+  this->sLedSticks[index] = ledStick;
+
+  Serial.println("LedLights::setCalculations() end");
+}
+
 void LedLights::setLedStick(byte index, byte pin) {
   Serial.print("LedLights::setLedStick() begin :");
   Serial.print(pin, DEC);
@@ -140,7 +156,7 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
     calculationElement = this->sLedSticks[i].calculationElement;
     CalculationElementPhaseMapping calculationElementPhaseMapping = this->sLedSticks[i].calculationElementPhaseMapping;
 
-    // Loopt throught single LEDs
+    // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {
 /*
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(currentTimeMillis, calculationElementPhaseMapping);

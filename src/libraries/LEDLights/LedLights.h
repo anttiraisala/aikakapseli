@@ -17,6 +17,14 @@
 /* Tällä lasketaan ledien värit */
 #include "LedLightCalculationElement.h"
 
+
+
+  struct sLedStick {
+    Adafruit_NeoPixel *neoPixel;
+    CalculationElementPhaseMapping calculationElementPhaseMapping;
+    LedLightCalculationElement *calculationElement;
+  };
+
 class LedLights {
 
 private:
@@ -26,17 +34,13 @@ private:
   NoteState noteState;
   DistanceState distanceState;
 
-  struct sLedStick {
-    Adafruit_NeoPixel *neoPixel;
-    CalculationElementPhaseMapping calculationElementPhaseMapping;
-    LedLightCalculationElement *calculationElement;
-  };
+public:
+
+  void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
 
   #define LED_STICK_COUNT 8
 
   sLedStick sLedSticks[LED_STICK_COUNT];
-
-public:
 
   LedLights(void);
 

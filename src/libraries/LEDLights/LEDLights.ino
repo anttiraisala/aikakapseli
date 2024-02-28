@@ -60,6 +60,17 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().g: ", c.getValue().getValueBytes().g);
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
 
+  CalculationElementPhaseMapping cepm;
+
+  ledLights.setCalculations(0, &c, cepm);
+  ledLights.setCalculations(1, &c, cepm);
+  ledLights.setCalculations(2, &c, cepm);
+  ledLights.setCalculations(3, &c, cepm);
+  ledLights.setCalculations(4, &c, cepm);
+  ledLights.setCalculations(5, &c, cepm);
+  ledLights.setCalculations(6, &c, cepm);
+  ledLights.setCalculations(7, &c, cepm);
+
 
 
   Serial.println("");
