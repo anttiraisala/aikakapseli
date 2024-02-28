@@ -10,6 +10,7 @@ public:
 
   // Override getValue to calculate and return a LedLightCalculationElement based on relativePhase and value_
   LedLightCalculationValue getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) override;
+  LedLightCalculationValue getValue();
 
 private:
   
