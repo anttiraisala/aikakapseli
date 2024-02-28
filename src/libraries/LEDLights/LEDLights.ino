@@ -64,12 +64,12 @@ void tests(void) {
 
   ledLights.setCalculations(0, new LedLightCalculationConstant(255.0, 0.0, 0.0), cepm);
   ledLights.setCalculations(1, new LedLightCalculationConstant(0.0, 255, 0.0), cepm);
-  ledLights.setCalculations(2, &c, cepm);
-  ledLights.setCalculations(3, &c, cepm);
-  ledLights.setCalculations(4, new LedLightCalculationConstant(0.0, 0.0, 255.0), cepm);
-  ledLights.setCalculations(5, &c, cepm);
-  ledLights.setCalculations(6, &c, cepm);
-  ledLights.setCalculations(7, &c, cepm);
+  ledLights.setCalculations(2, new LedLightCalculationConstant(0.0, 0.0, 255.0), cepm);
+  ledLights.setCalculations(3, new LedLightCalculationConstant(255.0, 255.0, 0.0), cepm);
+  ledLights.setCalculations(4, new LedLightCalculationConstant(255.0, 0.0, 255.0), cepm);
+  ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
+  ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);
+  ledLights.setCalculations(7, new LedLightCalculationConstant(0.0, 128.0, 255.0), cepm);
 
 
 
