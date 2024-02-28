@@ -18,3 +18,18 @@ git clone https://github.com/anttiraisala/aikakapseli.git
 git rebase main ;
 
 # 
+
+
+Arduinon kytkeminen portteihin
+------------------------------------------
+
+# plug un-plug your device and then verify:
+ls /dev/tty* ; ls /dev/ttyU* ; ls /dev/ttyA* ;
+
+
+Arduino Mega
+todennäköisesti: /dev/ttyACM0
+
+
+----------------------
+killall avrdude
