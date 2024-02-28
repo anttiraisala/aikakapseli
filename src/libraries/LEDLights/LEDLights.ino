@@ -63,10 +63,10 @@ void tests(void) {
   CalculationElementPhaseMapping cepm;
 
   ledLights.setCalculations(0, &c, cepm);
-  ledLights.setCalculations(1, &c, cepm);
-  ledLights.setCalculations(2, &c, cepm);
+  ledLights.setCalculations(1, new LedLightCalculationConstant(255.0, 200.0, 0.0), cepm);
+  ledLights.setCalculations(2, new LedLightCalculationConstant(10.0, 50.0, 255.0), cepm);
   ledLights.setCalculations(3, &c, cepm);
-  ledLights.setCalculations(4, &c, cepm);
+  ledLights.setCalculations(4, new LedLightCalculationConstant(0.0, 200.0, 20.0), cepm);
   ledLights.setCalculations(5, &c, cepm);
   ledLights.setCalculations(6, &c, cepm);
   ledLights.setCalculations(7, &c, cepm);
