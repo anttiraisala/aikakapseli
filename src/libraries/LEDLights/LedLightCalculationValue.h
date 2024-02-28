@@ -1,28 +1,47 @@
 #ifndef LEDLIGHT_CALCULATION_VALUE_H
 #define LEDLIGHT_CALCULATION_VALUE_H
 
-#include "LedLightCalculationElement.h"
+#include <Arduino.h>
+
+
+
+struct ColorAsBytes {
+  byte r = 0;
+  byte g = 0;
+  byte b = 0;
+};
 
 // Include necessary headers for your LedLightCalculationValue implementation
 // (e.g., math libraries, data structures)
 
-class LedLightCalculationValue : public LedLightCalculationElement {
+class LedLightCalculationValue {
 public:
   // Constructor
+  LedLightCalculationValue();
   LedLightCalculationValue(double value);
+  LedLightCalculationValue(double valueR, double valueG, double valueB);
 
-  // Override getValue to calculate and return a LedLightCalculationElement based on relativePhase and value_
-  LedLightCalculationElement getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) override;
+  double getValueV(void);
+  double getValueR(void);
+  double getValueG(void);
+  double getValueB(void);
+  ColorAsBytes getValueBytes(void);
+
+  void setValue(double valueV);
+  void setValue(double valueR, double valueG, double valueB);
 
 private:
-  double value;
+
+  byte limitDoubleValue(double d);
+
+  double valueV;
 
   double valueR;
   double valueG;
   double valueB;
 
   bool isValue;
-  bool isColor;  
+  bool isColor;
 };
 
 #endif  // LEDLIGHT_CALCULATION_VALUE_H

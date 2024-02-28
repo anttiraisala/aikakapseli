@@ -143,9 +143,11 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
     // Loopt throught single LEDs
     for (byte led = 0; led < 10; led++) {
 
-      byte r = 150;
-      byte g = 150;
-      byte b = 150;
+      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(currentTimeMillis, calculationElementPhaseMapping);
+
+      byte r = ledLightCalculationValue.getValueBytes().r;
+      byte g = ledLightCalculationValue.getValueBytes().g;
+      byte b = ledLightCalculationValue.getValueBytes().b;
 
       ledStick->setPixelColor(led, r, g, b);
     }

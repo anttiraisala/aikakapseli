@@ -9,6 +9,8 @@
 /* Viestin asettaminen -tilat */
 #include "note_state.h"
 
+#include "LedLightCalculationValue.h"
+
 struct CalculationElementPhaseMapping {
   double startPhase = 0.0;
   double endPhase = 0.0;
@@ -20,7 +22,12 @@ public:
   CalculationElementPhaseMapping calculationElementPhaseMapping;
 
   virtual ~LedLightCalculationElement() {}  // Virtual destructor for proper object cleanup in inheritance
-  virtual LedLightCalculationElement getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) {}
+  virtual LedLightCalculationValue getValue(double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) {}
+
+private:
+
+protected:
+  LedLightCalculationValue ledLightCalculationValue;
 };
 
 
