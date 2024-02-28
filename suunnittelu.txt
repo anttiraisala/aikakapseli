@@ -24,12 +24,12 @@ LED-stick 2 ( D4 )
 
 keskellä edessä
 ---------------------------
-Adjustable PIR Motion Sensor ( A0/14 )
+Adjustable PIR Motion Sensor ( A0/14 ) ( = Arduino Mega 54 )
 16x2 LCD (I2C)
 
 keskellä ylhäällä aukon sisäpuolella
 ---------------------------
-Infrared Reflective Sensor ( A1/15 )
+Infrared Reflective Sensor ( A1/15 ) ( = Arduino Mega 55 )
 ( LED-stick 6, taaempana ) ( D8 )
 ( LED-stick 7, lähempänä etupuolta ) ( A3/17 )
 
