@@ -33,10 +33,10 @@ void LedLights::init(void) {
   this->setLedStick(3, 5);
   this->setLedStick(4, 6);
   this->setLedStick(5, 7);
-/*
+
   this->setLedStick(6, 8);
-  this->setLedStick(7, 17);
-*/
+  this->setLedStick(7, 57);
+
 
 
 

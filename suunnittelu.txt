@@ -31,7 +31,7 @@ keskellä ylhäällä aukon sisäpuolella
 ---------------------------
 Infrared Reflective Sensor ( A1/15 ) ( = Arduino Mega 55 )
 ( LED-stick 6, taaempana ) ( D8 )
-( LED-stick 7, lähempänä etupuolta ) ( A3/17 )
+( LED-stick 7, lähempänä etupuolta ) ( A3/17 ) ( = Arduino Mega 57 )
 
 oikeallä edessä
 ---------------------------

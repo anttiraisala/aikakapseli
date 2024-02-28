@@ -38,7 +38,7 @@ public:
 
   void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
 
-  #define LED_STICK_COUNT 6
+  #define LED_STICK_COUNT 8
 
   sLedStick sLedSticks[LED_STICK_COUNT];
 

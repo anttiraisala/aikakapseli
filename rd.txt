@@ -40,10 +40,12 @@ A0 pin number
 https://forum.arduino.cc/t/saving-analog-pin-name-in-variable/542847/2
 
 D2 - D8
-A0 is pin 14 
-A1 is pin 15
-A2 is pin 16
-A3 is pin 17
+A0 is pin 14 (=54)
+A1 is pin 15 (=55)
+A2 is pin 16 (=56)
+A3 is pin 17 (=57)
+
+On the Arduino MEGA 2560 the A0 through A15 pins are given numbers 54 through 69.
 
 INT0 is associated with digital pin 2
 INT1 is associated with digital pin 3
