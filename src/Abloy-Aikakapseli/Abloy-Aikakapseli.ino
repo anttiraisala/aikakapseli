@@ -148,7 +148,7 @@ void loop() {
 
 
   // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti
-  //setLightsToRandomTimer->loop(currentTimeMillis);
+  setLightsToRandomTimer->loop(currentTimeMillis);
 
   // debug-tulostuksia 250ms välein
   #ifdef DEBUG_MODE

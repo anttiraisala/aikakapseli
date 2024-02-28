@@ -1,7 +1,7 @@
 #include "distance_sensor.h"
 #include <Arduino.h>
 
-#define PIR_MOTION_SENSOR 7
+#define PIR_MOTION_SENSOR 54
 /* HIGH = lähellä, LOW = kaukana */
 
 bool isCustomerDetected(){

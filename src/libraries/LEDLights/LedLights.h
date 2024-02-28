@@ -14,6 +14,19 @@
 #include <avr/power.h>
 #endif
 
+/* Tällä lasketaan ledien värit */
+#include "LedLightCalculationElement.h"
+
+
+
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementPhaseMapping calculationElementPhaseMapping;
+  LedLightCalculationElement *calculationElement;
+};
+
+
+
 class LedLights {
 
 private:
@@ -23,27 +36,27 @@ private:
   NoteState noteState;
   DistanceState distanceState;
 
-  struct sLedStick {
-    Adafruit_NeoPixel *neoPixel;
-  };
+public:
 
-  #define LED_STICK_COUNT 6
+
+
+  void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
+
+#define LED_STICK_COUNT 8
 
   sLedStick sLedSticks[LED_STICK_COUNT];
-
-public:
 
   LedLights(void);
 
   void init(void);
   void setLedStick(byte index, byte pin);
   void setLightsToZero(void);
-  void setLightsToTestPattern(void);
   void setLightsToRandom(void);
   void loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState);
   void loopShow(void);
 
   void debugPrintLedSticks(void);
+  void setLightsToTestPattern(void);
 };
 
 

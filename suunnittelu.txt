@@ -24,14 +24,15 @@ LED-stick 2 ( D4 )
 
 keskellä edessä
 ---------------------------
-Adjustable PIR Motion Sensor ( A0/14 ) ArduinoMega/A8
+Adjustable PIR Motion Sensor ( A0/14 ) ( = Arduino Mega 54 )
 16x2 LCD (I2C)
 
 keskellä ylhäällä aukon sisäpuolella
 ---------------------------
-Infrared Reflective Sensor ( A1/15 ) ArduinoMega/A7
-( LED-stick 6 ) ( D8 )
-( LED-stick 7 ) ( A3/17 )
+Infrared Reflective Sensor ( A1/15 ) ( = Arduino Mega 55 )
+( LED-stick 6, taaempana ) ( D8 )
+( LED-stick 7, lähempänä etupuolta ) ( A3/17 ) ( = Arduino Mega 57 )
+https://forum.arduino.cc/t/analog-pin-numbers-dont-match-standard-pinout-mega2560/610772
 
 oikeallä edessä
 ---------------------------
