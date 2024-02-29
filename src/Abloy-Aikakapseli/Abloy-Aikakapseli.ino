@@ -14,6 +14,16 @@ Liitettävät komponentit:
 // Tällä ajastetaan tehtävät tapahtumaan loop()-silmukassa
 #include "Timer.h"
 
+// Tällä pidetään kirjaa kuluneista millisekunneista
+long currentTimeMillis = millis();
+//
+long nextMillisTo_checkForStateChanges = 0;
+long nextMillisTo_printState = 0;
+
+#include "LedLightCalculationConstant.h"
+#include "LedLightCalculationSine.h"
+void setupLedColoringNodes(void);
+
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
 extern long millisWhenToExitRetreatingState;
@@ -26,7 +36,7 @@ extern long millisWhenToExitDroppedState;
 
 /* Asiakkaan etäisyys -tilat */
 #include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR ;
+DistanceState distanceState = DistanceState::FAR;
 
 
 /* Viestin asettaminen -tilat */
@@ -42,8 +52,13 @@ Lcd_screen *lcd;
 #include "LedLights.h"
 LedLights ledLights;
 Timer *setLightsToRandomTimer;
-void setLightsToRandom(void){
+void setLightsToRandom(void) {
   ledLights.setLightsToRandom();
+}
+Timer *ledLightsSetColorsAndShowTimer;
+void ledLightsSetColorsAndShow(void) {
+  ledLights.loopSetColors(currentTimeMillis, NoteState::NO_NOTE, DistanceState::FAR);
+  ledLights.loopShow();
 }
 
 
@@ -51,12 +66,12 @@ void setLightsToRandom(void){
 //
 #include "AikakapseliEeprom.h"
 AikakapseliEeprom aikakapseliEeprom;
-void decreaseTimeAndShow(void){
+void decreaseTimeAndShow(void) {
   aikakapseliEeprom.decreaseTime();
   lcd->setText(aikakapseliEeprom.getTimeString(), 0);
 }
 Timer *decreaseTimeAndShowTimer;
-void writeTime(void){
+void writeTime(void) {
   aikakapseliEeprom.write();
 }
 Timer *writeCountdownTimeToEepromTimer;
@@ -64,11 +79,6 @@ Timer *writeCountdownTimeToEepromTimer;
 
 
 
-// Tällä pidetään kirjaa kuluneista millisekunneista
-long currentTimeMillis = millis();
-//
-long nextMillisTo_checkForStateChanges=0;
-long nextMillisTo_printState=0;
 
 
 // Tehdään ajastus, että tilat tarkastetaan 10ms välein
@@ -78,14 +88,14 @@ Timer *stateChangeTimer;
 
 // Tällä tulostetaan debug-juttuja tiloista
 #ifdef DEBUG_MODE
-  Timer *debugPrintStatesTimer;
-  
-  void debugPrintStates(){
-    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
-    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
-  }
+Timer *debugPrintStatesTimer;
 
-#endif // DEBUG_MODE
+void debugPrintStates() {
+  DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
+  DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
+}
+
+#endif  // DEBUG_MODE
 
 
 void setup() {
@@ -114,23 +124,29 @@ void setup() {
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
   decreaseTimeAndShowTimer = new Timer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000*60*15);
+  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000 * 60 * 15);
 
-  setLightsToRandomTimer = new Timer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
+  setLightsToRandomTimer = new Timer(setLightsToRandom, currentTimeMillis, (unsigned long)1000 / 20);
+
+  ledLightsSetColorsAndShowTimer = new Timer(ledLightsSetColorsAndShow, currentTimeMillis, (unsigned long)1000 / 40);
 
 
-  #ifdef DEBUG_MODE
+#ifdef DEBUG_MODE
   debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
-  #endif // DEBUG_MODE
+#endif  // DEBUG_MODE
 
   /* Alustetaan aikalaskuri, yritetään lukea arvo EEPROM:sta */
   aikakapseliEeprom.init();
-  if(aikakapseliEeprom.read()){
+  if (aikakapseliEeprom.read()) {
     DEBUG_PRINTLN("aikakapseliEeprom.read() == true");
   } else {
     aikakapseliEeprom.setToTime(0, 10, 0, 0, 0);
     DEBUG_PRINTLN("aikakapseliEeprom.read() == false");
   }
+
+  setupLedColoringNodes();
+
+  Serial.println("Setup done.");
 }
 
 void loop() {
@@ -148,94 +164,131 @@ void loop() {
 
 
   // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti
-  setLightsToRandomTimer->loop(currentTimeMillis);
+  //setLightsToRandomTimer->loop(currentTimeMillis);
 
-  // debug-tulostuksia 250ms välein
-  #ifdef DEBUG_MODE
+  //
+  ledLightsSetColorsAndShowTimer->loop(currentTimeMillis);
+
+// debug-tulostuksia 250ms välein
+#ifdef DEBUG_MODE
   debugPrintStatesTimer->loop(currentTimeMillis);
-  #endif // DEBUG_MODE
+#endif  // DEBUG_MODE
 
   /* Hoidetaan LCD-näytön tekstien häviäminen ajallaan */
   lcd->loop(currentTimeMillis);
 }
 
-void checkForStateChanges(){
+void checkForStateChanges() {
   //Serial.println(millis(), DEC);
 
   /* Asiakkaan etäisyys -tilat */
   switch (distanceState) {
-    case DistanceState::FAR :
-      if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+    case DistanceState::FAR:
+      if (isCustomerDetected() == true) {
+        distanceState = DistanceState::NEAR;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       }
-    break;
+      break;
 
-    case DistanceState::NEAR :
-      if(isCustomerDetected() == false){
-        distanceState = DistanceState::RETREATING ;
+    case DistanceState::NEAR:
+      if (isCustomerDetected() == false) {
+        distanceState = DistanceState::RETREATING;
         millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
-    break;
+      break;
 
-    case DistanceState::RETREATING :
-      if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+    case DistanceState::RETREATING:
+      if (isCustomerDetected() == true) {
+        distanceState = DistanceState::NEAR;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
-      } 
-      if(currentTimeMillis > millisWhenToExitRetreatingState){
-        distanceState = DistanceState::FAR ;
+      }
+      if (currentTimeMillis > millisWhenToExitRetreatingState) {
+        distanceState = DistanceState::FAR;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
       }
-    break;
+      break;
   }
 
 
   /* Viestin asettaminen -tilat */
-  static unsigned long nextAllowedNoteStateChange=0;
-  if(currentTimeMillis > nextAllowedNoteStateChange){
+  static unsigned long nextAllowedNoteStateChange = 0;
+  if (currentTimeMillis > nextAllowedNoteStateChange) {
     switch (noteState) {
-      case NoteState::NO_NOTE :
-        if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+      case NoteState::NO_NOTE:
+        if (isNoteDetected() == true) {
+          noteState = NoteState::INSERTING;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna viesti...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
 
-      case NoteState::INSERTING :
-        if(isNoteDetected() == false){
-          noteState = NoteState::DROPPED ;
+      case NoteState::INSERTING:
+        if (isNoteDetected() == false) {
+          noteState = NoteState::DROPPED;
           millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
 
-      case NoteState::DROPPED :
-        if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+      case NoteState::DROPPED:
+        if (isNoteDetected() == true) {
+          noteState = NoteState::INSERTING;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna viesti...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
-        } 
-        if(currentTimeMillis > millisWhenToExitDroppedState){
-          noteState = NoteState::NO_NOTE ;
+        }
+        if (currentTimeMillis > millisWhenToExitDroppedState) {
+          noteState = NoteState::NO_NOTE;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
     }
   }
+}
+
+
+void setupLedColoringNodes(void) {
+  CalculationElementPhaseMapping cepmSame;
+  cepmSame.startPhase = 0.0;
+  cepmSame.endPhase = 0.0;
+
+  LedLightCalculationConstant *constantGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+  ledLights.setCalculations(0, constantGreen, cepmSame);
+  //
+  ledLights.setCalculations(5, constantGreen, cepmSame);
+  ledLights.setCalculations(6, constantGreen, cepmSame);
+  ledLights.setCalculations(7, constantGreen, cepmSame);
+
+  CalculationElementPhaseMapping cepmSine0;
+  cepmSine0.startPhase = 2.0 * 3.14159265359 / 39.0 * 0.0 ;
+  cepmSine0.endPhase = 2.0 * 3.14159265359 / 39.0 * 9.0 ;
+  CalculationElementPhaseMapping cepmSine1;
+  cepmSine1.startPhase = 2.0 * 3.14159265359 / 39.0 *10.0 ;
+  cepmSine1.endPhase = 2.0 * 3.14159265359 / 39.0 * 19.0 ;
+  CalculationElementPhaseMapping cepmSine2;
+  cepmSine2.startPhase = 2.0 * 3.14159265359 / 39.0 * 20.0 ;
+  cepmSine2.endPhase = 2.0 * 3.14159265359 / 39.0 * 29.0 ;
+  CalculationElementPhaseMapping cepmSine3;
+  cepmSine3.startPhase = 2.0 * 3.14159265359 / 39.0 * 30.0 ;
+  cepmSine3.endPhase = 2.0 * 3.14159265359 / 39.0 * 39.0 ;
+
+  LedLightCalculationSine *ledLightCalculationSine = new LedLightCalculationSine(0.0, 1.0/2.0, 0.4, 0.6);
+
+  ledLights.setCalculations(1, ledLightCalculationSine, cepmSine0);
+  ledLights.setCalculations(2, ledLightCalculationSine, cepmSine1);
+  ledLights.setCalculations(3, ledLightCalculationSine, cepmSine2);
+  ledLights.setCalculations(4, ledLightCalculationSine, cepmSine3);
 }
