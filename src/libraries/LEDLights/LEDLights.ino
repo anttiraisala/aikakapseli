@@ -61,17 +61,20 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().g: ", c.getValue().getValueBytes().g);
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
 
+  CalculationElementPhaseMapping cepm1;
+  cepm1.startPhase=0.0;
+  cepm1.endPhase=2.0*3.14159265358/19.0*9.0;
   CalculationElementPhaseMapping cepm2;
-  cepm2.startPhase=0.0;
-  cepm2.endPhase=0.0;
+  cepm2.startPhase=2.0*3.14159265358/19.0*10.0;
+  cepm2.endPhase=2.0*3.14159265358;
 
   
   CalculationElementPhaseMapping cepm;
 
-  ledLights.setCalculations(0, new LedLightCalculationConstant(255.0, 0.0, 0.0), cepm);
+  ledLights.setCalculations(0, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm1);
   ledLights.setCalculations(1, new LedLightCalculationConstant(0.0, 255, 0.0), cepm);
-  ledLights.setCalculations(2, new LedLightCalculationSine(0.0, 1.0, 0.4, 0.6), cepm);
-  ledLights.setCalculations(3, new LedLightCalculationConstant(255.0, 255.0, 0.0), cepm);
+  ledLights.setCalculations(2, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm1);
+  ledLights.setCalculations(3, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm2);
   ledLights.setCalculations(4, new LedLightCalculationConstant(255.0, 0.0, 255.0), cepm);
   ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
   ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);

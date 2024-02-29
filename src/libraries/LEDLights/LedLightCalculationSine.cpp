@@ -37,7 +37,7 @@ struct CalculationElementPhaseMapping {
   double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 + finalSourcePhase) * frequency) * amplitude + offset;
 
   sine = pow(sine, 6.0) * 255.0;
-
+/*
   Serial.print("currentTimeSeconds: ");
   Serial.println(currentTimeSeconds, DEC);
   Serial.print("relativePhase: ");
@@ -53,7 +53,7 @@ struct CalculationElementPhaseMapping {
   Serial.print("sine: ");
   Serial.println(sine, DEC);
   Serial.println("");
-
+*/
   ledLightCalculationValue.setValue(sine);
 
   return ledLightCalculationValue;
