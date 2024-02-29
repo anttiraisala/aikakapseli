@@ -38,8 +38,7 @@ private:
   DistanceState distanceState;
 
 public:
-
-
+  void setBrightness(byte brightness);
 
   void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
 

@@ -48,23 +48,23 @@ void LedLights::init(void) {
 void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
 
 void LedLights::setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping) {
-  Serial.print("LedLights::setCalculations() begin :");
+ /* Serial.print("LedLights::setCalculations() begin :");
   Serial.print(index, DEC);
   Serial.println();
-
+*/
   sLedStick ledStick = this->sLedSticks[index];
   ledStick.calculationElement = calculationElement;
   ledStick.calculationElementPhaseMapping = calculationElementPhaseMapping;
 
   this->sLedSticks[index] = ledStick;
 
-  Serial.println("LedLights::setCalculations() end");
+  //Serial.println("LedLights::setCalculations() end");
 }
 
 void LedLights::setLedStick(byte index, byte pin) {
-  Serial.print("LedLights::setLedStick() begin :");
+ /* Serial.print("LedLights::setLedStick() begin :");
   Serial.print(pin, DEC);
-  Serial.println();
+  Serial.println();*/
 
   sLedStick ledStick;
   ledStick.neoPixel = new Adafruit_NeoPixel(10, pin, NEO_GRB + NEO_KHZ800);
@@ -77,7 +77,7 @@ void LedLights::setLedStick(byte index, byte pin) {
   ledStick.neoPixel->show();
   this->sLedSticks[index] = ledStick;
 
-  Serial.println("LedLights::setLedStick() end");
+  //Serial.println("LedLights::setLedStick() end");
 }
 
 void LedLights::setLightsToZero(void) {
@@ -144,6 +144,20 @@ void LedLights::setLightsToTestPattern(void) {
   Serial.println("LedLights::setLightsToTestPattern() end");
 }
 
+void LedLights::setBrightness(byte brightness) {
+
+  Adafruit_NeoPixel *ledStick;
+  LedLightCalculationElement *calculationElement;
+
+  // Loop through LEDSticks
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+
+    ledStick = this->sLedSticks[i].neoPixel;
+    ledStick->setBrightness(brightness);
+  }
+}
+
+
 void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {
   //calculationElement
   //Serial.println("LedLights::loopSetColors() begin");
@@ -175,7 +189,7 @@ enum class DistanceState {
     calculationElement = this->sLedSticks[i].calculationElement;
     CalculationElementPhaseMapping calculationElementPhaseMapping = this->sLedSticks[i].calculationElementPhaseMapping;
 
-
+/*
     if (DistanceState::NEAR == distanceState) {
       ledStick->setBrightness(255);
     }
@@ -185,7 +199,7 @@ enum class DistanceState {
     if (DistanceState::FAR == distanceState) {
       ledStick->setBrightness(30);
     }
-
+*/
     // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {
 

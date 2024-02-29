@@ -143,7 +143,7 @@ void setup() {
     DEBUG_PRINTLN("aikakapseliEeprom.read() == false");
   }
 
-  coloring_DistaneStateFAR();
+  coloring_DistanceStateFAR();
 
   Serial.println("Setup done.");
 }
@@ -185,6 +185,7 @@ void checkForStateChanges() {
     case DistanceState::FAR:
       if (isCustomerDetected() == true) {
         distanceState = DistanceState::NEAR;
+        coloring_DistanceStateNEAR();
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       }
@@ -195,6 +196,8 @@ void checkForStateChanges() {
         distanceState = DistanceState::RETREATING;
         millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
+        coloring_DistanceStateRETREATING();
+
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
       break;
@@ -202,11 +205,13 @@ void checkForStateChanges() {
     case DistanceState::RETREATING:
       if (isCustomerDetected() == true) {
         distanceState = DistanceState::NEAR;
+        coloring_DistanceStateNEAR();
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       }
       if (currentTimeMillis > millisWhenToExitRetreatingState) {
         distanceState = DistanceState::FAR;
+        coloring_DistanceStateFAR();
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
       }
