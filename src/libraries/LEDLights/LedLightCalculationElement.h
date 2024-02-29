@@ -16,7 +16,7 @@
 
 struct CalculationElementPhaseMapping {
   double startPhase = 0.0;
-  double endPhase = 0.0;
+  double endPhase = 2.0*3.14159265359;
 };
 
 class LedLightCalculationElement {

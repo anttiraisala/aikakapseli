@@ -16,6 +16,7 @@ NoteState noteState = NoteState::NO_NOTE;
 /* Testejä varten includataan luokat */
 #include "LedLightCalculationElement.h"
 #include "LedLightCalculationConstant.h"
+#include "LedLightCalculationSine.h"
 
 
 
@@ -60,11 +61,16 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().g: ", c.getValue().getValueBytes().g);
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
 
+  CalculationElementPhaseMapping cepm2;
+  cepm2.startPhase=0.0;
+  cepm2.endPhase=0.0;
+
+  
   CalculationElementPhaseMapping cepm;
 
   ledLights.setCalculations(0, new LedLightCalculationConstant(255.0, 0.0, 0.0), cepm);
   ledLights.setCalculations(1, new LedLightCalculationConstant(0.0, 255, 0.0), cepm);
-  ledLights.setCalculations(2, new LedLightCalculationConstant(0.0, 0.0, 255.0), cepm);
+  ledLights.setCalculations(2, new LedLightCalculationSine(0.0, 1.0, 0.4, 0.6), cepm);
   ledLights.setCalculations(3, new LedLightCalculationConstant(255.0, 255.0, 0.0), cepm);
   ledLights.setCalculations(4, new LedLightCalculationConstant(255.0, 0.0, 255.0), cepm);
   ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
@@ -107,7 +113,7 @@ void setup() {
   delay(1000);
 
 
-  ledLights.loopSetColors(1000, NoteState::NO_NOTE, DistanceState::FAR);
+  ledLights.loopSetColors(750, NoteState::NO_NOTE, DistanceState::FAR);
   ledLights.loopShow();
 
 
