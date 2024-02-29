@@ -163,7 +163,9 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
     // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {
 
-      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), 0.0, calculationElementPhaseMapping);
+      double relativePhase = 1.0/9.0*(double)led;
+
+      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), relativePhase, calculationElementPhaseMapping);
 
       byte r = ledLightCalculationValue.getValueBytes().r;
       byte g = ledLightCalculationValue.getValueBytes().g;
