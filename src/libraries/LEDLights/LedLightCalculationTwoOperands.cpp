@@ -35,11 +35,11 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double current
         break;
 
       case LedLightCalculationTwoOperandsOperation::DIVIDE:
-        ledLightCalculationValue.setValue(pow(valueA.getValueV(), valueB.getValueV()));
+        ledLightCalculationValue.setValue(valueA.getValueV() / valueB.getValueV());
         break;
 
       case LedLightCalculationTwoOperandsOperation::POW:
-        ledLightCalculationValue.setValue(valueA.getValueV() - valueB.getValueV());
+        ledLightCalculationValue.setValue(pow(valueA.getValueV(), valueB.getValueV()));
         break;
 
       case LedLightCalculationTwoOperandsOperation::MAX:
@@ -61,6 +61,51 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double current
 
     return this->ledLightCalculationValue;
   }
+
+  if (valueA.isColor() && valueB.isColor()) {
+    // R
+    double r = 0.0;
+    if (valueA.getValueR() > valueB.getValueR()) {
+      r = valueA.getValueR();
+    } else {
+      r = valueB.getValueR();
+    }
+    // G
+    double g = 0.0;
+    if (valueA.getValueG() > valueB.getValueG()) {
+      g = valueA.getValueG();
+    } else {
+      g = valueB.getValueG();
+    }
+    // B
+    double b = 0.0;
+    if (valueA.getValueB() > valueB.getValueB()) {
+      b = valueA.getValueB();
+    } else {
+      b = valueB.getValueB();
+    }
+
+    this->ledLightCalculationValue.setValue(r, g, b);
+
+    return this->ledLightCalculationValue;
+  }
+
+  if (valueA.isColor() && valueB.isValue()) {
+    LedLightCalculationValue temp = valueA;
+    valueA = valueB;
+    valueB = temp;
+  }
+
+  if (valueA.isValue() && valueB.isColor()) {
+    double r = valueA.getValueV() * valueB.getValueR();
+    double g = valueA.getValueV() * valueB.getValueG();
+    double b = valueA.getValueV() * valueB.getValueB();
+
+    this->ledLightCalculationValue.setValue(r, g, b);
+
+    return this->ledLightCalculationValue;
+  }
+
 
   return this->ledLightCalculationValue;
 }
