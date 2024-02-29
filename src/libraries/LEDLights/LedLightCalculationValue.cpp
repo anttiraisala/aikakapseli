@@ -40,7 +40,7 @@ inline byte LedLightCalculationValue::limitDoubleValue(double d) {
 }
 
 double LedLightCalculationValue::getValueV(void) {
-  if (this->isValue) {
+  if (this->bIsValue) {
     return this->valueV;
   }
 
@@ -48,7 +48,7 @@ double LedLightCalculationValue::getValueV(void) {
 }
 
 double LedLightCalculationValue::getValueR(void) {
-  if (this->isColor) {
+  if (this->bIsColor) {
     return this->valueR;
   }
 
@@ -56,7 +56,7 @@ double LedLightCalculationValue::getValueR(void) {
 }
 
 double LedLightCalculationValue::getValueG(void) {
-  if (this->isColor) {
+  if (this->bIsColor) {
     return this->valueG;
   }
 
@@ -64,7 +64,7 @@ double LedLightCalculationValue::getValueG(void) {
 }
 
 double LedLightCalculationValue::getValueB(void) {
-  if (this->isColor) {
+  if (this->bIsColor) {
     return this->valueB;
   }
 
@@ -73,14 +73,14 @@ double LedLightCalculationValue::getValueB(void) {
 
 void LedLightCalculationValue::setValue(double valueV) {
   this->valueV = valueV;
-  this->isValue = true;
-  this->isColor = false;
+  this->bIsValue = true;
+  this->bIsColor = false;
 }
 
 void LedLightCalculationValue::setValue(double valueR, double valueG, double valueB) {
   this->valueR = valueR;
   this->valueG = valueG;
   this->valueB = valueB;
-  this->isValue = false;
-  this->isColor = true;
+  this->bIsValue = false;
+  this->bIsColor = true;
 }

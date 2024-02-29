@@ -30,6 +30,14 @@ public:
   void setValue(double valueV);
   void setValue(double valueR, double valueG, double valueB);
 
+  bool isValue(void) {
+    return this->bIsValue;
+  }
+
+  bool isColor(void) {
+    return this->bIsColor;
+  }
+
 private:
 
   byte limitDoubleValue(double d);
@@ -40,8 +48,8 @@ private:
   double valueG;
   double valueB;
 
-  bool isValue;
-  bool isColor;
+  bool bIsValue;
+  bool bIsColor;
 };
 
 #endif  // LEDLIGHT_CALCULATION_VALUE_H
