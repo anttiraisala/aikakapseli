@@ -38,9 +38,9 @@ void setup() {
 
   //read();
 
-  //write();
+  write();
 
-  clear();
+  //clear();
   ///////////////////////////////////////////////////////////////
   Serial.println("Done.");
 }
@@ -61,7 +61,7 @@ void write(void){
   aikakapseliEeprom.setToTime(100, 0, 0, 0, 56);
   aikakapseliEeprom.setToTime(0, 0, 0, 0, 6);
   */
-  aikakapseliEeprom.setToTime(100, 0, 0, 0, 10);
+  aikakapseliEeprom.setToTime(100, 3, 15, 1, 30);
   aikakapseliEeprom.write();
 
   Serial.println("Reading after write...");
