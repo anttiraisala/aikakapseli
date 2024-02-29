@@ -3,7 +3,14 @@
 
 #include <Arduino.h>
 
-struct LedLightCalculationTwoOperandsOperation {
+enum class LedLightCalculationTwoOperandsOperation {
+  ADD,
+  SUBTRACT,
+  MULTIPLY,
+  DIVIDE,
+  POW,
+  MAX,
+  MIN
 };
 
 class LedLightCalculationTwoOperands {
