@@ -1,3 +1,4 @@
+#include "note_state.h"
 #include "Adafruit_NeoPixel.h"
 #include "LedLights.h"
 
@@ -154,6 +155,19 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
   Adafruit_NeoPixel *ledStick;
   LedLightCalculationElement *calculationElement;
 
+  /*
+  enum class NoteState {
+    NO_NOTE,
+    INSERTING,
+    DROPPED
+};
+enum class DistanceState {
+    FAR,
+    NEAR,
+    RETREATING
+};
+*/
+
   // Loop through LEDSticks
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
 
@@ -161,10 +175,21 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
     calculationElement = this->sLedSticks[i].calculationElement;
     CalculationElementPhaseMapping calculationElementPhaseMapping = this->sLedSticks[i].calculationElementPhaseMapping;
 
+
+    if (DistanceState::NEAR == distanceState) {
+      ledStick->setBrightness(255);
+    }
+    if (DistanceState::RETREATING == distanceState) {
+      ledStick->setBrightness(130);
+    }
+    if (DistanceState::FAR == distanceState) {
+      ledStick->setBrightness(30);
+    }
+
     // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {
 
-      double relativePhase = 1.0/9.0*(double)led;
+      double relativePhase = 1.0 / 9.0 * (double)led;
 
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), relativePhase, calculationElementPhaseMapping);
 
@@ -182,6 +207,7 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
 void LedLights::loopShow(void) {
   //Serial.println("LedLights::loopShow() begin");
 
+
   Adafruit_NeoPixel *ledStick;
 
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
@@ -193,5 +219,5 @@ void LedLights::loopShow(void) {
 }
 
 double LedLights::getCurrentTimeSeconds(void) {
-  return (double)(this->currentTimeMillis)/1000.0f;
+  return (double)(this->currentTimeMillis) / 1000.0f;
 }
