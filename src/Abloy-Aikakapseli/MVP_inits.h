@@ -18,6 +18,7 @@ extern LedLights ledLights;
 
 
 LedLightCalculationConstant *constantGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+LedLightCalculationConstant *constantRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
 LedLightCalculationSine *ledLightCalculationSine = new LedLightCalculationSine(1.0, 1.0 / 8.0, 0.4, 0.6);
 LedLightCalculationSine *noteSlotCalculations = new LedLightCalculationSine(0.0, 1.0 / 4.92348572983475, 0.4, 0.6);
 
@@ -61,8 +62,9 @@ void coloring_DistanceStateFAR(void) {
   ledLights.setCalculations(3, ledLightCalculationSine, cepmSine3);
   ledLights.setCalculations(4, ledLightCalculationSine, cepmSine4);
   ledLights.setCalculations(5, ledLightCalculationSine, cepmSine5);
+}
 
-
+void calculations_NoNote(void) {
   CalculationElementPhaseMapping cepmNoteSlot0;
   cepmNoteSlot0.startPhase = 3.0 * 3.14159265359 / 19.0 * 0.0;
   cepmNoteSlot0.endPhase = 3.0 * 3.14159265359 / 19.0 * 9.0;
@@ -74,6 +76,34 @@ void coloring_DistanceStateFAR(void) {
   //
   ledLights.setCalculations(6, noteSlotCalculations, cepmNoteSlot0);
   ledLights.setCalculations(7, noteSlotCalculations, cepmNoteSlot1);
+}
+
+void calculations_Inserting(void) {
+  CalculationElementPhaseMapping cepmNoteSlot0;
+  cepmNoteSlot0.startPhase = 3.0 * 3.14159265359 / 19.0 * 0.0;
+  cepmNoteSlot0.endPhase = 3.0 * 3.14159265359 / 19.0 * 9.0;
+  CalculationElementPhaseMapping cepmNoteSlot1;
+  cepmNoteSlot1.startPhase = 3.0 * 3.14159265359 / 19.0 * 10.0;
+  cepmNoteSlot1.endPhase = 3.0 * 3.14159265359 / 19.0 * 19.0;
+  //
+
+  //
+  ledLights.setCalculations(6, constantRed, cepmNoteSlot0);
+  ledLights.setCalculations(7, constantRed, cepmNoteSlot1);
+}
+
+void calculations_Dropped(void) {
+  CalculationElementPhaseMapping cepmNoteSlot0;
+  cepmNoteSlot0.startPhase = 3.0 * 3.14159265359 / 19.0 * 0.0;
+  cepmNoteSlot0.endPhase = 3.0 * 3.14159265359 / 19.0 * 9.0;
+  CalculationElementPhaseMapping cepmNoteSlot1;
+  cepmNoteSlot1.startPhase = 3.0 * 3.14159265359 / 19.0 * 10.0;
+  cepmNoteSlot1.endPhase = 3.0 * 3.14159265359 / 19.0 * 19.0;
+  //
+
+  //
+  ledLights.setCalculations(6, constantGreen, cepmNoteSlot0);
+  ledLights.setCalculations(7, constantGreen, cepmNoteSlot1);
 }
 
 

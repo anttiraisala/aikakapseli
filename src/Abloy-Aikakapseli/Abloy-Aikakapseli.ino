@@ -144,6 +144,7 @@ void setup() {
   }
 
   coloring_DistanceStateFAR();
+  calculations_NoNote();
 
   Serial.println("Setup done.");
 }
@@ -227,6 +228,8 @@ void checkForStateChanges() {
         if (isNoteDetected() == true) {
           noteState = NoteState::INSERTING;
 
+          calculations_Inserting();
+
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
@@ -238,6 +241,8 @@ void checkForStateChanges() {
           noteState = NoteState::DROPPED;
           millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
+          calculations_Dropped();
+
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
@@ -248,6 +253,8 @@ void checkForStateChanges() {
         if (isNoteDetected() == true) {
           noteState = NoteState::INSERTING;
 
+          calculations_Inserting();
+
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
@@ -255,6 +262,7 @@ void checkForStateChanges() {
         if (currentTimeMillis > millisWhenToExitDroppedState) {
           noteState = NoteState::NO_NOTE;
 
+          calculations_NoNote();
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
@@ -262,4 +270,3 @@ void checkForStateChanges() {
     }
   }
 }
-
