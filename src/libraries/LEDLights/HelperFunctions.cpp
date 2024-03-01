@@ -55,12 +55,61 @@ double map_double_limit(double value, double from_min, double from_max, double t
 
   return tempValue;
 }
+
+
+double map_double(double value, double from_min, double from_max, double to_min, double to_max, double unlinearityPower) {
+  if (from_max - from_min == 0) {
+    return from_min;
+  }
+
+  double normalizedValue = (value - from_min) / (from_max - from_min);
+  if (unlinearityPower != 1.0) {
+    normalizedValue = pow(normalizedValue, unlinearityPower);
+  }
+  return normalizedValue * (to_max - to_min) + to_min;
+}
+
+double map_double_limit(double value, double from_min, double from_max, double to_min, double to_max, double unlinearityPower) {
+  double tempValue = map_double(value, from_min, from_max, to_min, to_max, unlinearityPower);
+  if (tempValue < to_min) {
+    return to_min;
+  }
+
+  if (tempValue > to_max) {
+    return to_max;
+  }
+
+  return tempValue;
+}
+
 /*
-double map_double(double value, double from_min, double from_max, double to_min, double to_max, double unlinearityPower){
+class avgFilterD {
+  #define ARRAY_SIZE 3
 
+  public:
+  double getValue(void);
+  void putValue(double value);
+
+  private:
+  double *array;
+};*/
+
+
+AvgFilterD::AvgFilterD() {
+  arrayPtr = 0;
 }
 
-double map_double_limit(double value, double from_min, double from_max, double to_min, double to_max, double unlinearityPower){
-
+void AvgFilterD::putValue(double value) {
+  this->array[arrayPtr] = value;
+  if (++arrayPtr >= ARRAY_SIZE) {
+    arrayPtr = 0;
+  }
 }
-*/
+
+double AvgFilterD::getValue(void) {
+  double sum = 0;
+  for (byte i = 0; i < ARRAY_SIZE; i++) {
+    sum += this->array[i];
+  }
+  return sum / (double)ARRAY_SIZE;
+}

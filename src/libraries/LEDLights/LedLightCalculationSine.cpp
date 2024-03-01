@@ -42,7 +42,7 @@ struct CalculationElementPhaseMapping {
   }
   finalSourcePhase += phase;
 
-  double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 + finalSourcePhase) * frequency) * amplitude + offset;
+  double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 * frequency * -1.0) + finalSourcePhase) * amplitude + offset;
 
   sine = pow(sine, 6.0) * 255.0;
 /*
