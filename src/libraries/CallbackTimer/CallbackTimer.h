@@ -1,7 +1,7 @@
-#ifndef Timer_h
-#define Timer_h
+#ifndef CALLBACK_TIMER_H
+#define CALLBACK_TIMER_H
 
-class Timer {
+class CallbackTimer {
 
 private:
 
@@ -19,12 +19,12 @@ public:
   unsigned long entryTime=0;
 
   void loop(unsigned long currentTime);
-  Timer(void);
-  Timer(void (*functionPtr)(void));
-  Timer(void (*functionPtr)(void), unsigned long currentTime, unsigned long intervalTime);
+  CallbackTimer(void);
+  CallbackTimer(void (*functionPtr)(void));
+  CallbackTimer(void (*functionPtr)(void), unsigned long currentTime, unsigned long intervalTime);
   void setIntervalTime(unsigned long intervalTime);
   void setCurrentTime(unsigned long intervalTime);
     
 } ;
 
-#endif
+#endif // CALLBACK_TIMER_H

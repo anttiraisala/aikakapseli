@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <Arduino.h>
-#include "Timer.h"
+#include "CallbackTimer.h"
 
 
-Timer::Timer(void){
+CallbackTimer::CallbackTimer(void){
   
 }
 
-Timer::Timer(void (*functionPtr)(void)){
+CallbackTimer::CallbackTimer(void (*functionPtr)(void)){
   callbackFunc = functionPtr;
 }
 
-Timer::Timer(void (*functionPtr)(void), unsigned long currentTime, unsigned long intervalTime){
+CallbackTimer::CallbackTimer(void (*functionPtr)(void), unsigned long currentTime, unsigned long intervalTime){
   callbackFunc = functionPtr;
   
   this->setCurrentTime(currentTime);
@@ -21,21 +21,21 @@ Timer::Timer(void (*functionPtr)(void), unsigned long currentTime, unsigned long
 }
 
 
-void Timer::setCurrentTime(unsigned long currentTime){
+void CallbackTimer::setCurrentTime(unsigned long currentTime){
   this->currentTime = currentTime;
 }
 
-void Timer::setIntervalTime(unsigned long intervalTime){
+void CallbackTimer::setIntervalTime(unsigned long intervalTime){
   this->intervalTime = intervalTime;
 }
 
-void Timer::calculateNextTriggerTime(){
+void CallbackTimer::calculateNextTriggerTime(){
   while(this->nextTriggerTime <= this->currentTime){
     this->nextTriggerTime += this->intervalTime ;
   }
 }
 
-void Timer::loop(unsigned long currentTime){
+void CallbackTimer::loop(unsigned long currentTime){
   this->currentTime = currentTime;
  
   if(this->currentTime < this->nextTriggerTime){

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <Arduino.h>
-#include "Timer.h"
 #include "lcd_screen.h"
 #include <Wire.h>
 #include "rgb_lcd.h"

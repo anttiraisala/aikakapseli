@@ -12,7 +12,7 @@ Liitettävät komponentit:
 #include "debug.h"
 
 // Tällä ajastetaan tehtävät tapahtumaan loop()-silmukassa
-#include "Timer.h"
+#include "CallbackTimer.h"
 
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
@@ -41,7 +41,7 @@ Lcd_screen *lcd;
 /* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
 LedLights ledLights;
-Timer *setLightsToRandomTimer;
+CallbackTimer *setLightsToRandomTimer;
 void setLightsToRandom(void){
   ledLights.setLightsToRandom();
 }
@@ -55,11 +55,11 @@ void decreaseTimeAndShow(void){
   aikakapseliEeprom.decreaseTime();
   lcd->setText(aikakapseliEeprom.getTimeString(), 0);
 }
-Timer *decreaseTimeAndShowTimer;
+CallbackTimer *decreaseTimeAndShowTimer;
 void writeTime(void){
   aikakapseliEeprom.write();
 }
-Timer *writeCountdownTimeToEepromTimer;
+CallbackTimer *writeCountdownTimeToEepromTimer;
 
 
 
@@ -73,12 +73,12 @@ long nextMillisTo_printState=0;
 
 // Tehdään ajastus, että tilat tarkastetaan 10ms välein
 void checkForStateChanges();
-Timer *stateChangeTimer;
+CallbackTimer *stateChangeTimer;
 //
 
 // Tällä tulostetaan debug-juttuja tiloista
 #ifdef DEBUG_MODE
-  Timer *debugPrintStatesTimer;
+  CallbackTimer *debugPrintStatesTimer;
   
   void debugPrintStates(){
     DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
@@ -111,16 +111,16 @@ void setup() {
 
   currentTimeMillis = millis();
 
-  stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
+  stateChangeTimer = new CallbackTimer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
-  decreaseTimeAndShowTimer = new Timer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000*60*5);
+  decreaseTimeAndShowTimer = new CallbackTimer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
+  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000*60*5);
 
-  setLightsToRandomTimer = new Timer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
+  setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
 
 
   #ifdef DEBUG_MODE
-  debugPrintStatesTimer = new Timer(debugPrintStates, currentTimeMillis, (unsigned long)500);
+  debugPrintStatesTimer = new CallbackTimer(debugPrintStates, currentTimeMillis, (unsigned long)500);
   #endif // DEBUG_MODE
 
   /* Alustetaan aikalaskuri, yritetään lukea arvo EEPROM:sta */
