@@ -17,6 +17,7 @@ extern LedLights ledLights;
 
 
 
+LedLightCalculationConstant *constantWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
 LedLightCalculationConstant *constantGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
 LedLightCalculationConstant *constantRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
 LedLightCalculationSine *ledLightCalculationSine = new LedLightCalculationSine(1.0, 1.0 / 8.0, 0.4, 0.6);
@@ -88,8 +89,8 @@ void calculations_Inserting(void) {
   //
 
   //
-  ledLights.setCalculations(6, constantRed, cepmNoteSlot0);
-  ledLights.setCalculations(7, constantRed, cepmNoteSlot1);
+  ledLights.setCalculations(6, constantWhite, cepmNoteSlot0);
+  ledLights.setCalculations(7, constantWhite, cepmNoteSlot1);
 }
 
 void calculations_Dropped(void) {

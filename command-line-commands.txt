@@ -21,7 +21,7 @@ git tag "MVP2"
 git tag "MVP2"
 
 # 
-kkk
+
 git clean -n
 git clean -f
 
