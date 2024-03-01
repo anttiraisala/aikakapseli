@@ -114,7 +114,7 @@ void setup() {
   stateChangeTimer = new Timer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
   decreaseTimeAndShowTimer = new Timer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000*60*15);
+  writeCountdownTimeToEepromTimer = new Timer(writeTime, currentTimeMillis, (unsigned long)1000*60*5);
 
   setLightsToRandomTimer = new Timer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
 

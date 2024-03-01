@@ -1,4 +1,5 @@
 #include "LedLightCalculationSine.h"
+#include "HelperFunctions.h"
 
 LedLightCalculationSine::LedLightCalculationSine() {}
 
@@ -11,6 +12,13 @@ void LedLightCalculationSine::setParameters(double phase, double frequency, doub
   this->frequency = frequency;
   this->amplitude = amplitude;
   this->offset = offset;
+/*
+  Serial.println("\nLedLightCalculationSine::setParameters");
+  serialPrintLnDouble("  p: ", this->phase);
+  serialPrintLnDouble("  f: ", this->frequency);
+  serialPrintLnDouble("  a: ", this->amplitude);
+  serialPrintLnDouble("  o: ", this->offset);
+*/
 }
 
 LedLightCalculationValue LedLightCalculationSine::getValue(double currentTimeSeconds, double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) {
@@ -53,6 +61,19 @@ struct CalculationElementPhaseMapping {
   Serial.print("sine: ");
   Serial.println(sine, DEC);
   Serial.println("");
+*/
+/*
+  Serial.println("\nLedLightCalculationSine::getValue");
+  serialPrintLnDouble("  p: ", this->phase);
+  serialPrintLnDouble("  f: ", this->frequency);
+  serialPrintLnDouble("  a: ", this->amplitude);
+  serialPrintLnDouble("  o: ", this->offset);
+  serialPrintLnDouble("  currentTimeSeconds: ", currentTimeSeconds);
+  serialPrintLnDouble("  relativePhase: ", relativePhase);
+  serialPrintLnDouble("  currentTimeSeconds: ", currentTimeSeconds);
+  serialPrintLnDouble("  startPhase: ", calculationElementPhaseMapping.startPhase);
+  serialPrintLnDouble("  endPhase: ", calculationElementPhaseMapping.endPhase);
+  serialPrintLnDouble("  sine: ", sine);
 */
   ledLightCalculationValue.setValue(sine);
 

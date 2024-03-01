@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 
 /* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
@@ -18,6 +20,8 @@ NoteState noteState = NoteState::NO_NOTE;
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 
+#include "HelperFunctions.h"
+
 
 
 
@@ -35,6 +39,7 @@ void serialprint(char *str, double d) {
   Serial.println(d, DEC);
 }
 
+LedLightCalculationSine *ledLightCalculationSine;
 void tests(void) {
   Serial.println("");
   Serial.println("");
@@ -62,19 +67,21 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
 
   CalculationElementPhaseMapping cepm1;
-  cepm1.startPhase=0.0;
-  cepm1.endPhase=2.0*3.14159265358/19.0*9.0;
+  cepm1.startPhase = 0.0;
+  cepm1.endPhase = 2.0 * 3.14159265358 / 19.0 * 9.0;
   CalculationElementPhaseMapping cepm2;
-  cepm2.startPhase=2.0*3.14159265358/19.0*10.0;
-  cepm2.endPhase=2.0*3.14159265358;
+  cepm2.startPhase = 2.0 * 3.14159265358 / 19.0 * 10.0;
+  cepm2.endPhase = 2.0 * 3.14159265358;
 
-  
+
   CalculationElementPhaseMapping cepm;
 
-  ledLights.setCalculations(0, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm1);
+
+  ledLightCalculationSine = new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6);
+  ledLights.setCalculations(0, ledLightCalculationSine, cepm1);
   ledLights.setCalculations(1, new LedLightCalculationConstant(0.0, 255, 0.0), cepm);
-  ledLights.setCalculations(2, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm1);
-  ledLights.setCalculations(3, new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6), cepm2);
+  ledLights.setCalculations(2, ledLightCalculationSine, cepm1);
+  ledLights.setCalculations(3, ledLightCalculationSine, cepm2);
   ledLights.setCalculations(4, new LedLightCalculationConstant(255.0, 0.0, 255.0), cepm);
   ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
   ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);
@@ -90,10 +97,18 @@ void tests(void) {
 
 
 
+
 void setup() {
   randomSeed(analogRead(0));
   // put your setup code here, to run once:
   Serial.begin(9600);
+
+  // Rotary Angle Sensors
+  pinMode(54, INPUT);
+  pinMode(55, INPUT);
+
+
+
   delay(2000);
 
   Serial.println("setup starts...");
@@ -126,8 +141,26 @@ void setup() {
   Serial.println("setup done.");
 }
 
+
 void loop() {
 
+  long a0 = analogRead(54);
+  long a1 = analogRead(55);
 
-  delay(100);
+  double r0 = map_double_limit(a0, 0, 689, 0.0, 2.0 * 3.141596 * 16.0);
+  double r1 = map_double_limit(a1, 0, 662, 0.0, 2.0 * 3.141596 * 16.0);
+/*
+  serialPrintLnDouble("r0:[", r0, "]");
+  serialPrintLnDouble("r1:[", r1, "]");
+*/
+  double phase = 3.1415;
+  double frequency = 1.0;
+  double amplitude = 0.4;
+  double offset = 0.6;
+
+  ledLightCalculationSine->setParameters(r0, r1, amplitude, offset);
+  ledLights.loopSetColors(millis(), NoteState::NO_NOTE, DistanceState::FAR);
+  ledLights.loopShow();
+
+  delay(50);
 }
