@@ -1,5 +1,6 @@
+#include "HardwareSerial.h"
 #include "LedLightCalculationValue.h"
-
+#include "HelperFunctions.h"
 
 // This abstract base class (LedLightCalculationElement)
 // serves as a placeholder for different calculation types.
@@ -83,4 +84,19 @@ void LedLightCalculationValue::setValue(double valueR, double valueG, double val
   this->valueB = valueB;
   this->bIsValue = false;
   this->bIsColor = true;
+}
+
+void LedLightCalculationValue::debugPrint(void) {
+  Serial.println("\nLedLightCalculationValue::debugPrint -begins");
+  Serial.print("bIsValue: ");
+  Serial.println(bIsValue);
+  Serial.print("bIsColor: ");
+  Serial.println(bIsColor);
+  serialPrintLnDouble("valueV: ", valueV);
+  serialPrintLnDouble("valueR: ", valueR);
+  serialPrintLnDouble("valueG: ", valueG);
+  serialPrintLnDouble("valueB: ", valueB);
+  serialPrintLnDouble("getValueV(): ", getValueV());
+  serialPrintLnDouble("getValueR(): ", getValueR());
+  Serial.println("LedLightCalculationValue::debugPrint -done");
 }

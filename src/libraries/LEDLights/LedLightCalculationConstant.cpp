@@ -1,4 +1,5 @@
 #include "LedLightCalculationConstant.h"
+#include "HelperFunctions.h"
 
 LedLightCalculationConstant::LedLightCalculationConstant() {}
 
@@ -16,4 +17,10 @@ LedLightCalculationValue LedLightCalculationConstant::getValue(unsigned long loo
 
 LedLightCalculationValue LedLightCalculationConstant::getValue(void){
   return this->ledLightCalculationValue;
+}
+
+void LedLightCalculationConstant::debugPrint(void) {
+  Serial.println("\nLedLightCalculationConstant::debugPrint -begins");
+  ledLightCalculationValue.debugPrint();
+  Serial.println("LedLightCalculationConstant::debugPrint -ends\n");
 }

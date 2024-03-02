@@ -2,6 +2,7 @@
 #define LEDLIGHT_CALCULATION_TWO_OPERANDS_H
 
 #include "LedLightCalculationElement.h"
+#include "CalculationElementLink.h"
 
 enum class LedLightCalculationTwoOperandsOperation {
   ADD,
@@ -17,11 +18,11 @@ enum class LedLightCalculationTwoOperandsOperation {
 class LedLightCalculationTwoOperands : public LedLightCalculationElement {
 private:
   LedLightCalculationTwoOperandsOperation operation;
-  LedLightCalculationElement elementA;
-  LedLightCalculationElement elementB;
+  CalculationElementLink *elementLinkA;
+  CalculationElementLink *elementLinkB;
 
 public:
-  LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, LedLightCalculationElement elementA, LedLightCalculationElement elementB);
+  LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 };
 

@@ -1,9 +1,9 @@
 #include "LedLightCalculationTwoOperands.h"
 
-LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, LedLightCalculationElement elementA, LedLightCalculationElement elementB) {
+LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB) {
   this->operation = operation;
-  this->elementA = elementA;
-  this->elementB = elementB;
+  this->elementLinkA = elementLinkA;
+  this->elementLinkB = elementLinkB;
 }
 
 LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
@@ -16,9 +16,27 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
     MAX,
     MIN
 */
+/*
+    neoPixel = this->sLedSticks[i].neoPixel;
+    calculationElementLink = this->sLedSticks[i].calculationElementLink;
+    calculationElement = calculationElementLink->getCalculationElement();
 
-  LedLightCalculationValue valueA = elementA.getValue(loopSetColorsCounter, currentTimeSeconds, relativePhase);
-  LedLightCalculationValue valueB = elementB.getValue(loopSetColorsCounter, currentTimeSeconds, relativePhase);
+    //calculationElementLink->debugPrint(); delay(1000);
+
+    // Loop throught single LEDs
+    for (byte led = 0; led < 10; led++) {
+
+      double relativePhase = 1.0 / 9.0 * (double)led;
+
+      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
+
+*/
+  
+  LedLightCalculationElement *calculationElementA = elementLinkA->getCalculationElement();
+  LedLightCalculationElement *calculationElementB = elementLinkB->getCalculationElement();
+
+  LedLightCalculationValue valueA = calculationElementA->getValue(loopSetColorsCounter, currentTimeSeconds, elementLinkA->getMappedRelativePhase(relativePhase));
+  LedLightCalculationValue valueB = calculationElementB->getValue(loopSetColorsCounter, currentTimeSeconds, elementLinkB->getMappedRelativePhase(relativePhase));
 
   if (valueA.isValue() && valueB.isValue()) {
     switch (operation) {

@@ -21,6 +21,7 @@ NoteState noteState = NoteState::NO_NOTE;
 #include "CalculationElementLink.h"
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
+#include "LedLightCalculationTwoOperands.h"
 
 #include "HelperFunctions.h"
 
@@ -74,7 +75,7 @@ void tests(void) {
 
   CalculationElementPhaseMapping cepm;
 
-  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.1, 0.9))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);//->setCalculationElementConstantMapping(0.0);
+  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);  //->setCalculationElementConstantMapping(0.0);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
@@ -82,7 +83,7 @@ void tests(void) {
   ledLights.setCalculationElementLink(4, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 
 
-/*
+  /*
 LedLightCalculationTwoOperands
 enum class LedLightCalculationTwoOperandsOperation {
   ADD,
@@ -94,9 +95,13 @@ enum class LedLightCalculationTwoOperandsOperation {
   MIN
 };
 */
- LedLightCalculationConstant *cA = new LedLightCalculationConstant(2.5);
- LedLightCalculationConstant *cB = new LedLightCalculationConstant(3.5);
- //LedLightCalculationTwoOperands *operation = new LedLightCalculationTwoOperands()
+
+  LedLightCalculationConstant *cA = new LedLightCalculationConstant(2.5);
+  LedLightCalculationConstant *cB = new LedLightCalculationConstant(3.5);
+  LedLightCalculationTwoOperands *operation = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::ADD, new CalculationElementLink(cA), new CalculationElementLink(cB));
+  cA->debugPrint();
+  cB->debugPrint();
+  operation->getValue(0, 0.0, 0.0).debugPrint();
 
 
 
@@ -106,7 +111,7 @@ enum class LedLightCalculationTwoOperandsOperation {
   ledLights.setCalculations(6, new CalculationElementLink(new LedLightCalculationConstant(128.0, 0.0, 255.0), &cepm));
   ledLights.setCalculations(7, new CalculationElementLink(new LedLightCalculationConstant(0.0, 128.0, 255.0), &cepm));
 */
-/*
+  /*
   ledLights.getCalculationElementLink(0)->debugPrint();
   ledLights.getCalculationElementLink(1)->debugPrint();
   ledLights.getCalculationElementLink(2)->debugPrint();

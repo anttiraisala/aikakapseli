@@ -14,6 +14,8 @@ public:
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) override;
   LedLightCalculationValue getValue();
 
+  void debugPrint(void);
+
 private:
   
 };

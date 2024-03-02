@@ -38,6 +38,8 @@ public:
     return this->bIsColor;
   }
 
+  void debugPrint(void);
+
 private:
 
   byte limitDoubleValue(double d);
