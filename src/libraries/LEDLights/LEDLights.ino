@@ -70,11 +70,11 @@ void tests(void) {
 
   CalculationElementPhaseMapping cepm0;
   int ledCount = 49;
-  double endPhase = 1.0;
+  double endPhase = 10.0;
 
   CalculationElementPhaseMapping cepm;
 
-  ledLightCalculationSine = new LedLightCalculationSine(0.1, 0.0, 1.0, 0.4, 0.6);
+  ledLightCalculationSine = new LedLightCalculationSine(0.0, 0.1, 0.4, 0.6);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));

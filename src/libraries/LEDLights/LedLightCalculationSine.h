@@ -7,9 +7,9 @@ class LedLightCalculationSine : public LedLightCalculationElement {
 public:
   // Constructor
   LedLightCalculationSine();
-  LedLightCalculationSine(double timeRatio, double phase, double frequency, double amplitude, double offset);
+  LedLightCalculationSine(double phase, double frequency, double amplitude, double offset);
 
-  void setParameters(double timeRatio, double phase, double frequency, double amplitude, double offset);
+  void setParameters(double phase, double frequency, double amplitude, double offset);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) override;
 
 private:
@@ -18,11 +18,6 @@ private:
   double frequency = 1.0;
   double amplitude = 1.0;
   double offset = 0.0;
-
-  double previousTimeSeconds = 0.0;
-  double deltaTimeSeconds = 0.0;
-  double internalTimeSeconds = 0.0;
-  unsigned long loopSetColorsCounter = 0;
 };
 
 

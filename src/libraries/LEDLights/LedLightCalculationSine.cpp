@@ -3,12 +3,11 @@
 
 LedLightCalculationSine::LedLightCalculationSine() {}
 
-LedLightCalculationSine::LedLightCalculationSine(double timeRatio, double phase, double frequency, double amplitude, double offset) {
-  this->setParameters(timeRatio, phase, frequency, amplitude, offset);
+LedLightCalculationSine::LedLightCalculationSine(double phase, double frequency, double amplitude, double offset) {
+  this->setParameters(phase, frequency, amplitude, offset);
 }
 
-void LedLightCalculationSine::setParameters(double timeRatio, double phase, double frequency, double amplitude, double offset) {
-  this->timeRatio = timeRatio;
+void LedLightCalculationSine::setParameters(double phase, double frequency, double amplitude, double offset) {
   this->phase = phase;
   this->frequency = frequency;
   this->amplitude = amplitude;
@@ -40,16 +39,8 @@ struct CalculationElementPhaseMapping {
   double offset = 0.0;
 */
 
-  /* Tämä on siksi, että internalTimeSeconds -muuttujaa kasvatettaisiin vain kun aidosti ollaan siirrytty ajassa eteenpäin, eli seuraava ledSticks->loop() -kierros */
-  if (this->loopSetColorsCounter != loopSetColorsCounter) {
-    this->loopSetColorsCounter = loopSetColorsCounter;
-    deltaTimeSeconds = currentTimeSeconds - previousTimeSeconds;
-    previousTimeSeconds = currentTimeSeconds;
-    internalTimeSeconds += deltaTimeSeconds * timeRatio;
-  }
-
   double finalSourcePhase = 2.0 * 3.14159265359 * relativePhase + phase;
-  double sine = sin((internalTimeSeconds * 2.0 * 3.14159265359 * frequency) + finalSourcePhase) * amplitude + offset;
+  double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 * frequency) + finalSourcePhase) * amplitude + offset;
 
   sine = pow(sine, 14.0) * 255.0;
   //sine = pow(relativePhase, 4.0) * 255.0;
