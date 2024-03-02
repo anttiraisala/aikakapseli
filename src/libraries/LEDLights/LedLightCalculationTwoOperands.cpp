@@ -6,7 +6,7 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculati
   this->elementB = elementB;
 }
 
-LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double currentTimeSeconds, double relativePhase) {
+LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
   /*
   ADD,
     SUBTRACT,
@@ -17,8 +17,8 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double current
     MIN
 */
 
-  LedLightCalculationValue valueA = elementA.getValue(currentTimeSeconds, relativePhase);
-  LedLightCalculationValue valueB = elementB.getValue(currentTimeSeconds, relativePhase);
+  LedLightCalculationValue valueA = elementA.getValue(loopSetColorsCounter, currentTimeSeconds, relativePhase);
+  LedLightCalculationValue valueB = elementB.getValue(loopSetColorsCounter, currentTimeSeconds, relativePhase);
 
   if (valueA.isValue() && valueB.isValue()) {
     switch (operation) {

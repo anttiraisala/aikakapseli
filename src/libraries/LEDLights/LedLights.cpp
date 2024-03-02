@@ -167,6 +167,8 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
   this->currentTimeMillis = currentTimeMillis;
   this->deltaTimeMillis = this->currentTimeMillis - this->previousTimeMillis;
 
+  loopSetColorsCounter++;
+
   Adafruit_NeoPixel *neoPixel;
   CalculationElementLink *calculationElementLink;
   LedLightCalculationElement *calculationElement;
@@ -199,7 +201,7 @@ private:
 
       double relativePhase = 1.0 / 9.0 * (double)led;
 
-      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
+      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
       byte r = ledLightCalculationValue.getValueBytes().r;
       byte g = ledLightCalculationValue.getValueBytes().g;

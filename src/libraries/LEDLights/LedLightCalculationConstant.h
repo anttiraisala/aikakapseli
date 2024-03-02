@@ -11,7 +11,7 @@ public:
   LedLightCalculationConstant(double valueR, double valueG, double valueB);
   
   // Override getValue to calculate and return a LedLightCalculationElement based on relativePhase and value_
-  LedLightCalculationValue getValue(double currentTimeSeconds, double relativePhase) override;
+  LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) override;
   LedLightCalculationValue getValue();
 
 private:
