@@ -38,8 +38,10 @@ struct CalculationElementPhaseMapping {
   double amplitude = 1.0;
   double offset = 0.0;
 */
+  double elementSpecificMapping = getMappedPhase(relativePhase);
 
-  double finalSourcePhase = 2.0 * 3.14159265359 * relativePhase + phase;
+//  double finalSourcePhase = 2.0 * 3.14159265359 * relativePhase + phase;
+  double finalSourcePhase = elementSpecificMapping + phase;
   double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 * frequency) + finalSourcePhase) * amplitude + offset;
 
   sine = pow(sine, 14.0) * 255.0;

@@ -70,7 +70,7 @@ void tests(void) {
 
   CalculationElementPhaseMapping cepm0;
   int ledCount = 49;
-  double endPhase = 10.0;
+  double endPhase = 1.0;
 
   CalculationElementPhaseMapping cepm;
 
