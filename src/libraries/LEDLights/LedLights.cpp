@@ -23,7 +23,7 @@ void LedLights::debugPrintLedSticks(void) {
 }
 
 void LedLights::init(void) {
-  Serial.println("LedLights::init() begin");
+  //Serial.println("LedLights::init() begin");
 
   currentTimeMillis = previousTimeMillis = millis();
   deltaTimeMillis = 0;
@@ -39,7 +39,7 @@ void LedLights::init(void) {
   this->setLedStick(7, 57);
 
 
-  Serial.println("LedLights::init() end");
+  //Serial.println("LedLights::init() end");
 }
 
 /*
@@ -56,10 +56,10 @@ CalculationElementLink *LedLights::getCalculationElementLink(byte index) {
 }
 
 void LedLights::setCalculationElementLink(byte index, CalculationElementLink *calculationElementLink) {
-  Serial.print("LedLights::setCalculationElementLink() begin :");
+  /*Serial.print("LedLights::setCalculationElementLink() begin :");
   Serial.print(index, DEC);
   Serial.println();
-
+*/
   /*
 struct sLedStick {
   Adafruit_NeoPixel *neoPixel;
@@ -73,13 +73,13 @@ struct sLedStick {
   sLedStick *ledStick = &(this->sLedSticks[index]);
   ledStick->calculationElementLink = calculationElementLink;
 
-  Serial.println("LedLights::setCalculationElementLink() end");
+  //Serial.println("LedLights::setCalculationElementLink() end");
 }
 
 void LedLights::setLedStick(byte index, byte pin) {
-  Serial.print("LedLights::setLedStick() begin :");
+ /* Serial.print("LedLights::setLedStick() begin :");
   Serial.print(pin, DEC);
-  Serial.println();
+  Serial.println();*/
 
   sLedStick ledStick;
   ledStick.neoPixel = new Adafruit_NeoPixel(10, pin, NEO_GRB + NEO_KHZ800);
@@ -92,7 +92,7 @@ void LedLights::setLedStick(byte index, byte pin) {
   ledStick.neoPixel->show();
   this->sLedSticks[index] = ledStick;
 
-  Serial.println("LedLights::setLedStick() end");
+  //Serial.println("LedLights::setLedStick() end");
 }
 
 void LedLights::setLightsToZero(void) {
@@ -192,9 +192,7 @@ private:
     calculationElementLink = this->sLedSticks[i].calculationElementLink;
     calculationElement = calculationElementLink->getCalculationElement();
 
-    calculationElementLink->debugPrint();    
-
-    delay(1000);
+    //calculationElementLink->debugPrint(); delay(1000);
 
     // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {

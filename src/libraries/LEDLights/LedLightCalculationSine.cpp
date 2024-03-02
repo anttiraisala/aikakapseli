@@ -22,7 +22,10 @@ void LedLightCalculationSine::setParameters(double phase, double frequency, doub
 }
 
 LedLightCalculationValue LedLightCalculationSine::getValue(double currentTimeSeconds, double relativePhase) {
-
+/*  Serial.println("\nLedLightCalculationSine::getValue");
+  serialPrintLnDouble("  currentTimeSeconds: ", currentTimeSeconds);
+  serialPrintLnDouble("  relativePhase: ", relativePhase);
+*/
 
   /*
 struct CalculationElementPhaseMapping {
@@ -71,6 +74,9 @@ struct CalculationElementPhaseMapping {
   serialPrintLnDouble("  sine: ", sine);
 */
   ledLightCalculationValue.setValue(sine);
-
+/*
+  serialPrintLnDouble("  sine: ", sine);
+  Serial.println("LedLightCalculationSine:: ends");
+*/
   return ledLightCalculationValue;
 }
