@@ -10,7 +10,7 @@ public:
   LedLightCalculationSine(double phase, double frequency, double amplitude, double offset);
 
   void setParameters(double phase, double frequency, double amplitude, double offset);
-  LedLightCalculationValue getValue(double currentTimeSeconds, double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) override;
+  LedLightCalculationValue getValue(double currentTimeSeconds, double relativePhase) override;
 
 private:
   double phase = 0.0;

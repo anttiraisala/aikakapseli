@@ -1,5 +1,6 @@
 #include "Adafruit_NeoPixel.h"
 #include "LedLights.h"
+#include "HelperFunctions.h"
 
 
 LedLights::LedLights() {
@@ -38,25 +39,41 @@ void LedLights::init(void) {
   this->setLedStick(7, 57);
 
 
-
-
   Serial.println("LedLights::init() end");
 }
 
-void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
+/*
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
+};
 
-void LedLights::setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping) {
-  Serial.print("LedLights::setCalculations() begin :");
+*/
+
+CalculationElementLink *LedLights::getCalculationElementLink(byte index) {
+  sLedStick ledStick = this->sLedSticks[index];
+  return ledStick.calculationElementLink;
+}
+
+void LedLights::setCalculationElementLink(byte index, CalculationElementLink *calculationElementLink) {
+  Serial.print("LedLights::setCalculationElementLink() begin :");
   Serial.print(index, DEC);
   Serial.println();
 
-  sLedStick ledStick = this->sLedSticks[index];
-  ledStick.calculationElement = calculationElement;
-  ledStick.calculationElementPhaseMapping = calculationElementPhaseMapping;
+  /*
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
+};
+*/
 
-  this->sLedSticks[index] = ledStick;
+  calculationElementLink->debugPrint();
 
-  Serial.println("LedLights::setCalculations() end");
+
+  sLedStick *ledStick = &(this->sLedSticks[index]);
+  ledStick->calculationElementLink = calculationElementLink;
+
+  Serial.println("LedLights::setCalculationElementLink() end");
 }
 
 void LedLights::setLedStick(byte index, byte pin) {
@@ -150,28 +167,47 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
   this->currentTimeMillis = currentTimeMillis;
   this->deltaTimeMillis = this->currentTimeMillis - this->previousTimeMillis;
 
-  Adafruit_NeoPixel *ledStick;
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
   LedLightCalculationElement *calculationElement;
+
+  /*
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
+};
+*/
+
+  /*
+class CalculationElementLink {
+private:
+  LedLightCalculationElement *element = nullptr;
+  CalculationElementPhaseMapping *mapping = nullptr;
+*/
 
   // Loop through LEDSticks
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
 
-    ledStick = this->sLedSticks[i].neoPixel;
-    calculationElement = this->sLedSticks[i].calculationElement;
-    CalculationElementPhaseMapping calculationElementPhaseMapping = this->sLedSticks[i].calculationElementPhaseMapping;
+    neoPixel = this->sLedSticks[i].neoPixel;
+    calculationElementLink = this->sLedSticks[i].calculationElementLink;
+    calculationElement = calculationElementLink->getCalculationElement();
+
+    calculationElementLink->debugPrint();    
+
+    delay(1000);
 
     // Loop throught single LEDs
     for (byte led = 0; led < 10; led++) {
 
-      double relativePhase = 1.0/9.0*(double)led;
+      double relativePhase = 1.0 / 9.0 * (double)led;
 
-      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), relativePhase, calculationElementPhaseMapping);
+      LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
       byte r = ledLightCalculationValue.getValueBytes().r;
       byte g = ledLightCalculationValue.getValueBytes().g;
       byte b = ledLightCalculationValue.getValueBytes().b;
 
-      ledStick->setPixelColor(led, r, g, b);
+      neoPixel->setPixelColor(led, r, g, b);
     }
   }
 
@@ -179,7 +215,7 @@ void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteSta
 }
 
 void LedLights::loopShow(void) {
- // Serial.println("LedLights::loopShow() begin");
+  // Serial.println("LedLights::loopShow() begin");
 
   Adafruit_NeoPixel *ledStick;
 
@@ -188,9 +224,9 @@ void LedLights::loopShow(void) {
     ledStick->show();
   }
 
-//  Serial.println("LedLights::loopShow() end");
+  //  Serial.println("LedLights::loopShow() end");
 }
 
 double LedLights::getCurrentTimeSeconds(void) {
-  return (double)(this->currentTimeMillis)/1000.0f;
+  return (double)(this->currentTimeMillis) / 1000.0f;
 }

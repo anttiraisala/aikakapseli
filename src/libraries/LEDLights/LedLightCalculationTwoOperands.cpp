@@ -6,7 +6,7 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculati
   this->elementB = elementB;
 }
 
-LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double currentTimeSeconds, double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping) {
+LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double currentTimeSeconds, double relativePhase) {
   /*
   ADD,
     SUBTRACT,
@@ -17,8 +17,8 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double current
     MIN
 */
 
-  LedLightCalculationValue valueA = elementA.getValue(currentTimeSeconds, relativePhase, calculationElementPhaseMapping);
-  LedLightCalculationValue valueB = elementB.getValue(currentTimeSeconds, relativePhase, calculationElementPhaseMapping);
+  LedLightCalculationValue valueA = elementA.getValue(currentTimeSeconds, relativePhase);
+  LedLightCalculationValue valueB = elementB.getValue(currentTimeSeconds, relativePhase);
 
   if (valueA.isValue() && valueB.isValue()) {
     switch (operation) {
@@ -101,7 +101,7 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(double current
     double g = valueA.getValueV() * valueB.getValueG();
     double b = valueA.getValueV() * valueB.getValueB();
 
-    this->ledLightCalculationValue.setValue(r, g, b);
+    ledLightCalculationValue.setValue(r, g, b);
 
     return this->ledLightCalculationValue;
   }

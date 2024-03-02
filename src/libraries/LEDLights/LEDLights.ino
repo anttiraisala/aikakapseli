@@ -18,6 +18,7 @@ NoteState noteState = NoteState::NO_NOTE;
 
 /* Testejä varten includataan luokat */
 #include "LedLightCalculationElement.h"
+#include "CalculationElementLink.h"
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 
@@ -69,36 +70,29 @@ void tests(void) {
 
   CalculationElementPhaseMapping cepm0;
   int ledCount = 49;
-  double endPhase = 2.0 * 3.14159265359 * 5.0;
-  cepm0.startPhase = endPhase / ledCount * 00.0;
-  cepm0.endPhase = endPhase / ledCount * 9.0;
-  CalculationElementPhaseMapping cepm1;
-  cepm1.startPhase = endPhase / ledCount * 10.0;
-  cepm1.endPhase = endPhase / ledCount * 19.0;
-  CalculationElementPhaseMapping cepm2;
-  cepm2.startPhase = endPhase / ledCount * 20.0;
-  cepm2.endPhase = endPhase / ledCount * 29.0;
-  CalculationElementPhaseMapping cepm3;
-  cepm3.startPhase = endPhase / ledCount * 30.0;
-  cepm3.endPhase = endPhase / ledCount * 39.0;
-  CalculationElementPhaseMapping cepm4;
-  cepm4.startPhase = endPhase / ledCount * 40.0;
-  cepm4.endPhase = endPhase / ledCount * 49.0;
-
+  double endPhase = 1.0;
 
   CalculationElementPhaseMapping cepm;
 
 
-  ledLightCalculationSine = new LedLightCalculationSine(3.1415, 1.0, 0.4, 0.6);
-  ledLights.setCalculations(0, ledLightCalculationSine, cepm0);
-  ledLights.setCalculations(1, ledLightCalculationSine, cepm1);
-  ledLights.setCalculations(2, ledLightCalculationSine, cepm2);
-  ledLights.setCalculations(3, ledLightCalculationSine, cepm3);
-  ledLights.setCalculations(4, ledLightCalculationSine, cepm4);
-  ledLights.setCalculations(5, new LedLightCalculationConstant(0.0, 255.0, 255.0), cepm);
-  ledLights.setCalculations(6, new LedLightCalculationConstant(128.0, 0.0, 255.0), cepm);
-  ledLights.setCalculations(7, new LedLightCalculationConstant(0.0, 128.0, 255.0), cepm);
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+  /*
+  ledLights.setCalculations(5, new CalculationElementLink(new LedLightCalculationConstant(0.0, 255.0, 255.0), &cepm));
+  ledLights.setCalculations(6, new CalculationElementLink(new LedLightCalculationConstant(128.0, 0.0, 255.0), &cepm));
+  ledLights.setCalculations(7, new CalculationElementLink(new LedLightCalculationConstant(0.0, 128.0, 255.0), &cepm));
+*/
 
+  ledLights.getCalculationElementLink(0)->debugPrint();
+  ledLights.getCalculationElementLink(1)->debugPrint();
+  ledLights.getCalculationElementLink(2)->debugPrint();
+  ledLights.getCalculationElementLink(3)->debugPrint();
+  ledLights.getCalculationElementLink(4)->debugPrint();
+  Serial.println("Onko vielä?");
+  delay(2000);
 
 
   Serial.println("");
@@ -131,7 +125,14 @@ void setup() {
 
   tests();
   delay(1000);
-
+  ledLights.getCalculationElementLink(0)->debugPrint();
+  ledLights.getCalculationElementLink(1)->debugPrint();
+  ledLights.getCalculationElementLink(2)->debugPrint();
+  ledLights.getCalculationElementLink(3)->debugPrint();
+  ledLights.getCalculationElementLink(4)->debugPrint();
+  Serial.println("Onko vielä?");
+  delay(2000);
+  /*
   ledLights.debugPrintLedSticks();
   delay(1000);
   ledLights.setLightsToRandom();
@@ -142,8 +143,10 @@ void setup() {
   ledLights.setLightsToTestPattern();
   delay(1000);
 
-
+*/
+  Serial.println("\nloopSetColors alkaa");
   ledLights.loopSetColors(750, NoteState::NO_NOTE, DistanceState::FAR);
+  Serial.println("\nloopShow alkaa");
   ledLights.loopShow();
 
 
@@ -170,8 +173,11 @@ void loop() {
   long a0 = analogRead(54);
   long a1 = analogRead(55);
 
+
   r0 = map_double_limit(a0, 0, 689, 0.0, 2.0 * 3.141596 * 16.0, 5.0);
   r1 = map_double_limit(a1, 0, 662, 0.0, 2.0 * 3.141596 * 4.0);
+  r0 = 0.0;
+  r1 = 1.0;
   rFilter0.putValue(r0);
   rFilter1.putValue(r1);
 
@@ -180,7 +186,7 @@ void loop() {
   double amplitude = 0.4;
   double offset = 0.6;
 
-  ledLightCalculationSine->setParameters(rFilter0.getValue(), rFilter1.getValue(), amplitude, offset);
+  //ledLightCalculationSine->setParameters(rFilter0.getValue(), rFilter1.getValue(), amplitude, offset);
   ledLights.loopSetColors(millis(), NoteState::NO_NOTE, DistanceState::FAR);
   //ledLights.loopSetColors(1.0*3.14159265359*1000, NoteState::NO_NOTE, DistanceState::FAR);
   ledLights.loopShow();

@@ -22,7 +22,7 @@ private:
 
 public:
   LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, LedLightCalculationElement elementA, LedLightCalculationElement elementB);
-  LedLightCalculationValue getValue(double currentTimeSeconds, double relativePhase, CalculationElementPhaseMapping calculationElementPhaseMapping);
+  LedLightCalculationValue getValue(double currentTimeSeconds, double relativePhase);
 };
 
 #endif  // LEDLIGHT_CALCULATION_TWO_OPERANDS_H

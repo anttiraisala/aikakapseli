@@ -16,13 +16,13 @@
 
 /* Tällä lasketaan ledien värit */
 #include "LedLightCalculationElement.h"
+#include "CalculationElementLink.h"
 
 
 
 struct sLedStick {
   Adafruit_NeoPixel *neoPixel;
-  CalculationElementPhaseMapping calculationElementPhaseMapping;
-  LedLightCalculationElement *calculationElement;
+  CalculationElementLink *calculationElementLink;
 };
 
 
@@ -39,11 +39,10 @@ private:
 
 public:
 
+  void setCalculationElementLink(byte index, CalculationElementLink *calculationElementLink);
+  CalculationElementLink *getCalculationElementLink(byte index);
 
-
-  void setCalculations(byte index, LedLightCalculationElement *calculationElement, CalculationElementPhaseMapping calculationElementPhaseMapping);
-
-#define LED_STICK_COUNT 8
+#define LED_STICK_COUNT 5
 
   sLedStick sLedSticks[LED_STICK_COUNT];
 
