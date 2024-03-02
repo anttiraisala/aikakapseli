@@ -31,14 +31,15 @@ public:
     this->ledLightCalculationValue = value;
   }
 
+  LedLightCalculationElement* setCalculationElementPhaseMapping(double startPhase, double endPhase);
+
 
 private:
   double startPhase = 0.0;
-  double endPhase = 2.0 * 3.14159265359 * 10.0;
+  double endPhase = 2.0 * 3.14159265359;
 
 protected:
   LedLightCalculationValue ledLightCalculationValue;
-  void setCalculationElementPhaseMapping(double startPhase, double endPhase);
   double getMappedPhase(double relativePhase);
 };
 
