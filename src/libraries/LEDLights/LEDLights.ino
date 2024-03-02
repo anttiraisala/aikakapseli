@@ -98,10 +98,29 @@ enum class LedLightCalculationTwoOperandsOperation {
 
   LedLightCalculationConstant *cA = new LedLightCalculationConstant(2.5);
   LedLightCalculationConstant *cB = new LedLightCalculationConstant(3.5);
+  LedLightCalculationConstant *cZ = new LedLightCalculationConstant(0.0);
   LedLightCalculationTwoOperands *operation = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::ADD, new CalculationElementLink(cA), new CalculationElementLink(cB));
   cA->debugPrint();
   cB->debugPrint();
-  operation->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("ADD");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::ADD)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("SUBTRACT");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::SUBTRACT)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("MULTIPLY");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::MULTIPLY)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("DIVIDE");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::DIVIDE)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("POW");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::POW)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("MAX");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::MAX)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("MIN");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::MIN)->getValue(0, 0.0, 0.0).debugPrint();
+  //
+  Serial.println("Division by zero coming up...");
+  LedLightCalculationTwoOperands *operationZeroDivisin = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::ADD, new CalculationElementLink(cA), new CalculationElementLink(cZ));
+  operationZeroDivisin->setOperation(LedLightCalculationTwoOperandsOperation::DIVIDE)->getValue(0, 0.0, 0.0).debugPrint();
+
 
 
 

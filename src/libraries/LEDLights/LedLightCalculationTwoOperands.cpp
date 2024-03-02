@@ -6,6 +6,11 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculati
   this->elementLinkB = elementLinkB;
 }
 
+LedLightCalculationTwoOperands *LedLightCalculationTwoOperands::setOperation(LedLightCalculationTwoOperandsOperation operation) {
+  this->operation = operation;
+  return this;
+}
+
 LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
   /*
   ADD,
@@ -16,7 +21,7 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
     MAX,
     MIN
 */
-/*
+  /*
     neoPixel = this->sLedSticks[i].neoPixel;
     calculationElementLink = this->sLedSticks[i].calculationElementLink;
     calculationElement = calculationElementLink->getCalculationElement();
@@ -31,7 +36,7 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
 */
-  
+
   LedLightCalculationElement *calculationElementA = elementLinkA->getCalculationElement();
   LedLightCalculationElement *calculationElementB = elementLinkB->getCalculationElement();
 
@@ -49,11 +54,16 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
         break;
 
       case LedLightCalculationTwoOperandsOperation::MULTIPLY:
-        ledLightCalculationValue.setValue(valueA.getValueV() - valueB.getValueV());
+        ledLightCalculationValue.setValue(valueA.getValueV() * valueB.getValueV());
         break;
 
       case LedLightCalculationTwoOperandsOperation::DIVIDE:
-        ledLightCalculationValue.setValue(valueA.getValueV() / valueB.getValueV());
+        if (valueB.getValueV() != 0.0) {
+          ledLightCalculationValue.setValue(valueA.getValueV() / valueB.getValueV());
+        } else {
+          ledLightCalculationValue.setValue(0.0);
+          Serial.println("ERROR: Tried to divide by zero.");
+        }
         break;
 
       case LedLightCalculationTwoOperandsOperation::POW:
