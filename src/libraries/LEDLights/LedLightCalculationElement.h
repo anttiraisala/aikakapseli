@@ -32,15 +32,18 @@ public:
   }
 
   LedLightCalculationElement* setCalculationElementPhaseMapping(double startPhase, double endPhase);
+  LedLightCalculationElement* setCalculationElementConstantMapping(double constantPhase);
+  double getMappedPhase(double relativePhase);
 
 
 private:
   double startPhase = 0.0;
   double endPhase = 2.0 * 3.14159265359;
+  double constantPhase = 0.0;
+  boolean bHasConstantMapping = false;
 
 protected:
   LedLightCalculationValue ledLightCalculationValue;
-  double getMappedPhase(double relativePhase);
 };
 
 

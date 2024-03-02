@@ -74,7 +74,7 @@ void tests(void) {
 
   CalculationElementPhaseMapping cepm;
 
-  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 1.0, 0.4, 0.6))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);
+  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 3.0, 0.4, 0.6))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0)->setCalculationElementConstantMapping(0.0);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
@@ -85,7 +85,7 @@ void tests(void) {
   ledLights.setCalculations(6, new CalculationElementLink(new LedLightCalculationConstant(128.0, 0.0, 255.0), &cepm));
   ledLights.setCalculations(7, new CalculationElementLink(new LedLightCalculationConstant(0.0, 128.0, 255.0), &cepm));
 */
-
+/*
   ledLights.getCalculationElementLink(0)->debugPrint();
   ledLights.getCalculationElementLink(1)->debugPrint();
   ledLights.getCalculationElementLink(2)->debugPrint();
@@ -93,7 +93,7 @@ void tests(void) {
   ledLights.getCalculationElementLink(4)->debugPrint();
   Serial.println("Onko vielä?");
   delay(2000);
-
+*/
 
   Serial.println("");
   Serial.println("tests done.");
@@ -124,6 +124,7 @@ void setup() {
   delay(1000);
 
   tests();
+  /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
   ledLights.getCalculationElementLink(1)->debugPrint();
@@ -132,6 +133,8 @@ void setup() {
   ledLights.getCalculationElementLink(4)->debugPrint();
   Serial.println("Onko vielä?");
   delay(2000);
+  */
+
   /*
   ledLights.debugPrintLedSticks();
   delay(1000);

@@ -34,10 +34,11 @@ void CalculationElementLink::setPhaseMapping(double targetRelativeStartPhase, do
   this->bHasMapping = true;
   this->targetRelativeStartPhase = targetRelativeStartPhase;
   this->targetRelativeEndPhase = targetRelativeEndPhase;
-
+/*
   Serial.print("\nCalculationElementLink::setPhaseMapping");
   serialPrintLnDouble("\nthis->targetRelativeStartPhase:", targetRelativeStartPhase);
   serialPrintLnDouble("this->targetRelativeEndPhase:", targetRelativeEndPhase, "\n");
+  */
 }
 
 bool CalculationElementLink::hasPhaseMapping(void) {

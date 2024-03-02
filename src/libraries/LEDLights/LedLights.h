@@ -1,6 +1,11 @@
 #ifndef LEDLIGHTS_H
 #define LEDLIGHTS_H
 
+
+#define LED_STICK_COUNT 5
+
+
+
 #include <Arduino.h>
 
 /* Asiakkaan etäisyys -tilat */
@@ -43,7 +48,7 @@ public:
   void setCalculationElementLink(byte index, CalculationElementLink *calculationElementLink);
   CalculationElementLink *getCalculationElementLink(byte index);
 
-#define LED_STICK_COUNT 5
+
 
   sLedStick sLedSticks[LED_STICK_COUNT];
 

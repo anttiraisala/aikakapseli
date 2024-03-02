@@ -67,7 +67,7 @@ struct sLedStick {
 };
 */
 
-  calculationElementLink->debugPrint();
+  //calculationElementLink->debugPrint();
 
 
   sLedStick *ledStick = &(this->sLedSticks[index]);
