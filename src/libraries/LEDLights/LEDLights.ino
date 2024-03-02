@@ -120,8 +120,24 @@ enum class LedLightCalculationTwoOperandsOperation {
   Serial.println("Division by zero coming up...");
   LedLightCalculationTwoOperands *operationZeroDivisin = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::ADD, new CalculationElementLink(cA), new CalculationElementLink(cZ));
   operationZeroDivisin->setOperation(LedLightCalculationTwoOperandsOperation::DIVIDE)->getValue(0, 0.0, 0.0).debugPrint();
+  // Complex
+  /*
 
+  (A+B) * (C+D)
 
+  */
+
+  LedLightCalculationConstant *cC = new LedLightCalculationConstant(5.0);
+  LedLightCalculationConstant *cD = new LedLightCalculationConstant(7.0);
+  LedLightCalculationTwoOperands *operation2 = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::ADD, new CalculationElementLink(cC), new CalculationElementLink(cD));
+
+  Serial.println("(A+B) ...");
+  operation->setOperation(LedLightCalculationTwoOperandsOperation::ADD)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("(C+D) ...");
+  operation2->setOperation(LedLightCalculationTwoOperandsOperation::ADD)->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("(A+B) * (C+D) ...");
+  LedLightCalculationTwoOperands *operation3 = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(operation), new CalculationElementLink(operation2));
+  operation3->getValue(0, 0.0, 0.0).debugPrint();
 
 
 
