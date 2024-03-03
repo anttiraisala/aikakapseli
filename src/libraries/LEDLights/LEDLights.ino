@@ -42,6 +42,13 @@ void serialprint(char *str, double d) {
   Serial.println(d, DEC);
 }
 
+void patternInit(void);
+
+void serialPrintMillis(void){
+  Serial.print("millis(): ");
+  Serial.println(millis());
+}
+CallbackTimer *serialPrintMillisTimer = new CallbackTimer(serialPrintMillis, millis(), 5000);
 
 void tests(void) {
   Serial.println("");
@@ -187,6 +194,38 @@ enum class LedLightCalculationTwoOperandsOperation {
   Serial.println("");
 }
 
+void patternInit(void){
+  Serial.println("\npatternInit - begins");
+
+    // hengitys alkaa
+  Serial.println("hengitys alkaa");
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);
+  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.1, 0.9))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationConstant llc_color = LedLightCalculationConstant(255.0, 0.0, 100.0);
+  //
+  LedLightCalculationTwoOperands *o_BreathingAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_breathing), new CalculationElementLink(llc_sinePattern));
+  Serial.println("hengitys valmis");
+  // hengitys valmis
+
+    int ledCount = 49;
+  double endPhase = 1.0;
+
+  LedLightCalculationSine *ledLightCalculationSine;
+  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);  //->setCalculationElementConstantMapping(0.0);
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+
+
+
+
+
+
+  Serial.println("\npatternInit - ends");
+}
+
 
 
 
@@ -209,7 +248,8 @@ void setup() {
   ledLights.init();
   delay(1000);
 
-  tests();
+  //tests();
+  patternInit();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
@@ -256,6 +296,7 @@ CallbackTimer *printRTimer = new CallbackTimer(printR, millis(), 1000);
 
 
 void loop() {
+  serialPrintMillisTimer->loop(millis());
 
   //printRTimer->loop(millis());
 
