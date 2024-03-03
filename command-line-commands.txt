@@ -22,8 +22,7 @@ git tag "MVP2"
 
 git push origin "TAG_NAME"
 
-# 
-kkk
+#
 git clean -n
 git clean -f
 
