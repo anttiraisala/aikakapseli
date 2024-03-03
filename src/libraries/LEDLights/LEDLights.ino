@@ -194,7 +194,7 @@ enum class LedLightCalculationTwoOperandsOperation {
   Serial.println("");
 }
 
-void patternInit(void) {
+void patternInitBreathing(void) {
   Serial.println("\npatternInit - begins");
 
   // hengitys alkaa
@@ -271,8 +271,8 @@ void setup() {
   delay(1000);
 
   //tests();
-  patternInit();
-  Serial.println("ledLights.debugPrintLedSticks() - after patternInit()");
+  patternInitBreathing();
+  Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
   /*
   delay(1000);
