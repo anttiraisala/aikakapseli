@@ -42,7 +42,7 @@ void serialprint(char *str, double d) {
   Serial.println(d, DEC);
 }
 
-LedLightCalculationSine *ledLightCalculationSine;
+
 void tests(void) {
   Serial.println("");
   Serial.println("");
@@ -73,7 +73,8 @@ void tests(void) {
   int ledCount = 49;
   double endPhase = 1.0;
 
-  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);  //->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationSine *ledLightCalculationSine;
+  ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);  //->setCalculationElementConstantMapping(0.0);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
