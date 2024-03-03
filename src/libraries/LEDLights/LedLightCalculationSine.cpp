@@ -44,7 +44,7 @@ struct CalculationElementPhaseMapping {
   double finalSourcePhase = elementSpecificMapping + phase;
   double sine = sin((currentTimeSeconds * 2.0 * 3.14159265359 * frequency) + finalSourcePhase) * amplitude + offset;
 
-  sine = pow(sine, 14.0) * 255.0;
+  //sine = pow(sine, 14.0) * 255.0;
   //sine = pow(relativePhase, 4.0) * 255.0;
   /*
   Serial.print("currentTimeSeconds: ");
