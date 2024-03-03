@@ -199,18 +199,20 @@ void patternInit(void) {
 
   // hengitys alkaa
   Serial.println("hengitys alkaa");
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 9.0);
   LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.1, 0.9))->setCalculationElementConstantMapping(0.0);
   LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(255.0, 0.0, 100.0);
+  LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(5.0);
   //
   LedLightCalculationTwoOperands *o_BreathingAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_breathing), new CalculationElementLink(llc_sinePattern));
-  LedLightCalculationTwoOperands *o_ColorAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_color), new CalculationElementLink(o_BreathingAndPattern));
-  llc_sinePattern->getValue(0, 0.0, 0.0).debugPrint();
-  llc_sinePattern->getValue(0, 0.0, 0.2).debugPrint();
-  llc_sinePattern->getValue(0, 0.0, 0.4).debugPrint();
-  llc_sinePattern->getValue(0, 0.0, 0.6).debugPrint();
-  llc_sinePattern->getValue(0, 0.0, 0.8).debugPrint();
-  llc_sinePattern->getValue(0, 0.0, 1.0).debugPrint();
+  LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(o_BreathingAndPattern), new CalculationElementLink(llc_five));
+  LedLightCalculationTwoOperands *o_ColorAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_color), new CalculationElementLink(o_PowerFive));
+  o_ColorAndPattern->getValue(0, 0.0, 0.0).debugPrint();
+  o_ColorAndPattern->getValue(0, 0.0, 0.2).debugPrint();
+  o_ColorAndPattern->getValue(0, 0.0, 0.4).debugPrint();
+  o_ColorAndPattern->getValue(0, 0.0, 0.6).debugPrint();
+  o_ColorAndPattern->getValue(0, 0.0, 0.8).debugPrint();
+  o_ColorAndPattern->getValue(0, 0.0, 1.0).debugPrint();
   Serial.println("hengitys valmis");
   // hengitys valmis
 
@@ -218,11 +220,11 @@ void patternInit(void) {
   double endPhase = 1.0;
   
   ledLights.init();
-  ledLights.setCalculationElementLink(0, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
-  ledLights.setCalculationElementLink(1, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
-  ledLights.setCalculationElementLink(2, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
-  ledLights.setCalculationElementLink(3, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
-  ledLights.setCalculationElementLink(4, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 
 /*
   ledLights.init();
