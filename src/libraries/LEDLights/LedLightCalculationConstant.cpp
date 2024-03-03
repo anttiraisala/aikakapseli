@@ -11,6 +11,18 @@ LedLightCalculationConstant::LedLightCalculationConstant(double valueR, double v
   this->ledLightCalculationValue.setValue(valueR, valueG, valueB);
 }
 
+LedLightCalculationConstant *LedLightCalculationConstant::setValue(double valueR, double valueG, double valueB) {
+  this->ledLightCalculationValue.setValue(valueR, valueG, valueB);
+  return this;
+}
+
+LedLightCalculationConstant *LedLightCalculationConstant::setValue(double valueV) {
+  this->ledLightCalculationValue.setValue(valueV);
+  return this;
+}
+
+
+
 LedLightCalculationValue LedLightCalculationConstant::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase){
   return this->getValue();
 }

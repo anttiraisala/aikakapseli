@@ -54,7 +54,7 @@ void tests(void) {
   Serial.println("");
   Serial.println("");
   Serial.println("tests begin...");
-
+/*
   LedLightCalculationValue v = LedLightCalculationValue(253.0, 128.0, 17.0);
   LedLightCalculationConstant c = LedLightCalculationConstant();
   c.setValue(v);
@@ -75,7 +75,7 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().r: ", c.getValue().getValueBytes().r);
   serialprint(".getValue().getValueBytes().g: ", c.getValue().getValueBytes().g);
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
-
+*/
 
   int ledCount = 49;
   double endPhase = 1.0;
@@ -199,8 +199,8 @@ void patternInitBreathing(void) {
 
   // hengitys alkaa
   Serial.println("hengitys alkaa");
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 9.0);
-  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.15, 0.65))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 6.0);
+  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.10, 0.70))->setCalculationElementConstantMapping(0.0);
   LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(255.0, 0.0, 100.0);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(5.0);
   //

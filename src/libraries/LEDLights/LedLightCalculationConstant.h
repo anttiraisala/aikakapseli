@@ -9,7 +9,10 @@ public:
   LedLightCalculationConstant();
   LedLightCalculationConstant(double valueV);
   LedLightCalculationConstant(double valueR, double valueG, double valueB);
-  
+
+  LedLightCalculationConstant *setValue(double valueR, double valueG, double valueB);
+  LedLightCalculationConstant *setValue(double valueV);
+
   // Override getValue to calculate and return a LedLightCalculationElement based on relativePhase and value_
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) override;
   LedLightCalculationValue getValue();
