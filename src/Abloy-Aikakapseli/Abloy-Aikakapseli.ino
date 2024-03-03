@@ -92,7 +92,7 @@ void setup() {
   delay(1500);
 
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(19200);
   DEBUG_PRINTLN("setup()");
 
   ledLights.init();
