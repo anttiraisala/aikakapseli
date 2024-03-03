@@ -271,6 +271,7 @@ void setup() {
   delay(1000);
 
   //tests();
+  ledLights.init();
   patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
