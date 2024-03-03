@@ -158,7 +158,7 @@ enum class LedLightCalculationTwoOperandsOperation {
   Serial.println("(3, 4, 9) ...");
   LedLightCalculationConstant *color349 = new LedLightCalculationConstant(3, 4, 9);
   color349->debugPrint();
-  LedLightCalculationTwoOperands *oColorContraColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(color258), new CalculationElementLink(color349));
+  LedLightCalculationTwoOperands *oColorContraColor = new LedLightCalculationTwoOperands(new CalculationElementLink(color258), new CalculationElementLink(color349));
   oColorContraColor->getValue(0, 0.0, 0.0).debugPrint();
 
 

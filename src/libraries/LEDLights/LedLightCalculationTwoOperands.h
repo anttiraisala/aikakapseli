@@ -23,6 +23,7 @@ private:
 
 public:
   LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB);
+  LedLightCalculationTwoOperands(CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
   LedLightCalculationTwoOperands *setOperation(LedLightCalculationTwoOperandsOperation operation);

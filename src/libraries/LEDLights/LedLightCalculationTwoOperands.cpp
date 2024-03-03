@@ -6,6 +6,12 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculati
   this->elementLinkB = elementLinkB;
 }
 
+LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB) {
+  this->operation = LedLightCalculationTwoOperandsOperation::MAX;
+  this->elementLinkA = elementLinkA;
+  this->elementLinkB = elementLinkB;
+}
+
 LedLightCalculationTwoOperands *LedLightCalculationTwoOperands::setOperation(LedLightCalculationTwoOperandsOperation operation) {
   this->operation = operation;
   return this;
