@@ -69,11 +69,9 @@ void tests(void) {
   serialprint(".getValue().getValueBytes().g: ", c.getValue().getValueBytes().g);
   serialprint(".getValue().getValueBytes().b: ", c.getValue().getValueBytes().b);
 
-  CalculationElementPhaseMapping cepm0;
+
   int ledCount = 49;
   double endPhase = 1.0;
-
-  CalculationElementPhaseMapping cepm;
 
   ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);  //->setCalculationElementConstantMapping(0.0);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
@@ -153,6 +151,15 @@ enum class LedLightCalculationTwoOperandsOperation {
   LedLightCalculationTwoOperands *oColorTimesNumberOtherWayAround = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(cHalf), new CalculationElementLink(color1));
   oColorTimesNumberOtherWayAround->getValue(0, 0.0, 0.0).debugPrint();
 
+
+  Serial.println("(2, 5, 8) ...");
+  LedLightCalculationConstant *color258 = new LedLightCalculationConstant(2, 5, 8);
+  color258->debugPrint();
+  Serial.println("(3, 4, 9) ...");
+  LedLightCalculationConstant *color349 = new LedLightCalculationConstant(3, 4, 9);
+  color349->debugPrint();
+  LedLightCalculationTwoOperands *oColorContraColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(color258), new CalculationElementLink(color349));
+  oColorContraColor->getValue(0, 0.0, 0.0).debugPrint();
 
 
 

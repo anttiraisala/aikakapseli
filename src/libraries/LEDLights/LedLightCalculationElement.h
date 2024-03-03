@@ -23,8 +23,6 @@ struct CalculationElementPhaseMapping {
 class LedLightCalculationElement {
 public:
 
-  CalculationElementPhaseMapping calculationElementPhaseMapping;
-
   virtual ~LedLightCalculationElement() {}  // Virtual destructor for proper object cleanup in inheritance
   virtual LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {}
   void setValue(LedLightCalculationValue value) {

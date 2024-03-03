@@ -125,7 +125,6 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
   }
 
   if (valueA.isValue() && valueB.isColor()) {
-    Serial.println("A=value B=color");
     double r = valueA.getValueV() * valueB.getValueR();
     double g = valueA.getValueV() * valueB.getValueG();
     double b = valueA.getValueV() * valueB.getValueB();
