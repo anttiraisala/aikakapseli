@@ -1,0 +1,43 @@
+
+GIT
+-----------------------------------------------
+
+https://github.com/anttiraisala/aikakapseli
+
+git clone https://github.com/anttiraisala/aikakapseli.git
+
+# arduino-ide.AppImage /home/anttir/projects-own/aikakapseli/Abloy-Aikakapseli.ino &
+
+#
+git add /home/anttir/projects-own/aikakapseli/. ; git commit -m "Minor change" ; git push ;
+
+git pull ; git branch -a ; git log ;
+
+git clone https://github.com/anttiraisala/aikakapseli.git
+
+git rebase main ;
+
+git tag "MVP2"
+git tag "MVP2"
+
+git push origin "TAG_NAME"
+
+# 
+kkk
+git clean -n
+git clean -f
+
+
+Arduinon kytkeminen portteihin
+------------------------------------------
+
+# plug un-plug your device and then verify:
+ls /dev/tty* ; ls /dev/ttyU* ; ls /dev/ttyA* ;
+
+
+Arduino Mega
+todennäköisesti: /dev/ttyACM0
+
+
+----------------------
+killall avrdude

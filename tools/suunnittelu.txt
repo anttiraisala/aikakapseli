@@ -1,0 +1,187 @@
+
+
+Arduino Seeed Base Shield v2.1
+---------------------------------------
+
+A3 (17)  D4  D3  D2  UART
+
+A2 (16)
+         D8  D7  D6  D5
+A1 (15)  
+         
+A0 (14)  I2C I2C I2C I2C
+
+
+
+Edestäpäin katsottuna vasemmalla sivulla on
+---------------------------
+LED-stick 0 ( D2 )
+
+, sitten edessä vasemmalta lukien
+---------------------------
+LED-stick 1 ( D3 )
+LED-stick 2 ( D4 )
+
+keskellä edessä
+---------------------------
+Adjustable PIR Motion Sensor ( A0/14 ) ( = Arduino Mega 54 )
+16x2 LCD (I2C)
+
+keskellä ylhäällä aukon sisäpuolella
+---------------------------
+Infrared Reflective Sensor ( A1/15 ) ( = Arduino Mega 55 )
+( LED-stick 6, taaempana ) ( D8 )
+( LED-stick 7, lähempänä etupuolta ) ( A3/17 ) ( = Arduino Mega 57 )
+https://forum.arduino.cc/t/analog-pin-numbers-dont-match-standard-pinout-mega2560/610772
+
+oikeallä edessä
+---------------------------
+LED-stick 3 ( D5 )
+LED-stick 4 ( D6 )
+
+oikealla sivustalla
+---------------------------
+LED-stick 5 ( D7 )
+
+
+
+16x2 -näytön tekstit
+--------------------------------
+1234567890123456
+
+YYY:DDD:HH:MM:SS
+100:100:23:40:01
+
+
+
+
+
+Tilakaavio
+-----------------------
+graphviz ( sudo apt install graphviz )
+
+touch tilakaavio.gv ; truncate -s0 tilakaavio.gv ; nano tilakaavio.gv
+dot -Tpng tilakaavio.gv -o tilakaavio.png ; xdg-open tilakaavio.png ;
+dot -Tplain tilakaavio.gv -o tilakaavio.txt ; cat tilakaavio.txt ;
+
+Tilat:
+idle, odottaa ja ketään ei ole lähellä
+near, joku lähestyy
+insert, lappua ollaan laittamassa sisään
+
+Pitää varmaan olla kaksi tilakonetta
+- lähestymis tai etäisyys tilakone, onko asikasta lähellä vai ei
+  "distance_state"
+  - far, ei asiakasta lähellä
+  - near, asiakas on vieressä
+  - retreating, asiakas hävisi
+
+- lapunlaittamistilakone, odotetaanko lappua, onko lappu juuri menossa sisään, lappu on tiputettu tai vedetty pois
+  "note_state"
+  - no note
+  - inserting note
+  - dropped note
+
+digraph {
+	label="Abloy Aikakapseli -tilakaavio"
+
+	subgraph {
+		label="asiakkaan etäisyys, distance_state"
+		cluster="true"
+
+		D_F [label="far"]
+		D_N [label="near"]
+		D_R [label="retreating"]
+		D_ENTRY [shape=point,label=""]
+
+		D_ENTRY->D_F [label=""]
+		D_F -> D_N [label="SIG HIGH"]
+		D_N -> D_R [label="SIG LOW"]
+		D_R -> D_F [label="5s"]
+		D_R -> D_N [label="SIG HIGH"]
+	}
+
+	subgraph {
+		label="viestin asettaminen, note_state"
+		cluster="true"
+
+		N_N [label="no_note"]
+		N_I [label="inserting"]
+		N_D [label="dropped"]
+		N_ENTRY [shape=point,label=""]
+
+		N_ENTRY->N_N [label=""]
+		N_N -> N_I [label="SIG HIGH"]
+		N_I -> N_D [label="SIG LOW"]
+		N_D -> N_N [label="5s"]
+		N_D -> N_I [label="SIG HIGH"]
+	}
+}
+
+
+
+
+-----------------------------------------
+
+Kysymyksiä ja ajatuksia:
+====================
+
+Tarvitsee toisen ohjelman, jolla voidaan kirjoittaan EEPROM:iin haluttu jäljellä oleva aika.
+
+Luultavasti myös ohjelma, jolla säädetään liiketunnistin.
+
+Kuika usein tilanne tallennetaan EEPROM:iin, kuinka kauan laitteen todellisuudessa tulisi toimia? Nyt 15min => wear levelingllä 200v, ilman wearlevelingiä 3v .
+
+Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään", mistä ajasta lähdetään laskemaan alaspäin? Nyt ohjelmassa on 10pv .
+
+
+
+Kuinka usein aika pitäisi kirjoittaa muistiin
+-----------------------------------------------------------
+https://arduino.stackexchange.com/questions/226/what-is-the-real-lifetime-of-eeprom
+
+SD Card wear leveling
+https://forum.arduino.cc/t/sdcard-data-logging-wearing-down-the-sdcard/272072/2
+
+
+Jos writecyclejä on melko varmasti 100000...
+
+100×365×24×60×60×1000÷100000 -> millisekunnin välein ( 31536000ms = 0,365 päivää )
+
+/(1000*60*60*24) -> päivän välein
+/(1000*60*60) -> tunnin välein
+/(1000*60) -> minuutin välein
+
+Käytössä on "wear leveling". https://github.com/chayanforyou/WearLeveling
+
+  --
+
+EEPROM:n koko
+1024 tavua
+
+EEPROM:iin tallennettavan tietorakenteen koko
+6*2 tavua = 12 tavua
+
+EEPROM:n write cycle
+100000
+
+Kirjoituskertoja on siis:
+100000 * 1024 / 12 = 8 533 333
+
+Aikakapselin kestoaika on leikillisesti 100v, mutta realistinen kestoaika ehkä 25v, eli monenko millisekunnin välein tallennetaan, jotta saavutetaan realistinen kestoaika?
+
+ 25 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 1024 / 12 ) = 92390ms = 92s
+100 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 1024 / 12 ) = 369563ms = 6,2min
+
+verrataan tilanteeseen ilman wear levelingiä:
+
+ 25 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 12 / 12 ) = 7884000ms = 131min
+100 * 365 * 24 * 60 * 60 * 1000 / ( 100000 * 12 / 12 ) = 31536000ms = 8,76h
+
+
+
+
+LED Stick -toiminta
+----------------------------------------------------------------------
+
+

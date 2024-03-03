@@ -1,0 +1,35 @@
+digraph {
+	label="Abloy Aikakapseli -tilakaavio"
+
+	subgraph {
+		label="asiakkaan etäisyys, distance_state"
+		cluster="true"
+
+		D_F [label="far"]
+		D_N [label="near"]
+		D_R [label="retreating"]
+		D_ENTRY [shape=point,label=""]
+
+		D_ENTRY->D_F [label=""]
+		D_F -> D_N [label="SIG HIGH"]
+		D_N -> D_R [label="SIG LOW"]
+		D_R -> D_F [label="5s"]
+		D_R -> D_N [label="SIG HIGH"]
+	}
+
+	subgraph {
+		label="viestin asettaminen, note_state"
+		cluster="true"
+
+		N_N [label="no_note"]
+		N_I [label="inserting"]
+		N_D [label="dropped"]
+		N_ENTRY [shape=point,label=""]
+
+		N_ENTRY->N_N [label=""]
+		N_N -> N_I [label="SIG HIGH"]
+		N_I -> N_D [label="SIG LOW"]
+		N_D -> N_N [label="5s"]
+		N_D -> N_I [label="SIG HIGH"]
+	}
+}
