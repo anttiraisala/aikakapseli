@@ -98,5 +98,7 @@ void LedLightCalculationValue::debugPrint(void) {
   serialPrintLnDouble("valueB: ", valueB);
   serialPrintLnDouble("getValueV(): ", getValueV());
   serialPrintLnDouble("getValueR(): ", getValueR());
+  serialPrintLnDouble("getValueG(): ", getValueG());
+  serialPrintLnDouble("getValueB(): ", getValueB());
   Serial.println("LedLightCalculationValue::debugPrint -done");
 }

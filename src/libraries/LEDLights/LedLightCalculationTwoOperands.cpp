@@ -87,7 +87,7 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
         break;
     }
 
-    return this->ledLightCalculationValue;
+    return ledLightCalculationValue;
   }
 
   if (valueA.isColor() && valueB.isColor()) {
@@ -125,15 +125,16 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
   }
 
   if (valueA.isValue() && valueB.isColor()) {
+    Serial.println("A=value B=color");
     double r = valueA.getValueV() * valueB.getValueR();
     double g = valueA.getValueV() * valueB.getValueG();
     double b = valueA.getValueV() * valueB.getValueB();
 
     ledLightCalculationValue.setValue(r, g, b);
 
-    return this->ledLightCalculationValue;
+    return ledLightCalculationValue;
   }
 
 
-  return this->ledLightCalculationValue;
+  return ledLightCalculationValue;
 }

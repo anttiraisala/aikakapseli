@@ -140,6 +140,23 @@ enum class LedLightCalculationTwoOperandsOperation {
   operation3->getValue(0, 0.0, 0.0).debugPrint();
 
 
+  Serial.println("(255, 128, 0) ...");
+  LedLightCalculationConstant *color1 = new LedLightCalculationConstant(255, 128, 0);
+  color1->debugPrint();
+  Serial.println("(0.5) ...");
+  LedLightCalculationConstant *cHalf = new LedLightCalculationConstant(0.5);
+  cHalf->debugPrint();
+  Serial.println("(255, 128, 0) * (0.5) ...");
+  LedLightCalculationTwoOperands *oColorTimesNumber = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(color1), new CalculationElementLink(cHalf));
+  oColorTimesNumber->getValue(0, 0.0, 0.0).debugPrint();
+  Serial.println("(0.5) * (255, 128, 0) ...");
+  LedLightCalculationTwoOperands *oColorTimesNumberOtherWayAround = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(cHalf), new CalculationElementLink(color1));
+  oColorTimesNumberOtherWayAround->getValue(0, 0.0, 0.0).debugPrint();
+
+
+
+
+
 
   /*
   ledLights.setCalculations(5, new CalculationElementLink(new LedLightCalculationConstant(0.0, 255.0, 255.0), &cepm));
@@ -168,7 +185,7 @@ enum class LedLightCalculationTwoOperandsOperation {
 void setup() {
   randomSeed(analogRead(0));
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(19200);
 
   // Rotary Angle Sensors
   pinMode(54, INPUT);
