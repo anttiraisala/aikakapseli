@@ -251,12 +251,12 @@ void printR(void) {
   serialPrintLnDouble("r0:[", rFilter0.getValue(), "]");
   serialPrintLnDouble("r1:[", rFilter1.getValue(), "]");
 }
-CallbackTimer *printRTimer = new CallbackTimer(printR, millis(), 500);
+CallbackTimer *printRTimer = new CallbackTimer(printR, millis(), 1000);
 
 
 void loop() {
 
-  printRTimer->loop(millis());
+  //printRTimer->loop(millis());
 
   long a0 = analogRead(54);
   long a1 = analogRead(55);

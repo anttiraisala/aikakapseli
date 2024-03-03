@@ -22,11 +22,25 @@ void LedLights::debugPrintLedSticks(void) {
   Serial.println("LedLights::debugPrintLedSticks() end");
 }
 
+/*
+struct sLedStick {
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
+};
+*/
+
 void LedLights::init(void) {
   //Serial.println("LedLights::init() begin");
 
   currentTimeMillis = previousTimeMillis = millis();
   deltaTimeMillis = 0;
+
+  for (byte i = 0; i < LED_STICK_COUNT; i++) {
+    sLedStick emptyStick;
+    emptyStick.neoPixel = nullptr;
+    emptyStick.calculationElementLink = nullptr;
+    sLedSticks[i] = emptyStick;
+  }
 
   this->setLedStick(0, 2);
   this->setLedStick(1, 3);
@@ -77,11 +91,12 @@ struct sLedStick {
 }
 
 void LedLights::setLedStick(byte index, byte pin) {
- /* Serial.print("LedLights::setLedStick() begin :");
+  /* Serial.print("LedLights::setLedStick() begin :");
   Serial.print(pin, DEC);
   Serial.println();*/
 
   sLedStick ledStick;
+  ledStick.calculationElementLink = nullptr;
   ledStick.neoPixel = new Adafruit_NeoPixel(10, pin, NEO_GRB + NEO_KHZ800);
   ledStick.neoPixel->begin();
   ledStick.neoPixel->setBrightness(255);
@@ -191,8 +206,20 @@ private:
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
 
     neoPixel = this->sLedSticks[i].neoPixel;
+    if (neoPixel == nullptr) {
+      continue;
+    }
+
     calculationElementLink = this->sLedSticks[i].calculationElementLink;
+    if (calculationElementLink == nullptr) {
+      continue;
+    }
+
     calculationElement = calculationElementLink->getCalculationElement();
+    if (calculationElement == nullptr) {
+      continue;
+    }
+
 
     //calculationElementLink->debugPrint(); delay(1000);
 

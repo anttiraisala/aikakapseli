@@ -2,7 +2,7 @@
 #define LEDLIGHTS_H
 
 
-#define LED_STICK_COUNT 5
+#define LED_STICK_COUNT 8
 
 
 
