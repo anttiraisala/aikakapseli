@@ -216,16 +216,16 @@ void patternInit(void) {
 
   int ledCount = 49;
   double endPhase = 1.0;
-/*
+  
   ledLights.init();
   ledLights.setCalculationElementLink(0, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
   ledLights.setCalculationElementLink(3, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(o_BreathingAndPattern, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
-*/
-  
-  
+
+/*
+  ledLights.init();
   LedLightCalculationSine *ledLightCalculationSine;
   ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);  //->setCalculationElementConstantMapping(0.0);
   ledLights.setCalculationElementLink(0, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
@@ -233,7 +233,7 @@ void patternInit(void) {
   ledLights.setCalculationElementLink(2, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
   ledLights.setCalculationElementLink(3, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
-
+*/
 
 
 
@@ -261,11 +261,17 @@ void setup() {
   Serial.println("setup starts...");
   delay(1000);
 
+  Serial.println("ledLights.debugPrintLedSticks() - before ledLights.init()");
+  ledLights.debugPrintLedSticks();
   ledLights.init();
+  Serial.println("ledLights.debugPrintLedSticks() - after ledLights.init()");
+  ledLights.debugPrintLedSticks();
   delay(1000);
 
-  tests();
-  //patternInit();
+  //tests();
+  patternInit();
+  Serial.println("ledLights.debugPrintLedSticks() - after patternInit()");
+  ledLights.debugPrintLedSticks();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();

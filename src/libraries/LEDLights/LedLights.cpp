@@ -7,14 +7,37 @@ LedLights::LedLights() {
 }
 
 void LedLights::debugPrintLedSticks(void) {
-  Serial.println("LedLights::debugPrintLedSticks() begin");
+  Serial.println("\nLedLights::debugPrintLedSticks() begin");
+
+  Adafruit_NeoPixel *neoPixel;
+  CalculationElementLink *calculationElementLink;
+
+  Serial.print("LED_STICK_COUNT: ");
+  Serial.println(LED_STICK_COUNT, DEC);
 
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
     sLedStick ledStick = this->sLedSticks[i];
     Serial.print("index: ");
-    Serial.print(i, DEC);
-    Serial.print(" pin ");
-    Serial.print(ledStick.neoPixel->getPin(), DEC);
+    Serial.println(i, DEC);
+
+    neoPixel = ledStick.neoPixel;
+    if (neoPixel != nullptr) {
+      Serial.print("  pin ");
+      Serial.print(neoPixel->getPin(), DEC);
+    } else {
+      Serial.println("  neoPixel == nullptr");
+    }
+
+    calculationElementLink = ledStick.calculationElementLink;
+    if (calculationElementLink != nullptr) {
+      calculationElementLink->debugPrint();
+    } else {
+      Serial.println("  calculationElementLink == nullptr");
+    }
+
+
+
+
 
     Serial.println("");
   }
@@ -47,7 +70,7 @@ void LedLights::init(void) {
   this->setLedStick(2, 4);
   this->setLedStick(3, 5);
   this->setLedStick(4, 6);
-  
+
   this->setLedStick(5, 7);
   this->setLedStick(6, 8);
   this->setLedStick(7, 57);
