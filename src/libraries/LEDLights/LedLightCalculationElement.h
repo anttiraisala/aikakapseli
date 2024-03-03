@@ -15,6 +15,9 @@
 #include "LedLightCalculationValue.h"
 #include "LedLightCalculationElement.h"
 
+extern DistanceState currentDistanceState;
+extern NoteState currentNoteState;
+
 
 class LedLightCalculationElement {
 public:

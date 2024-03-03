@@ -42,6 +42,9 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
 */
+  if(currentDistanceState == DistanceState::FAR){
+    
+  }
 
   LedLightCalculationElement *calculationElementA = elementLinkA->getCalculationElement();
   LedLightCalculationElement *calculationElementB = elementLinkB->getCalculationElement();

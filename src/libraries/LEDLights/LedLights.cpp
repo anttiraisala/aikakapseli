@@ -2,6 +2,9 @@
 #include "LedLights.h"
 #include "HelperFunctions.h"
 
+/* Tilat ovat globaaleja, jotta niitä ei tarvitse kuljetella parametreissä mukana */
+DistanceState currentDistanceState;
+NoteState currentNoteState;
 
 LedLights::LedLights() {
 }
@@ -200,6 +203,9 @@ void LedLights::setLightsToTestPattern(void) {
 void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {
   //calculationElement
   //Serial.println("LedLights::loopSetColors() begin");
+
+  currentDistanceState = distanceState;
+  currentNoteState = noteState;
 
   this->previousTimeMillis = this->currentTimeMillis;
   this->currentTimeMillis = currentTimeMillis;
