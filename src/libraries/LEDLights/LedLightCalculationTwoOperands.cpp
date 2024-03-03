@@ -113,9 +113,9 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
       b = valueB.getValueB();
     }
 
-    this->ledLightCalculationValue.setValue(r, g, b);
+    ledLightCalculationValue.setValue(r, g, b);
 
-    return this->ledLightCalculationValue;
+    return ledLightCalculationValue;
   }
 
   if (valueA.isColor() && valueB.isValue()) {
