@@ -26,6 +26,8 @@ git push origin "TAG_NAME"
 git clean -n
 git clean -f
 
+git diff main implement-calculation-state-branch
+
 
 Arduinon kytkeminen portteihin
 ------------------------------------------
