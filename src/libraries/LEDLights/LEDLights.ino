@@ -272,7 +272,7 @@ void setup() {
 
   //tests();
   ledLights.init();
-  patternInitBreathing();
+  //patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
   /*
