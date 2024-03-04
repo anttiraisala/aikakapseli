@@ -199,7 +199,7 @@ void patternInitBreathing(void) {
 
   // hengitys alkaa
   Serial.println("hengitys alkaa");
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 6.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);
   LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.10, 0.70))->setCalculationElementConstantMapping(0.0);
   LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(255.0, 0.0, 100.0);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(5.0);
@@ -218,8 +218,19 @@ void patternInitBreathing(void) {
 
   int ledCount = 49;
   double endPhase = 1.0;
-  
+
+
+/*
+LedLightCalculationTwoOperands *o_ColorAndPatternTest;
+  for(int i=0; i<55;i++){
+  o_ColorAndPatternTest = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_color), new CalculationElementLink(o_PowerFive));
+  Serial.print(i, DEC);
+  Serial.print(" ");
+}
+delay(2000);
+  */
   ledLights.init();
+  //ledLights.setCalculationElementLink(0, new CalculationElementLink(o_ColorAndPatternTest, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(0, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
@@ -236,6 +247,8 @@ void patternInitBreathing(void) {
   ledLights.setCalculationElementLink(3, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(ledLightCalculationSine, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 */
+
+
 
 
 

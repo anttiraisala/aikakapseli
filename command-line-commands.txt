@@ -40,3 +40,5 @@ todennäköisesti: /dev/ttyACM0
 
 ----------------------
 killall avrdude
+
+arduino-ide.AppImage --clean
