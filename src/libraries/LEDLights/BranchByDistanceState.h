@@ -11,7 +11,7 @@ class BranchByDistanceState {
 public:
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
-  BranchByDistanceState *setStateAndCalculationElementLink(DistanceState state, CalculationElementLink *calculationElementLink);
+  BranchByDistanceState *setStateAndCalculationElementLink(StateManager::DistanceState state, CalculationElementLink *calculationElementLink);
   BranchByDistanceState *setDefaultCalculationElementLink(CalculationElementLink *calculationElementLink);
 
 private:

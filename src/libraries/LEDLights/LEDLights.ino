@@ -1,20 +1,14 @@
 #include <Arduino.h>
 #include "CallbackTimer.h"
 
+// Tällä hallitaan lappu- ja etäisyystilat
+#include "StateManager.h"
+StateManager stateManager;
+
 
 /* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
 LedLights ledLights;
-
-/* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR;
-
-
-/* Viestin asettaminen -tilat */
-#include "note_state.h"
-NoteState noteState = NoteState::NO_NOTE;
-
 
 /* Testejä varten includataan luokat */
 #include "LedLightCalculationElement.h"
@@ -52,7 +46,7 @@ void tests(void) {
   Serial.println("");
   Serial.println("");
   Serial.println("tests begin...");
-/*
+  /*
   LedLightCalculationValue v = LedLightCalculationValue(253.0, 128.0, 17.0);
   LedLightCalculationConstant c = LedLightCalculationConstant();
   c.setValue(v);
@@ -218,7 +212,7 @@ void patternInitBreathing(void) {
   double endPhase = 1.0;
 
 
-/*
+  /*
 LedLightCalculationTwoOperands *o_ColorAndPatternTest;
   for(int i=0; i<55;i++){
   o_ColorAndPatternTest = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_color), new CalculationElementLink(o_PowerFive));
@@ -235,7 +229,7 @@ delay(2000);
   ledLights.setCalculationElementLink(3, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 
-/*
+  /*
   ledLights.init();
   LedLightCalculationSine *ledLightCalculationSine;
   ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);  //->setCalculationElementConstantMapping(0.0);
@@ -310,7 +304,9 @@ void setup() {
 
 */
   Serial.println("\nloopSetColors alkaa");
-  ledLights.loopSetColors(750, NoteState::NO_NOTE, DistanceState::FAR);
+  stateManager.setDistanceState(750, StateManager::DistanceState::FAR);
+  stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
+  ledLights.loopSetColors(750);
   Serial.println("\nloopShow alkaa");
   ledLights.loopShow();
 
@@ -353,7 +349,7 @@ void loop() {
   double offset = 0.6;
 
   //ledLightCalculationSine->setParameters(rFilter0.getValue(), rFilter1.getValue(), amplitude, offset);
-  ledLights.loopSetColors(millis(), NoteState::NO_NOTE, DistanceState::FAR);
+  ledLights.loopSetColors(millis());
   //ledLights.loopSetColors(1.0*3.14159265359*1000, NoteState::NO_NOTE, DistanceState::FAR);
   ledLights.loopShow();
 

@@ -6,17 +6,10 @@
 
 #include <Arduino.h>
 
-/* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-
-/* Viestin asettaminen -tilat */
-#include "note_state.h"
-
 #include "LedLightCalculationValue.h"
 #include "LedLightCalculationElement.h"
-
-extern DistanceState currentDistanceState;
-extern NoteState currentNoteState;
+#include "StateManager.h"
+extern StateManager stateManager;
 
 
 class LedLightCalculationElement {

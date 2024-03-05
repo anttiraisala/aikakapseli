@@ -1,5 +1,8 @@
 #include "BranchByDistanceState.h"
 
+#include "StateManager.h"
+extern StateManager stateManager;
+
 /*
 extern DistanceState currentDistanceState;
 extern NoteState currentNoteState;
@@ -8,7 +11,7 @@ extern NoteState currentNoteState;
 
 LedLightCalculationValue BranchByDistanceState::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {}
 
-BranchByDistanceState *BranchByDistanceState::setStateAndCalculationElementLink(DistanceState state, CalculationElementLink *calculationElementLink) {
+BranchByDistanceState *BranchByDistanceState::setStateAndCalculationElementLink(StateManager::DistanceState state, CalculationElementLink *calculationElementLink) {
   states[elementCount] = (byte)state;
   calculationElementLinks[elementCount] = calculationElementLink;
   elementCount++;

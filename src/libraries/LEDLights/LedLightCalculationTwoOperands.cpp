@@ -1,4 +1,6 @@
 #include "LedLightCalculationTwoOperands.h"
+#include "StateManager.h"
+extern StateManager stateManager;
 
 LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB) {
   this->operation = operation;
@@ -42,7 +44,7 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
 */
-  if(currentDistanceState == DistanceState::FAR){
+  if(stateManager.getDistanceState() == StateManager::DistanceState::FAR){
     
   }
 
