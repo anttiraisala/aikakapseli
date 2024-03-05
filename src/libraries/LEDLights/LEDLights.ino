@@ -200,9 +200,9 @@ void patternInitBreathing(void) {
 
   // hengitys alkaa
   Serial.println("hengitys alkaa");
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 3.0);
-  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.10, 0.70))->setCalculationElementConstantMapping(0.0);
-  LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(255.0, 0.0, 100.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 5.0);
+  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.7, 0.10, 0.80))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(80.0, 255.0, 100.0);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(5.0);
   //
   LedLightCalculationTwoOperands *o_BreathingAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_breathing), new CalculationElementLink(llc_sinePattern));
