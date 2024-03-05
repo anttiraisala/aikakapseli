@@ -71,7 +71,7 @@ public:
 
   StateManager *setDistanceState(unsigned long currentTimeMillis, DistanceState state);
   StateManager *setNoteState(unsigned long currentTimeMillis, NoteState state);
-  StateManager *updateSecondsAfterPreviousStateChanges(void);
+  StateManager *updateSecondsAfterPreviousStateChanges(unsigned long currentTimeMillis);
 
   DistanceState getDistanceState(void);
   NoteState getNoteState(void);

@@ -65,7 +65,10 @@ StateManager *StateManager::setNoteState(unsigned long currentTimeMillis, NoteSt
 
   return this;
 }
-StateManager *StateManager::updateSecondsAfterPreviousStateChanges(void) {
+StateManager *StateManager::updateSecondsAfterPreviousStateChanges(unsigned long currentTimeMillis) {
+
+  secondsAfterPreviousDistanceStateChange = (currentTimeMillis - previousDistanceStateChange) / 1000.0;
+  secondsAfterPreviousNoteStateChange = (currentTimeMillis - previousNoteStateChange) / 1000.0;
   return this;
 }
 
