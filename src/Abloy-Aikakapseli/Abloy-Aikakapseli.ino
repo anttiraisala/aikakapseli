@@ -16,22 +16,24 @@ Liitettävät komponentit:
 
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
-extern long millisWhenToExitRetreatingState;
+//extern long millisWhenToExitRetreatingState;
 
 // Tällä havaitaan viestin laittaminen
 #include "note_sensor.h"
-extern long millisWhenToExitDroppedState;
+//extern long millisWhenToExitDroppedState;
 
-
+// Tällä hallitaan lappu- ja etäisyystilat
+#include "StateManager.h"
+StateManager stateManager;
 
 /* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR ;
+//#include "distance_state.h"
+//DistanceState distanceState = DistanceState::FAR ;
 
 
 /* Viestin asettaminen -tilat */
-#include "note_state.h"
-NoteState noteState = NoteState::NO_NOTE;
+//#include "note_state.h"
+//NoteState noteState = NoteState::NO_NOTE;
 
 
 /* Tällä hoidetaan LCD-näytön tekstit */
@@ -81,8 +83,8 @@ CallbackTimer *stateChangeTimer;
   CallbackTimer *debugPrintStatesTimer;
   
   void debugPrintStates(){
-    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
-    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
+    DEBUG_DISTANCE_STATE_PRINTLN(stateManager.getCurrentDistanceStateString());
+    DEBUG_NOTE_STATE_PRINTLN(stateManager.getCurrentNoteStateString());
   }
 
 #endif // DEBUG_MODE
@@ -163,32 +165,32 @@ void checkForStateChanges(){
   //Serial.println(millis(), DEC);
 
   /* Asiakkaan etäisyys -tilat */
-  switch (distanceState) {
-    case DistanceState::FAR :
+  switch (stateManager.getDistanceState()) {
+    case StateManager::DistanceState::FAR :
       if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       }
     break;
 
-    case DistanceState::NEAR :
+    case StateManager::DistanceState::NEAR :
       if(isCustomerDetected() == false){
-        distanceState = DistanceState::RETREATING ;
-        millisWhenToExitRetreatingState = currentTimeMillis + 5000;
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::RETREATING);
+        stateManager.millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
     break;
 
-    case DistanceState::RETREATING :
+    case StateManager::DistanceState::RETREATING :
       if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       } 
-      if(currentTimeMillis > millisWhenToExitRetreatingState){
-        distanceState = DistanceState::FAR ;
+      if(currentTimeMillis > stateManager.millisWhenToExitRetreatingState){
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::FAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
       }
@@ -199,10 +201,10 @@ void checkForStateChanges(){
   /* Viestin asettaminen -tilat */
   static unsigned long nextAllowedNoteStateChange=0;
   if(currentTimeMillis > nextAllowedNoteStateChange){
-    switch (noteState) {
-      case NoteState::NO_NOTE :
+    switch (stateManager.getNoteState()) {
+      case StateManager::NoteState::NO_NOTE :
         if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING) ;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
@@ -210,10 +212,10 @@ void checkForStateChanges(){
         }
       break;
 
-      case NoteState::INSERTING :
+      case StateManager::NoteState::INSERTING :
         if(isNoteDetected() == false){
-          noteState = NoteState::DROPPED ;
-          millisWhenToExitDroppedState = currentTimeMillis + 5000;
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::DROPPED) ;
+          stateManager.millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);
@@ -221,16 +223,16 @@ void checkForStateChanges(){
         }
       break;
 
-      case NoteState::DROPPED :
+      case StateManager::NoteState::DROPPED :
         if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING) ;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         } 
-        if(currentTimeMillis > millisWhenToExitDroppedState){
-          noteState = NoteState::NO_NOTE ;
+        if(currentTimeMillis > stateManager.millisWhenToExitDroppedState){
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::NO_NOTE) ;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
           nextAllowedNoteStateChange = currentTimeMillis + 1000;

@@ -22,11 +22,8 @@ NoteState noteState = NoteState::NO_NOTE;
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 #include "LedLightCalculationTwoOperands.h"
-#include "BranchByState.h"
 
 #include "HelperFunctions.h"
-
-
 
 
 Adafruit_NeoPixel *pixels;
