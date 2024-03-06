@@ -1,5 +1,5 @@
-#ifndef BRANCH_BY_DISTANCE_STATE_H
-#define BRANCH_BY_DISTANCE_STATE_H
+#ifndef BRANCH_BY_STATE_H
+#define BRANCH_BY_STATE_H
 
 #include "LedLightCalculationElement.h"
 #include "CalculationElementLink.h"
@@ -7,13 +7,13 @@
 
 #define BRANCH_BY_STATE_LIST_SIZE 3
 
-class BranchByDistanceState : public LedLightCalculationElement {
+class BranchByState : public LedLightCalculationElement {
 public:
-  BranchByDistanceState(void);
+  BranchByState(void);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
-  BranchByDistanceState *setStateAndCalculationElementLink(StateManager::DistanceState state, CalculationElementLink *calculationElementLink);
-  BranchByDistanceState *setDefaultCalculationElementLink(CalculationElementLink *calculationElementLink);
+  BranchByState *setStateAndCalculationElementLink(byte state, CalculationElementLink *calculationElementLink);
+  BranchByState *setDefaultCalculationElementLink(CalculationElementLink *calculationElementLink);
 
   void debugPrint(void);
 
@@ -25,4 +25,4 @@ private:
   CalculationElementLink *defaultElementLink;
 };
 
-#endif  // BRANCH_BY_DISTANCE_STATE_H
+#endif  // BRANCH_BY_STATE_H

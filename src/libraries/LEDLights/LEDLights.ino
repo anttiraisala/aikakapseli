@@ -16,7 +16,7 @@ LedLights ledLights;
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 #include "LedLightCalculationTwoOperands.h"
-#include "BranchByDistanceState.h"
+#include "BranchByState.h"
 
 #include "HelperFunctions.h"
 
@@ -256,10 +256,12 @@ void patternInitDistanceStateChange(void) {
   LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
   LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
   LedLightCalculationConstant *llc_colorBlue = new LedLightCalculationConstant(0.0, 0.0, 255.0);
+  LedLightCalculationConstant *llc_colorWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
 
-  BranchByDistanceState *branchByDistance = new BranchByDistanceState();
-  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::FAR, new CalculationElementLink(llc_colorRed));
-  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
+  BranchByState *branchByDistance = new BranchByState();
+  //branchByDistance->setStateAndCalculationElementLink((byte)StateManager::DistanceState::FAR, new CalculationElementLink(llc_colorRed));
+  branchByDistance->setStateAndCalculationElementLink((byte)StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
+  branchByDistance->setStateAndCalculationElementLink((byte)StateManager::NoteState::NO_NOTE, new CalculationElementLink(llc_colorWhite));
   branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorBlue));
   ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
   branchByDistance->debugPrint();
@@ -330,7 +332,7 @@ void setup() {
 
 */
   Serial.println("\nloopSetColors alkaa");
-  stateManager.setDistanceState(750, StateManager::DistanceState::NEAR);
+  stateManager.setDistanceState(750, StateManager::DistanceState::FAR);
   stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
   ledLights.loopSetColors(750);
   Serial.println("\nloopShow alkaa");

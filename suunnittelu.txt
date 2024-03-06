@@ -1,5 +1,8 @@
 
 
+https://www.heureka.fi/abloy/
+
+
 Arduino Seeed Base Shield v2.1
 ---------------------------------------
 
@@ -51,6 +54,8 @@ LED-stick 5 ( D7 )
 
 YYY:DDD:HH:MM:SS
 100:100:23:40:01
+
+ABLOY x Heureka
 
 
 
