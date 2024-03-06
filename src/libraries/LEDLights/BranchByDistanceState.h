@@ -7,8 +7,9 @@
 
 #define BRANCH_BY_STATE_LIST_SIZE 3
 
-class BranchByDistanceState : LedLightCalculationElement {
+class BranchByDistanceState : public LedLightCalculationElement {
 public:
+  BranchByDistanceState(void);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
   BranchByDistanceState *setStateAndCalculationElementLink(StateManager::DistanceState state, CalculationElementLink *calculationElementLink);

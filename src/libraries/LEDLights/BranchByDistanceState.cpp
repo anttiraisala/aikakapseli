@@ -10,33 +10,50 @@ extern DistanceState currentDistanceState;
 extern NoteState currentNoteState;
 */
 
+BranchByDistanceState::BranchByDistanceState(void) {
+  elementCount = 0;
+  for (byte i = 0; i < BRANCH_BY_STATE_LIST_SIZE; i++) {
+    states[i] = 0;
+    calculationElementLinks[i] = nullptr;
+  }
+}
 
 LedLightCalculationValue BranchByDistanceState::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
   CalculationElementLink *sourceCalculationElementLink = nullptr;
   LedLightCalculationElement *sourceCalculationElement;
 
-  for (byte i = 0; i < BRANCH_BY_STATE_LIST_SIZE; i++) {
+  Serial.print("a ");
+
+  for (byte i = 0; i < elementCount; i++) {
     if (states[i] == (byte)stateManager.getDistanceState()) {
       sourceCalculationElementLink = calculationElementLinks[i];
+      Serial.print("a1 ");
       break;
     }
   }
+  Serial.print("b ");
 
   if (sourceCalculationElementLink == nullptr) {
     if (defaultElementLink != nullptr) {
       sourceCalculationElementLink = defaultElementLink;
+      Serial.print("b1 ");
     } else {
       if (elementCount > 0) {
         sourceCalculationElementLink = states[0];
+        Serial.print("b2 ");
       }
     }
   }
 
+  Serial.print("c ");
+
   if (sourceCalculationElementLink != nullptr) {
     sourceCalculationElement = sourceCalculationElementLink->getCalculationElement();
-
+Serial.print("c1 ");
     return sourceCalculationElement->getValue(loopSetColorsCounter, currentTimeSeconds, sourceCalculationElementLink->getMappedRelativePhase(relativePhase));
   }
+
+  Serial.print("d ");
 
   Serial.print("ERROR; BranchByDistanceState, no definition found for state ");
   Serial.println(stateManager.getCurrentDistanceStateString());

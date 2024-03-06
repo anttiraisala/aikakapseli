@@ -16,6 +16,7 @@ LedLights ledLights;
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 #include "LedLightCalculationTwoOperands.h"
+#include "BranchByDistanceState.h"
 
 #include "HelperFunctions.h"
 
@@ -252,6 +253,18 @@ delay(2000);
 void patternInitDistanceStateChange(void) {
   Serial.println("\patternInitDistanceStateChange - begins");
 
+  LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
+  LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+  LedLightCalculationConstant *llc_colorBlue = new LedLightCalculationConstant(0.0, 0.0, 255.0);
+
+  BranchByDistanceState *branchByDistance = new BranchByDistanceState();
+  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::FAR, new CalculationElementLink(llc_colorRed));
+  branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
+  //branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorBlue));
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
+
+
+
   Serial.println("\patternInitDistanceStateChange - ends");
 }
 
@@ -284,11 +297,13 @@ void setup() {
 
   //tests();
   ledLights.init();
-  //patternInitBreathing();
+  patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
   //
-  patternInitDistanceStateChange();
+  //patternInitDistanceStateChange();
+  ledLights.debugPrintLedSticks();
+  ledLights.getCalculationElementLink(0)->debugPrint();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
@@ -313,7 +328,7 @@ void setup() {
 
 */
   Serial.println("\nloopSetColors alkaa");
-  stateManager.setDistanceState(750, StateManager::DistanceState::FAR);
+  stateManager.setDistanceState(750, StateManager::DistanceState::RETREATING);
   stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
   ledLights.loopSetColors(750);
   Serial.println("\nloopShow alkaa");
