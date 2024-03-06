@@ -45,6 +45,9 @@ void BranchByState::debugPrint(void) {
 }
 
 LedLightCalculationValue BranchByState::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
+
+  //stateManager.debugPrint();
+
   CalculationElementLink *sourceCalculationElementLink = nullptr;
   LedLightCalculationElement *sourceCalculationElement;
 
@@ -78,11 +81,10 @@ LedLightCalculationValue BranchByState::getValue(unsigned long loopSetColorsCoun
 }
 
 BranchByState *BranchByState::setStateAndCalculationElementLink(byte state, CalculationElementLink *calculationElementLink) {
-  states[elementCount] = (byte)state;
-  calculationElementLinks[elementCount] = calculationElementLink;
-  elementCount++;
-  if (elementCount >= BRANCH_BY_STATE_LIST_SIZE) {
-    elementCount = 0;
+  if (elementCount < BRANCH_BY_STATE_LIST_SIZE) {
+    states[elementCount] = (byte)state;
+    calculationElementLinks[elementCount] = calculationElementLink;
+    elementCount++;
   }
   return this;
 }

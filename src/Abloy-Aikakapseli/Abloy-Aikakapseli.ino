@@ -20,7 +20,14 @@ Liitettävät komponentit:
 
 // Tällä havaitaan viestin laittaminen
 #include "note_sensor.h"
-//extern long millisWhenToExitDroppedState;
+
+
+// Tällä pidetään kirjaa kuluneista millisekunneista
+long currentTimeMillis = millis();
+//
+long nextMillisTo_checkForStateChanges = 0;
+long nextMillisTo_printState = 0;
+
 
 // Tällä hallitaan lappu- ja etäisyystilat
 #include "StateManager.h"
@@ -37,6 +44,13 @@ LedLights ledLights;
 CallbackTimer *setLightsToRandomTimer;
 void setLightsToRandom(void) {
   ledLights.setLightsToRandom();
+}
+//
+#include "InitLedPatterns.h"
+CallbackTimer *updateColorsLoopTimer;
+void updateColorsLoop(void){
+  ledLights.loopSetColors(currentTimeMillis);
+  ledLights.loopShow();
 }
 
 
@@ -57,11 +71,7 @@ CallbackTimer *writeCountdownTimeToEepromTimer;
 
 
 
-// Tällä pidetään kirjaa kuluneista millisekunneista
-long currentTimeMillis = millis();
-//
-long nextMillisTo_checkForStateChanges = 0;
-long nextMillisTo_printState = 0;
+
 
 
 // Tehdään ajastus, että tilat tarkastetaan 10ms välein
@@ -95,6 +105,9 @@ void setup() {
   ledLights.setLightsToZero();
   delay(1000);
 
+  // Init LED-pattenrs
+  initPatterns();
+
   lcd = new Lcd_screen();
 
   /* Vähän aikaa näytetään alkutekstiä, sitten alkaa varsinainen toiminta */
@@ -110,6 +123,8 @@ void setup() {
   writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 60 * 5);
 
   setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000 / 20);
+
+  updateColorsLoopTimer = new CallbackTimer(updateColorsLoop, currentTimeMillis, (unsigned long)100);
 
 
 #ifdef DEBUG_MODE
@@ -141,7 +156,10 @@ void loop() {
 
 
   // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti
-  setLightsToRandomTimer->loop(currentTimeMillis);
+  //setLightsToRandomTimer->loop(currentTimeMillis);
+
+  // Lasketaan ja päivitetään LEDit
+  updateColorsLoopTimer->loop(currentTimeMillis);
 
 // debug-tulostuksia 250ms välein
 #ifdef DEBUG_MODE

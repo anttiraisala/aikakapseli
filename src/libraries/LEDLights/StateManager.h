@@ -81,6 +81,8 @@ public:
   unsigned long millisWhenToExitRetreatingState = 0;
   unsigned long millisWhenToExitDroppedState = 0;
 
+  void debugPrint(void);
+
 private:
 
 
