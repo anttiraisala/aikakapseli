@@ -5,7 +5,7 @@
 #include "CalculationElementLink.h"
 #include "HelperFunctions.h"
 
-#define BRANCH_BY_STATE_LIST_SIZE 5
+#define BRANCH_BY_STATE_LIST_SIZE 3
 
 class BranchByDistanceState : LedLightCalculationElement {
 public:

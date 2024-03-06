@@ -249,6 +249,13 @@ delay(2000);
   Serial.println("\npatternInit - ends");
 }
 
+void patternInitDistanceStateChange(void) {
+  Serial.println("\patternInitDistanceStateChange - begins");
+
+  Serial.println("\patternInitDistanceStateChange - ends");
+}
+
+
 
 
 
@@ -277,9 +284,11 @@ void setup() {
 
   //tests();
   ledLights.init();
-  patternInitBreathing();
+  //patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
+  //
+  patternInitDistanceStateChange();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
