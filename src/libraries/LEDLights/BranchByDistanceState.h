@@ -7,7 +7,7 @@
 
 #define BRANCH_BY_STATE_LIST_SIZE 5
 
-class BranchByDistanceState {
+class BranchByDistanceState : LedLightCalculationElement {
 public:
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
@@ -18,9 +18,8 @@ private:
 
   byte states[BRANCH_BY_STATE_LIST_SIZE];
   CalculationElementLink *calculationElementLinks[BRANCH_BY_STATE_LIST_SIZE];
-  byte elementCount=0;
+  byte elementCount = 0;
   CalculationElementLink *defaultElementLink;
-
 };
 
 #endif  // BRANCH_BY_DISTANCE_STATE_H
