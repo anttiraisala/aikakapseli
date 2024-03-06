@@ -26,15 +26,6 @@ Liitettävät komponentit:
 #include "StateManager.h"
 StateManager stateManager;
 
-/* Asiakkaan etäisyys -tilat */
-//#include "distance_state.h"
-//DistanceState distanceState = DistanceState::FAR ;
-
-
-/* Viestin asettaminen -tilat */
-//#include "note_state.h"
-//NoteState noteState = NoteState::NO_NOTE;
-
 
 /* Tällä hoidetaan LCD-näytön tekstit */
 #include "lcd_screen.h"
