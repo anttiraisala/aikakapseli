@@ -26,15 +26,15 @@ class StateManager {
 
 public:
   enum class NoteState {
-    NO_NOTE,
-    INSERTING,
-    DROPPED
+    NO_NOTE = 0,
+    INSERTING = 1,
+    DROPPED = 2
   };
 
   enum class DistanceState {
-    FAR,
-    NEAR,
-    RETREATING
+    FAR = 0,
+    NEAR = 1,
+    RETREATING = 2
   };
 
   char *getCurrentDistanceStateString() {

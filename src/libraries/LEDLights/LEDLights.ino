@@ -259,9 +259,11 @@ void patternInitDistanceStateChange(void) {
 
   BranchByDistanceState *branchByDistance = new BranchByDistanceState();
   //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::FAR, new CalculationElementLink(llc_colorRed));
-  branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
-  //branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorBlue));
+  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
+  branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorBlue));
   ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
+  branchByDistance->debugPrint();
+  delay(3000);
 
 
 
@@ -297,11 +299,11 @@ void setup() {
 
   //tests();
   ledLights.init();
-  patternInitBreathing();
+  //patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
   //
-  //patternInitDistanceStateChange();
+  patternInitDistanceStateChange();
   ledLights.debugPrintLedSticks();
   ledLights.getCalculationElementLink(0)->debugPrint();
   /*
@@ -328,7 +330,7 @@ void setup() {
 
 */
   Serial.println("\nloopSetColors alkaa");
-  stateManager.setDistanceState(750, StateManager::DistanceState::RETREATING);
+  stateManager.setDistanceState(750, StateManager::DistanceState::NEAR);
   stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
   ledLights.loopSetColors(750);
   Serial.println("\nloopShow alkaa");

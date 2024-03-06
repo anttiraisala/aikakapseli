@@ -2,6 +2,8 @@
 #include "CalculationElementLink.h"
 #include "LedLightCalculationElement.h"
 
+#include <Arduino.h>
+
 #include "StateManager.h"
 extern StateManager stateManager;
 
@@ -12,48 +14,61 @@ extern NoteState currentNoteState;
 
 BranchByDistanceState::BranchByDistanceState(void) {
   elementCount = 0;
+  defaultElementLink = nullptr;
   for (byte i = 0; i < BRANCH_BY_STATE_LIST_SIZE; i++) {
     states[i] = 0;
     calculationElementLinks[i] = nullptr;
   }
 }
 
+void BranchByDistanceState::debugPrint(void) {
+  Serial.println("BranchByDistanceState::debugPrint - begins");
+
+  Serial.print("elementCount: ");
+  Serial.println(elementCount, DEC);
+
+  for (byte i = 0; i < elementCount; i++) {
+    Serial.print("  element: [");
+    Serial.print(i, DEC);
+    Serial.print("]  DistanceState: [");
+    Serial.print(states[i], DEC);
+    Serial.println("]");
+  }
+
+  if (defaultElementLink == nullptr) {
+    Serial.println("defaultElementLink == nullptr");
+  } else {
+    Serial.println("defaultElementLink != nullptr");
+  }
+
+  Serial.println("BranchByDistanceState::debugPrint - ends");
+}
+
 LedLightCalculationValue BranchByDistanceState::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
   CalculationElementLink *sourceCalculationElementLink = nullptr;
   LedLightCalculationElement *sourceCalculationElement;
 
-  Serial.print("a ");
-
   for (byte i = 0; i < elementCount; i++) {
     if (states[i] == (byte)stateManager.getDistanceState()) {
       sourceCalculationElementLink = calculationElementLinks[i];
-      Serial.print("a1 ");
       break;
     }
   }
-  Serial.print("b ");
 
   if (sourceCalculationElementLink == nullptr) {
     if (defaultElementLink != nullptr) {
       sourceCalculationElementLink = defaultElementLink;
-      Serial.print("b1 ");
     } else {
       if (elementCount > 0) {
         sourceCalculationElementLink = states[0];
-        Serial.print("b2 ");
       }
     }
   }
 
-  Serial.print("c ");
-
   if (sourceCalculationElementLink != nullptr) {
     sourceCalculationElement = sourceCalculationElementLink->getCalculationElement();
-Serial.print("c1 ");
     return sourceCalculationElement->getValue(loopSetColorsCounter, currentTimeSeconds, sourceCalculationElementLink->getMappedRelativePhase(relativePhase));
   }
-
-  Serial.print("d ");
 
   Serial.print("ERROR; BranchByDistanceState, no definition found for state ");
   Serial.println(stateManager.getCurrentDistanceStateString());
@@ -76,8 +91,7 @@ BranchByDistanceState *BranchByDistanceState::setDefaultCalculationElementLink(C
   return this;
 }
 
-void debugPrint(void) {
-}
+
 
 /*
   byte states[BRANCH_BY_STATE_LIST_SIZE];

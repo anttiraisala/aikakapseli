@@ -15,6 +15,8 @@ public:
   BranchByDistanceState *setStateAndCalculationElementLink(StateManager::DistanceState state, CalculationElementLink *calculationElementLink);
   BranchByDistanceState *setDefaultCalculationElementLink(CalculationElementLink *calculationElementLink);
 
+  void debugPrint(void);
+
 private:
 
   byte states[BRANCH_BY_STATE_LIST_SIZE];
