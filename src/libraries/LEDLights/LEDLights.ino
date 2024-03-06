@@ -1,20 +1,14 @@
 #include <Arduino.h>
 #include "CallbackTimer.h"
 
+// Tällä hallitaan lappu- ja etäisyystilat
+#include "StateManager.h"
+StateManager stateManager;
+
 
 /* Tällä kontrolloidaan LED-Stickejä */
 #include "LedLights.h"
 LedLights ledLights;
-
-/* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR;
-
-
-/* Viestin asettaminen -tilat */
-#include "note_state.h"
-NoteState noteState = NoteState::NO_NOTE;
-
 
 /* Testejä varten includataan luokat */
 #include "LedLightCalculationElement.h"
@@ -22,10 +16,9 @@ NoteState noteState = NoteState::NO_NOTE;
 #include "LedLightCalculationConstant.h"
 #include "LedLightCalculationSine.h"
 #include "LedLightCalculationTwoOperands.h"
+#include "BranchByDistanceState.h"
 
 #include "HelperFunctions.h"
-
-
 
 
 Adafruit_NeoPixel *pixels;
@@ -54,7 +47,7 @@ void tests(void) {
   Serial.println("");
   Serial.println("");
   Serial.println("tests begin...");
-/*
+  /*
   LedLightCalculationValue v = LedLightCalculationValue(253.0, 128.0, 17.0);
   LedLightCalculationConstant c = LedLightCalculationConstant();
   c.setValue(v);
@@ -199,9 +192,9 @@ void patternInitBreathing(void) {
 
   // hengitys alkaa
   Serial.println("hengitys alkaa");
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 6.0);
-  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.3, 0.10, 0.70))->setCalculationElementConstantMapping(0.0);
-  LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(255.0, 0.0, 100.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 5.0);
+  LedLightCalculationSine *llc_breathing = (new LedLightCalculationSine(0.0, 0.7, 0.10, 0.80))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationConstant *llc_color = new LedLightCalculationConstant(80.0, 255.0, 100.0);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(5.0);
   //
   LedLightCalculationTwoOperands *o_BreathingAndPattern = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_breathing), new CalculationElementLink(llc_sinePattern));
@@ -218,15 +211,26 @@ void patternInitBreathing(void) {
 
   int ledCount = 49;
   double endPhase = 1.0;
-  
+
+
+  /*
+LedLightCalculationTwoOperands *o_ColorAndPatternTest;
+  for(int i=0; i<55;i++){
+  o_ColorAndPatternTest = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(llc_color), new CalculationElementLink(o_PowerFive));
+  Serial.print(i, DEC);
+  Serial.print(" ");
+}
+delay(2000);
+  */
   ledLights.init();
+  //ledLights.setCalculationElementLink(0, new CalculationElementLink(o_ColorAndPatternTest, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(0, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
   ledLights.setCalculationElementLink(1, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
   ledLights.setCalculationElementLink(3, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(o_ColorAndPattern, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 
-/*
+  /*
   ledLights.init();
   LedLightCalculationSine *ledLightCalculationSine;
   ledLightCalculationSine = (new LedLightCalculationSine(0.0, 0.5, 0.2, 0.8))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 10.0);  //->setCalculationElementConstantMapping(0.0);
@@ -241,8 +245,31 @@ void patternInitBreathing(void) {
 
 
 
+
+
   Serial.println("\npatternInit - ends");
 }
+
+void patternInitDistanceStateChange(void) {
+  Serial.println("\patternInitDistanceStateChange - begins");
+
+  LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
+  LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+  LedLightCalculationConstant *llc_colorBlue = new LedLightCalculationConstant(0.0, 0.0, 255.0);
+
+  BranchByDistanceState *branchByDistance = new BranchByDistanceState();
+  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::FAR, new CalculationElementLink(llc_colorRed));
+  //branchByDistance->setStateAndCalculationElementLink(StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
+  branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorBlue));
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
+  branchByDistance->debugPrint();
+  delay(3000);
+
+
+
+  Serial.println("\patternInitDistanceStateChange - ends");
+}
+
 
 
 
@@ -275,6 +302,10 @@ void setup() {
   //patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
+  //
+  patternInitDistanceStateChange();
+  ledLights.debugPrintLedSticks();
+  ledLights.getCalculationElementLink(0)->debugPrint();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
@@ -299,7 +330,9 @@ void setup() {
 
 */
   Serial.println("\nloopSetColors alkaa");
-  ledLights.loopSetColors(750, NoteState::NO_NOTE, DistanceState::FAR);
+  stateManager.setDistanceState(750, StateManager::DistanceState::NEAR);
+  stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
+  ledLights.loopSetColors(750);
   Serial.println("\nloopShow alkaa");
   ledLights.loopShow();
 
@@ -342,7 +375,7 @@ void loop() {
   double offset = 0.6;
 
   //ledLightCalculationSine->setParameters(rFilter0.getValue(), rFilter1.getValue(), amplitude, offset);
-  ledLights.loopSetColors(millis(), NoteState::NO_NOTE, DistanceState::FAR);
+  ledLights.loopSetColors(millis());
   //ledLights.loopSetColors(1.0*3.14159265359*1000, NoteState::NO_NOTE, DistanceState::FAR);
   ledLights.loopShow();
 

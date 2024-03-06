@@ -2,6 +2,8 @@
 #include "LedLights.h"
 #include "HelperFunctions.h"
 
+#include "StateManager.h"
+extern StateManager stateManager;
 
 LedLights::LedLights() {
 }
@@ -197,7 +199,7 @@ void LedLights::setLightsToTestPattern(void) {
   Serial.println("LedLights::setLightsToTestPattern() end");
 }
 
-void LedLights::loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState) {
+void LedLights::loopSetColors(unsigned long currentTimeMillis) {
   //calculationElement
   //Serial.println("LedLights::loopSetColors() begin");
 

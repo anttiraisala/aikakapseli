@@ -16,22 +16,24 @@ Liitettävät komponentit:
 
 // Tällä havaitaan asiakkaan lähestyminen
 #include "distance_sensor.h"
-extern long millisWhenToExitRetreatingState;
+//extern long millisWhenToExitRetreatingState;
 
 // Tällä havaitaan viestin laittaminen
 #include "note_sensor.h"
-extern long millisWhenToExitDroppedState;
+//extern long millisWhenToExitDroppedState;
 
-
+// Tällä hallitaan lappu- ja etäisyystilat
+#include "StateManager.h"
+StateManager stateManager;
 
 /* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-DistanceState distanceState = DistanceState::FAR ;
+//#include "distance_state.h"
+//DistanceState distanceState = DistanceState::FAR ;
 
 
 /* Viestin asettaminen -tilat */
-#include "note_state.h"
-NoteState noteState = NoteState::NO_NOTE;
+//#include "note_state.h"
+//NoteState noteState = NoteState::NO_NOTE;
 
 
 /* Tällä hoidetaan LCD-näytön tekstit */
@@ -42,7 +44,7 @@ Lcd_screen *lcd;
 #include "LedLights.h"
 LedLights ledLights;
 CallbackTimer *setLightsToRandomTimer;
-void setLightsToRandom(void){
+void setLightsToRandom(void) {
   ledLights.setLightsToRandom();
 }
 
@@ -51,12 +53,12 @@ void setLightsToRandom(void){
 //
 #include "AikakapseliEeprom.h"
 AikakapseliEeprom aikakapseliEeprom;
-void decreaseTimeAndShow(void){
+void decreaseTimeAndShow(void) {
   aikakapseliEeprom.decreaseTime();
   lcd->setText(aikakapseliEeprom.getTimeString(), 0);
 }
 CallbackTimer *decreaseTimeAndShowTimer;
-void writeTime(void){
+void writeTime(void) {
   aikakapseliEeprom.write();
 }
 CallbackTimer *writeCountdownTimeToEepromTimer;
@@ -67,8 +69,8 @@ CallbackTimer *writeCountdownTimeToEepromTimer;
 // Tällä pidetään kirjaa kuluneista millisekunneista
 long currentTimeMillis = millis();
 //
-long nextMillisTo_checkForStateChanges=0;
-long nextMillisTo_printState=0;
+long nextMillisTo_checkForStateChanges = 0;
+long nextMillisTo_printState = 0;
 
 
 // Tehdään ajastus, että tilat tarkastetaan 10ms välein
@@ -78,14 +80,14 @@ CallbackTimer *stateChangeTimer;
 
 // Tällä tulostetaan debug-juttuja tiloista
 #ifdef DEBUG_MODE
-  CallbackTimer *debugPrintStatesTimer;
-  
-  void debugPrintStates(){
-    DEBUG_DISTANCE_STATE_PRINTLN(getCurrentDistanceStateString(distanceState));
-    DEBUG_NOTE_STATE_PRINTLN(getCurrentNoteStateString(noteState));
-  }
+CallbackTimer *debugPrintStatesTimer;
 
-#endif // DEBUG_MODE
+void debugPrintStates() {
+  DEBUG_DISTANCE_STATE_PRINTLN(stateManager.getCurrentDistanceStateString());
+  DEBUG_NOTE_STATE_PRINTLN(stateManager.getCurrentNoteStateString());
+}
+
+#endif  // DEBUG_MODE
 
 
 void setup() {
@@ -114,18 +116,18 @@ void setup() {
   stateChangeTimer = new CallbackTimer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
   decreaseTimeAndShowTimer = new CallbackTimer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000*60*5);
+  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 60 * 5);
 
-  setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000/20);
+  setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000 / 20);
 
 
-  #ifdef DEBUG_MODE
+#ifdef DEBUG_MODE
   debugPrintStatesTimer = new CallbackTimer(debugPrintStates, currentTimeMillis, (unsigned long)500);
-  #endif // DEBUG_MODE
+#endif  // DEBUG_MODE
 
   /* Alustetaan aikalaskuri, yritetään lukea arvo EEPROM:sta */
   aikakapseliEeprom.init();
-  if(aikakapseliEeprom.read()){
+  if (aikakapseliEeprom.read()) {
     DEBUG_PRINTLN("aikakapseliEeprom.read() == true");
   } else {
     aikakapseliEeprom.setToTime(0, 10, 0, 0, 0);
@@ -150,92 +152,95 @@ void loop() {
   // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti
   setLightsToRandomTimer->loop(currentTimeMillis);
 
-  // debug-tulostuksia 250ms välein
-  #ifdef DEBUG_MODE
+// debug-tulostuksia 250ms välein
+#ifdef DEBUG_MODE
   debugPrintStatesTimer->loop(currentTimeMillis);
-  #endif // DEBUG_MODE
+#endif  // DEBUG_MODE
 
   /* Hoidetaan LCD-näytön tekstien häviäminen ajallaan */
   lcd->loop(currentTimeMillis);
+
+  // Tilamanagerin kirjanpitoa
+  stateManager.updateSecondsAfterPreviousStateChanges(currentTimeMillis);
 }
 
-void checkForStateChanges(){
+void checkForStateChanges() {
   //Serial.println(millis(), DEC);
 
   /* Asiakkaan etäisyys -tilat */
-  switch (distanceState) {
-    case DistanceState::FAR :
-      if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+  switch (stateManager.getDistanceState()) {
+    case StateManager::DistanceState::FAR:
+      if (isCustomerDetected() == true) {
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
       }
-    break;
+      break;
 
-    case DistanceState::NEAR :
-      if(isCustomerDetected() == false){
-        distanceState = DistanceState::RETREATING ;
-        millisWhenToExitRetreatingState = currentTimeMillis + 5000;
+    case StateManager::DistanceState::NEAR:
+      if (isCustomerDetected() == false) {
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::RETREATING);
+        stateManager.millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
       }
-    break;
+      break;
 
-    case DistanceState::RETREATING :
-      if(isCustomerDetected() == true){
-        distanceState = DistanceState::NEAR ;
+    case StateManager::DistanceState::RETREATING:
+      if (isCustomerDetected() == true) {
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
-      } 
-      if(currentTimeMillis > millisWhenToExitRetreatingState){
-        distanceState = DistanceState::FAR ;
+      }
+      if (currentTimeMillis > stateManager.millisWhenToExitRetreatingState) {
+        stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::FAR);
 
         DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
       }
-    break;
+      break;
   }
 
 
   /* Viestin asettaminen -tilat */
-  static unsigned long nextAllowedNoteStateChange=0;
-  if(currentTimeMillis > nextAllowedNoteStateChange){
-    switch (noteState) {
-      case NoteState::NO_NOTE :
-        if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+  static unsigned long nextAllowedNoteStateChange = 0;
+  if (currentTimeMillis > nextAllowedNoteStateChange) {
+    switch (stateManager.getNoteState()) {
+      case StateManager::NoteState::NO_NOTE:
+        if (isNoteDetected() == true) {
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING);
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
 
-      case NoteState::INSERTING :
-        if(isNoteDetected() == false){
-          noteState = NoteState::DROPPED ;
-          millisWhenToExitDroppedState = currentTimeMillis + 5000;
+      case StateManager::NoteState::INSERTING:
+        if (isNoteDetected() == false) {
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::DROPPED);
+          stateManager.millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
 
-      case NoteState::DROPPED :
-        if(isNoteDetected() == true){
-          noteState = NoteState::INSERTING ;
+      case StateManager::NoteState::DROPPED:
+        if (isNoteDetected() == true) {
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING);
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
-        } 
-        if(currentTimeMillis > millisWhenToExitDroppedState){
-          noteState = NoteState::NO_NOTE ;
+        }
+        if (currentTimeMillis > stateManager.millisWhenToExitDroppedState) {
+          stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::NO_NOTE);
 
           DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
-      break;
+        break;
     }
   }
 }

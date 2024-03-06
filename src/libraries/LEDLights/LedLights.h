@@ -5,14 +5,7 @@
 #define LED_STICK_COUNT 8
 
 
-
 #include <Arduino.h>
-
-/* Asiakkaan etäisyys -tilat */
-#include "distance_state.h"
-
-/* Viestin asettaminen -tilat */
-#include "note_state.h"
 
 #include "Adafruit_NeoPixel.h"
 #ifdef __AVR__
@@ -23,6 +16,8 @@
 #include "LedLightCalculationElement.h"
 #include "CalculationElementLink.h"
 
+#include "StateManager.h"
+extern StateManager stateManager;
 
 
 struct sLedStick {
@@ -40,8 +35,6 @@ private:
   unsigned long previousTimeMillis = 0;
   unsigned long deltaTimeMillis = 0;
   unsigned long loopSetColorsCounter = 0;
-  NoteState noteState;
-  DistanceState distanceState;
 
 public:
 
@@ -58,7 +51,7 @@ public:
   void setLedStick(byte index, byte pin);
   void setLightsToZero(void);
   void setLightsToRandom(void);
-  void loopSetColors(unsigned long currentTimeMillis, NoteState noteState, DistanceState distanceState);
+  void loopSetColors(unsigned long currentTimeMillis);
   void loopShow(void);
 
   void debugPrintLedSticks(void);
