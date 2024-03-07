@@ -11,7 +11,8 @@ enum class LedLightCalculationTwoOperandsOperation {
   DIVIDE,
   POW,
   MAX,
-  MIN
+  MIN,
+  CROSS_DISSOLVE
 };
 
 
@@ -32,7 +33,8 @@ public:
 
   LedLightCalculationTwoOperands *setOperation(LedLightCalculationTwoOperandsOperation operation);
 
-  static void performOperation(void);
+  static void performOperation(LedLightCalculationValue *resultValue, LedLightCalculationTwoOperandsOperation operation, LedLightCalculationValue *valueA, LedLightCalculationValue *valueB);
+  static void performOperation(LedLightCalculationValue *resultValue, LedLightCalculationTwoOperandsOperation operation, LedLightCalculationValue *controlValue, LedLightCalculationValue *valueA, LedLightCalculationValue *valueB);
 };
 
 #endif  // LEDLIGHT_CALCULATION_TWO_OPERANDS_H

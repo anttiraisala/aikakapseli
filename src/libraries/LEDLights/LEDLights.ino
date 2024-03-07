@@ -301,12 +301,12 @@ void setup() {
 
   //tests();
   ledLights.init();
-  //patternInitBreathing();
+  patternInitBreathing();
   Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
   ledLights.debugPrintLedSticks();
   //
   patternInitDistanceStateChange();
-  ledLights.debugPrintLedSticks();
+  //ledLights.debugPrintLedSticks();
   ledLights.getCalculationElementLink(0)->debugPrint();
   /*
   delay(1000);

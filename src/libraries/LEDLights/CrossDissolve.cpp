@@ -25,8 +25,12 @@ LedLightCalculationValue CrossDissolve::getValue(unsigned long loopSetColorsCoun
   /*
   LedLightCalculationTwoOperands *calculationTwoOperands;
   LedLightCalculationConstant *llc_one;
+
+//LedLightCalculationTwoOperands::performOperation();
+static void LedLightCalculationTwoOperands::performOperation(LedLightCalculationValue *resultValue, 
+LedLightCalculationTwoOperandsOperation operation, 
+LedLightCalculationValue *valueA, LedLightCalculationValue *valueB);
 */
-LedLightCalculationTwoOperands::performOperation();
 
 }
 
