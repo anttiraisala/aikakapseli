@@ -1,6 +1,13 @@
 #ifndef AIKAKAPSELI_EEPROM_H
 #define AIKAKAPSELI_EEPROM_H
 
+/*
+https://arduino.stackexchange.com/questions/226/what-is-the-real-lifetime-of-eeprom
+
+SD Card wear leveling
+https://forum.arduino.cc/t/sdcard-data-logging-wearing-down-the-sdcard/272072/2
+*/
+
 // EEPROM.h tarvitaan EEPROM -rw-operaatioihin
 #include <EEPROM.h>
 
@@ -46,6 +53,7 @@ public:
   void write(void);
   /* Tyhjennetään EEPROM */
   void clear(void);
+  void testRW(void);
 
   /* Vähentää kellonaikaa yhdellä sekunnilla. Jos ennen vähentämistä ollaan nollassa, niin ei vähennetä ja palautetaan false,
   muuten vähennetään aikaa ja palautetaan true */

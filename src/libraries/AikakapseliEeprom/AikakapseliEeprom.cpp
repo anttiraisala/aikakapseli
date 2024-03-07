@@ -24,7 +24,7 @@ char* AikakapseliEeprom::getTimeString(void) {
 
 void AikakapseliEeprom::init(void) {
   this->setToTime(0, 0, 0, 0, 0);
-  EEPROMwl.begin(6, 4096);
+  EEPROMwl.begin(6);
 }
 
 boolean AikakapseliEeprom::decreaseTime(void) {
@@ -65,31 +65,44 @@ boolean AikakapseliEeprom::decreaseTime(void) {
 }
 
 void AikakapseliEeprom::write(void) {
-    this->eepromObject.magicNumber=AIKAKAPSELI_MAGICNUMBER;
-    EEPROMwl.write(0, this->eepromObject.magicNumber);
-    EEPROMwl.write(1, this->eepromObject.years);
-    EEPROMwl.write(2, this->eepromObject.days);
-    EEPROMwl.write(3, this->eepromObject.hours);
-    EEPROMwl.write(4, this->eepromObject.minutes);
-    EEPROMwl.write(5, this->eepromObject.seconds);
+  this->eepromObject.magicNumber = AIKAKAPSELI_MAGICNUMBER;
+  EEPROMwl.write(0, this->eepromObject.magicNumber);
+  EEPROMwl.write(1, this->eepromObject.years);
+  EEPROMwl.write(2, this->eepromObject.days);
+  EEPROMwl.write(3, this->eepromObject.hours);
+  EEPROMwl.write(4, this->eepromObject.minutes);
+  EEPROMwl.write(5, this->eepromObject.seconds);
 }
 
 void AikakapseliEeprom::clear(void) {
-    EEPROMwl.write(0, 0);
-    EEPROMwl.write(1, 0);
-    EEPROMwl.write(2, 0);
-    EEPROMwl.write(3, 0);
-    EEPROMwl.write(4, 0);
-    EEPROMwl.write(5, 0);
+  /*
+  EEPROMwl.write(0, 0);
+  EEPROMwl.write(1, 0);
+  EEPROMwl.write(2, 0);
+  EEPROMwl.write(3, 0);
+  EEPROMwl.write(4, 0);
+  EEPROMwl.write(5, 0);
+*/
+  Serial.println("Clearing EEPROM ...");
+  int eepromSize = EEPROM.length();
+  Serial.print("EEPROM.length():[");
+  Serial.print(eepromSize, DEC);
+  Serial.println("] bytes.");
+
+  // Loop through each byte address and write 0
+  for (int i = 0; i < eepromSize; i++) {
+    EEPROM.write(i, 0x00);
+  }
+  Serial.println("EEPROM cleared!");
 }
 
 bool AikakapseliEeprom::read(void) {
-  this->eepromObject.magicNumber=EEPROMwl.read(0);
-  this->eepromObject.years=EEPROMwl.read(1);
-  this->eepromObject.days=EEPROMwl.read(2);
-  this->eepromObject.hours=EEPROMwl.read(3);
-  this->eepromObject.minutes=EEPROMwl.read(4);
-  this->eepromObject.seconds=EEPROMwl.read(5);
+  this->eepromObject.magicNumber = EEPROMwl.read(0);
+  this->eepromObject.years = EEPROMwl.read(1);
+  this->eepromObject.days = EEPROMwl.read(2);
+  this->eepromObject.hours = EEPROMwl.read(3);
+  this->eepromObject.minutes = EEPROMwl.read(4);
+  this->eepromObject.seconds = EEPROMwl.read(5);
 
   if (AIKAKAPSELI_MAGICNUMBER == this->eepromObject.magicNumber) {
     return true;

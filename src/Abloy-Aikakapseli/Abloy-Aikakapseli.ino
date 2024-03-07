@@ -120,7 +120,7 @@ void setup() {
   stateChangeTimer = new CallbackTimer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
   decreaseTimeAndShowTimer = new CallbackTimer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 60 * 5);
+  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 120);
 
   setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000 / 20);
 

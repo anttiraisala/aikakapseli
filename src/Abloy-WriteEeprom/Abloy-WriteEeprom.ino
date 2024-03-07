@@ -36,11 +36,11 @@ void setup() {
   /* Kommentoi pois / päälle sopiva koodi ja aja */
 
 
-  //read();
+  read();
 
   //write();
 
-  clear();
+  //clear();
   ///////////////////////////////////////////////////////////////
   Serial.println("Done.");
 }
