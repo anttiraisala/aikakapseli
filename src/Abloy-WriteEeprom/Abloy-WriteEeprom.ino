@@ -22,7 +22,7 @@ void clear(void);
 
 void setup() {
   // put your setup code here, to run once:
-  Serial.begin(9600);
+  Serial.begin(19200);
   delay(1500);
 
   aikakapseliEeprom.init();
@@ -36,9 +36,9 @@ void setup() {
   /* Kommentoi pois / päälle sopiva koodi ja aja */
 
 
-  read();
+  //read();
 
-  //write();
+  write();
 
   //clear();
   ///////////////////////////////////////////////////////////////

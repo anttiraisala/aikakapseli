@@ -1,6 +1,10 @@
 #include "LedLightCalculationTwoOperands.h"
-#include "StateManager.h"
-extern StateManager stateManager;
+
+LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(void){}
+
+LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation){
+  this->operation = operation;
+}
 
 LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB) {
   this->operation = operation;
@@ -9,7 +13,6 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(LedLightCalculati
 }
 
 LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB) {
-  this->operation = LedLightCalculationTwoOperandsOperation::MAX;
   this->elementLinkA = elementLinkA;
   this->elementLinkB = elementLinkB;
 }
@@ -17,6 +20,10 @@ LedLightCalculationTwoOperands::LedLightCalculationTwoOperands(CalculationElemen
 LedLightCalculationTwoOperands *LedLightCalculationTwoOperands::setOperation(LedLightCalculationTwoOperandsOperation operation) {
   this->operation = operation;
   return this;
+}
+
+static void LedLightCalculationTwoOperands::performOperation(void){
+  
 }
 
 LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
@@ -44,9 +51,6 @@ LedLightCalculationValue LedLightCalculationTwoOperands::getValue(unsigned long 
       LedLightCalculationValue ledLightCalculationValue = calculationElement->getValue(loopSetColorsCounter, getCurrentTimeSeconds(), calculationElementLink->getMappedRelativePhase(relativePhase));
 
 */
-  if(stateManager.getDistanceState() == StateManager::DistanceState::FAR){
-    
-  }
 
   LedLightCalculationElement *calculationElementA = elementLinkA->getCalculationElement();
   LedLightCalculationElement *calculationElementB = elementLinkB->getCalculationElement();

@@ -22,11 +22,17 @@ private:
   CalculationElementLink *elementLinkB;
 
 public:
+
+  LedLightCalculationTwoOperands(void);
+  LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation);
+
   LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation operation, CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB);
   LedLightCalculationTwoOperands(CalculationElementLink *elementLinkA, CalculationElementLink *elementLinkB);
   LedLightCalculationValue getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase);
 
   LedLightCalculationTwoOperands *setOperation(LedLightCalculationTwoOperandsOperation operation);
+
+  static void performOperation(void);
 };
 
 #endif  // LEDLIGHT_CALCULATION_TWO_OPERANDS_H

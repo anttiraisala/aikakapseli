@@ -24,7 +24,7 @@ char* AikakapseliEeprom::getTimeString(void) {
 
 void AikakapseliEeprom::init(void) {
   this->setToTime(0, 0, 0, 0, 0);
-  EEPROMwl.begin(6);
+  EEPROMwl.begin(6, 3500);
 }
 
 boolean AikakapseliEeprom::decreaseTime(void) {
