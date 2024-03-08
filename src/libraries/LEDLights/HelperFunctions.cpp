@@ -11,7 +11,7 @@ void serialPrintDouble(char *prefix, double value, char *postfix) {
 
 void serialPrintLnDouble(char *prefix, double value, char *postfix) {
   serialPrintDouble(prefix, value, postfix);
-  Serial.println("");
+  Serial.println(F(""));
 }
 
 void serialPrintLnDouble(char *prefix, double value) {

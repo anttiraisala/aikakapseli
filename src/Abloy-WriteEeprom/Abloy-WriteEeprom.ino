@@ -27,11 +27,11 @@ void setup() {
 
   aikakapseliEeprom.init();
   aikakapseliEeprom.setToTime(5, 4, 3, 2, 1);
-  Serial.print("Test value: ");
+  Serial.print(F("Test value: "));
   Serial.println(aikakapseliEeprom.getTimeString());
 
 
-  Serial.println("Let's start...");
+  Serial.println(F("Let's start..."));
   ///////////////////////////////////////////////////////////////
   /* Kommentoi pois / päälle sopiva koodi ja aja */
 
@@ -42,20 +42,20 @@ void setup() {
 
   //clear();
   ///////////////////////////////////////////////////////////////
-  Serial.println("Done.");
+  Serial.println(F("Done."));
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 /*
   aikakapseliEeprom.decreaseTime();
-  Serial.print("Decrease time: ");
+  Serial.print(F("Decrease time: "));
   Serial.println(aikakapseliEeprom.getTimeString());
   */
 }
 
 void write(void){
-  Serial.println("Writing...");
+  Serial.println(F("Writing..."));
   aikakapseliEeprom.setToTime(100, 1, 12, 34, 56);
   /*
   aikakapseliEeprom.setToTime(100, 0, 0, 0, 56);
@@ -64,29 +64,29 @@ void write(void){
   aikakapseliEeprom.setToTime(100, 0, 0, 0, 10);
   aikakapseliEeprom.write();
 
-  Serial.println("Reading after write...");
+  Serial.println(F("Reading after write..."));
   read();
 }
 
 void clear(void){
-  Serial.println("Clearing...");
+  Serial.println(F("Clearing..."));
   aikakapseliEeprom.clear();
 
-  Serial.println("Reading after clear...");
+  Serial.println(F("Reading after clear..."));
   read();
 }
 
 void read(void){
-  Serial.println("Reading...");
+  Serial.println(F("Reading..."));
   aikakapseliEeprom.init();
   bool success=aikakapseliEeprom.read();
   if(success){
-    Serial.println("aikakapseliEeprom.load() == true");
+    Serial.println(F("aikakapseliEeprom.load() == true"));
   } else {
-    Serial.println("aikakapseliEeprom.load() == false");
+    Serial.println(F("aikakapseliEeprom.load() == false"));
   }
 
-  Serial.print("Value in EEPROM: ");
+  Serial.print(F("Value in EEPROM: "));
   Serial.println(aikakapseliEeprom.getTimeString());
 
 }

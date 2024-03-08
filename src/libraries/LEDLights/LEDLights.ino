@@ -279,7 +279,7 @@ void patternInitCrossDissolve(void) {
 
   LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
   LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 1.0, 0.5, 0.5))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.60, 0.5, 0.5))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 5.0);
   CrossDissolve *cd = new CrossDissolve();
   cd->setControlElement(new CalculationElementLink(llc_sinePattern));
   cd->setInput0Element(new CalculationElementLink(llc_colorRed));

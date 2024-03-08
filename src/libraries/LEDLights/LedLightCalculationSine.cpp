@@ -47,24 +47,24 @@ struct CalculationElementPhaseMapping {
   //sine = pow(sine, 14.0) * 255.0;
   //sine = pow(relativePhase, 4.0) * 255.0;
   /*
-  Serial.print("currentTimeSeconds: ");
+  Serial.print(F("currentTimeSeconds: "));
   Serial.println(currentTimeSeconds, DEC);
-  Serial.print("relativePhase: ");
+  Serial.print(F("relativePhase: "));
   Serial.println(relativePhase, DEC);
-  Serial.print("phase: ");
+  Serial.print(F("phase: "));
   Serial.println(phase, DEC);
-  Serial.print("finalSourcePhase: ");
+  Serial.print(F("finalSourcePhase: "));
   Serial.println(finalSourcePhase, DEC);
-  Serial.print("frequency: ");
+  Serial.print(F("frequency: "));
   Serial.println(frequency, DEC);
-  Serial.print("amplitude: ");
+  Serial.print(F("amplitude: "));
   Serial.println(amplitude, DEC);
-  Serial.print("sine: ");
+  Serial.print(F("sine: "));
   Serial.println(sine, DEC);
-  Serial.println("");
+  Serial.println(F(""));
 */
   /*
-  Serial.println("\nLedLightCalculationSine::getValue");
+  Serial.println(F("\nLedLightCalculationSine::getValue"));
   serialPrintLnDouble("  p: ", this->phase);
   serialPrintLnDouble("  f: ", this->frequency);
   serialPrintLnDouble("  a: ", this->amplitude);

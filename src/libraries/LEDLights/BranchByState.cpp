@@ -22,26 +22,26 @@ BranchByState::BranchByState(void) {
 }
 
 void BranchByState::debugPrint(void) {
-  Serial.println("BranchByState::debugPrint - begins");
+  Serial.println(F("BranchByState::debugPrint - begins"));
 
-  Serial.print("elementCount: ");
+  Serial.print(F("elementCount: "));
   Serial.println(elementCount, DEC);
 
   for (byte i = 0; i < elementCount; i++) {
-    Serial.print("  element: [");
+    Serial.print(F("  element: ["));
     Serial.print(i, DEC);
-    Serial.print("]  DistanceState: [");
+    Serial.print(F("]  DistanceState: ["));
     Serial.print(states[i], DEC);
-    Serial.println("]");
+    Serial.println(F("]"));
   }
 
   if (defaultElementLink == nullptr) {
-    Serial.println("defaultElementLink == nullptr");
+    Serial.println(F("defaultElementLink == nullptr"));
   } else {
-    Serial.println("defaultElementLink != nullptr");
+    Serial.println(F("defaultElementLink != nullptr"));
   }
 
-  Serial.println("BranchByState::debugPrint - ends");
+  Serial.println(F("BranchByState::debugPrint - ends"));
 }
 
 LedLightCalculationValue BranchByState::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
@@ -74,7 +74,7 @@ LedLightCalculationValue BranchByState::getValue(unsigned long loopSetColorsCoun
     return sourceCalculationElement->getValue(loopSetColorsCounter, currentTimeSeconds, sourceCalculationElementLink->getMappedRelativePhase(relativePhase));
   }
 
-  Serial.print("ERROR; BranchByState, no definition found for state ");
+  Serial.print(F("ERROR; BranchByState, no definition found for state "));
   Serial.println(stateManager.getCurrentDistanceStateString());
 
   return ledLightCalculationValue;

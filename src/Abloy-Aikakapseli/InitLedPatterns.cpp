@@ -4,7 +4,7 @@ extern LedLights ledLights;
 
 
 void initPatterns(void) {
-  Serial.println("initPatterns - begin");
+  Serial.println(F("initPatterns - begin"));
   ledLights.init();
   ledLights.setLightsToZero();
 
@@ -29,5 +29,5 @@ void initPatterns(void) {
   ledLights.loopSetColors(750);
   ledLights.loopShow();
   delay(4000);
-  Serial.println("initPatterns - ends");
+  Serial.println(F("initPatterns - ends"));
 }

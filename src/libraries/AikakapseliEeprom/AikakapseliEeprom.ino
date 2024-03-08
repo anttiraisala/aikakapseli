@@ -13,7 +13,7 @@ void setup() {
   //aikakapseliEeprom.clear();
  
 
-  Serial.println("Setup dne.");
+  Serial.println(F("Setup done."));
 }
 
 void loop() {

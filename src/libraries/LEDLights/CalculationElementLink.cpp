@@ -2,12 +2,12 @@
 #include "HelperFunctions.h"
 
 void CalculationElementLink::debugPrint(void) {
-  Serial.println("\nCalculationElementLink::debugPrint");
-  Serial.print("hasPhaseMapping()==");
+  Serial.println(F("\nCalculationElementLink::debugPrint"));
+  Serial.print(F("hasPhaseMapping()=="));
   if (this->hasPhaseMapping()) {
-    Serial.println("true");
+    Serial.println(F("true"));
   } else {
-    Serial.println("false");
+    Serial.println(F("false"));
   }
   serialPrintLnDouble("\ngetPhaseMappingStartPhase():", targetRelativeStartPhase);
   serialPrintLnDouble("getPhaseMappingStartPhase():", targetRelativeEndPhase, "\n");

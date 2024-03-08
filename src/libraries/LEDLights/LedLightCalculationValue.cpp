@@ -87,10 +87,10 @@ void LedLightCalculationValue::setValue(double valueR, double valueG, double val
 }
 
 void LedLightCalculationValue::debugPrint(void) {
-  Serial.println("\nLedLightCalculationValue::debugPrint -begins");
-  Serial.print("bIsValue: ");
+  Serial.println(F("\nLedLightCalculationValue::debugPrint -begins"));
+  Serial.print(F("bIsValue: "));
   Serial.println(bIsValue);
-  Serial.print("bIsColor: ");
+  Serial.print(F("bIsColor: "));
   Serial.println(bIsColor);
   serialPrintLnDouble("valueV: ", valueV);
   serialPrintLnDouble("valueR: ", valueR);
@@ -100,5 +100,5 @@ void LedLightCalculationValue::debugPrint(void) {
   serialPrintLnDouble("getValueR(): ", getValueR());
   serialPrintLnDouble("getValueG(): ", getValueG());
   serialPrintLnDouble("getValueB(): ", getValueB());
-  Serial.println("LedLightCalculationValue::debugPrint -done");
+  Serial.println(F("LedLightCalculationValue::debugPrint -done"));
 }

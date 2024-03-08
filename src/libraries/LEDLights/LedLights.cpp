@@ -9,42 +9,42 @@ LedLights::LedLights() {
 }
 
 void LedLights::debugPrintLedSticks(void) {
-  Serial.println("\nLedLights::debugPrintLedSticks() begin");
+  Serial.println(F("\nLedLights::debugPrintLedSticks() begin"));
 
   Adafruit_NeoPixel *neoPixel;
   CalculationElementLink *calculationElementLink;
 
-  Serial.print("LED_STICK_COUNT: ");
+  Serial.print(F("LED_STICK_COUNT: "));
   Serial.println(LED_STICK_COUNT, DEC);
 
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
     sLedStick ledStick = this->sLedSticks[i];
-    Serial.print("index: ");
+    Serial.print(F("index: "));
     Serial.println(i, DEC);
 
     neoPixel = ledStick.neoPixel;
     if (neoPixel != nullptr) {
-      Serial.print("  pin ");
+      Serial.print(F("  pin "));
       Serial.print(neoPixel->getPin(), DEC);
     } else {
-      Serial.println("  neoPixel == nullptr");
+      Serial.println(F("  neoPixel == nullptr"));
     }
 
     calculationElementLink = ledStick.calculationElementLink;
     if (calculationElementLink != nullptr) {
       calculationElementLink->debugPrint();
     } else {
-      Serial.println("  calculationElementLink == nullptr");
+      Serial.println(F("  calculationElementLink == nullptr"));
     }
 
 
 
 
 
-    Serial.println("");
+    Serial.println(F(""));
   }
 
-  Serial.println("LedLights::debugPrintLedSticks() end");
+  Serial.println(F("LedLights::debugPrintLedSticks() end"));
 }
 
 /*
@@ -176,12 +176,12 @@ void LedLights::setLightsToRandom(void) {
 }
 
 void LedLights::setLightsToTestPattern(void) {
-  Serial.println("LedLights::setLightsToTestPattern() begin");
+  Serial.println(F("LedLights::setLightsToTestPattern() begin"));
 
   Adafruit_NeoPixel *ledStick;
   for (byte i = 0; i < LED_STICK_COUNT; i++) {
     ledStick = this->sLedSticks[i].neoPixel;
-    Serial.print("pin :");
+    Serial.print(F("pin :"));
     Serial.println(ledStick->getPin(), DEC);
     for (byte led = 0; led < 10; led++) {
       if (led <= i) {
@@ -196,7 +196,7 @@ void LedLights::setLightsToTestPattern(void) {
     ledStick = this->sLedSticks[i].neoPixel;
     ledStick->show();
   }
-  Serial.println("LedLights::setLightsToTestPattern() end");
+  Serial.println(F("LedLights::setLightsToTestPattern() end"));
 }
 
 void LedLights::loopSetColors(unsigned long currentTimeMillis) {

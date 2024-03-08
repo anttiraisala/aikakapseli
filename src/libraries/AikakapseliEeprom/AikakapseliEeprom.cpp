@@ -83,17 +83,17 @@ void AikakapseliEeprom::clear(void) {
   EEPROMwl.write(4, 0);
   EEPROMwl.write(5, 0);
 */
-  Serial.println("Clearing EEPROM ...");
+  Serial.println(F("Clearing EEPROM ..."));
   int eepromSize = EEPROM.length();
-  Serial.print("EEPROM.length():[");
+  Serial.print(F("EEPROM.length():["));
   Serial.print(eepromSize, DEC);
-  Serial.println("] bytes.");
+  Serial.println(F("] bytes."));
 
   // Loop through each byte address and write 0
   for (int i = 0; i < eepromSize; i++) {
     EEPROM.write(i, 0x00);
   }
-  Serial.println("EEPROM cleared!");
+  Serial.println(F("EEPROM cleared!"));
 }
 
 bool AikakapseliEeprom::read(void) {

@@ -96,7 +96,7 @@ void setup() {
 
   // put your setup code here, to run once:
   Serial.begin(19200);
-  DEBUG_PRINTLN("setup()");
+  DEBUG_PRINTLN(F("setup()"));
 
   ledLights.init();
   delay(1000);
@@ -134,10 +134,10 @@ void setup() {
   /* Alustetaan aikalaskuri, yritetään lukea arvo EEPROM:sta */
   aikakapseliEeprom.init();
   if (aikakapseliEeprom.read()) {
-    DEBUG_PRINTLN("aikakapseliEeprom.read() == true");
+    DEBUG_PRINTLN(F("aikakapseliEeprom.read() == true"));
   } else {
     aikakapseliEeprom.setToTime(0, 10, 0, 0, 0);
-    DEBUG_PRINTLN("aikakapseliEeprom.read() == false");
+    DEBUG_PRINTLN(F("aikakapseliEeprom.read() == false"));
   }
 }
 
@@ -182,7 +182,7 @@ void checkForStateChanges() {
       if (isCustomerDetected() == true) {
         stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
-        DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
+        DEBUG_DISTANCE_STATE_PRINTLN(F("Change to DistanceState::NEAR"));
       }
       break;
 
@@ -191,7 +191,7 @@ void checkForStateChanges() {
         stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::RETREATING);
         stateManager.millisWhenToExitRetreatingState = currentTimeMillis + 5000;
 
-        DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::RETREATING");
+        DEBUG_DISTANCE_STATE_PRINTLN(F("Change to DistanceState::RETREATING"));
       }
       break;
 
@@ -199,12 +199,12 @@ void checkForStateChanges() {
       if (isCustomerDetected() == true) {
         stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::NEAR);
 
-        DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::NEAR");
+        DEBUG_DISTANCE_STATE_PRINTLN(F("Change to DistanceState::NEAR"));
       }
       if (currentTimeMillis > stateManager.millisWhenToExitRetreatingState) {
         stateManager.setDistanceState(currentTimeMillis, StateManager::DistanceState::FAR);
 
-        DEBUG_DISTANCE_STATE_PRINTLN("Change to DistanceState::FAR");
+        DEBUG_DISTANCE_STATE_PRINTLN(F("Change to DistanceState::FAR"));
       }
       break;
   }
@@ -218,7 +218,7 @@ void checkForStateChanges() {
         if (isNoteDetected() == true) {
           stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING);
 
-          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+          DEBUG_NOTE_STATE_PRINTLN(F("Change to NoteState::INSERTING"));
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
@@ -229,7 +229,7 @@ void checkForStateChanges() {
           stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::DROPPED);
           stateManager.millisWhenToExitDroppedState = currentTimeMillis + 5000;
 
-          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::DROPPED");
+          DEBUG_NOTE_STATE_PRINTLN(F("Change to NoteState::DROPPED"));
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
@@ -239,14 +239,14 @@ void checkForStateChanges() {
         if (isNoteDetected() == true) {
           stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::INSERTING);
 
-          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::INSERTING");
+          DEBUG_NOTE_STATE_PRINTLN(F("Change to NoteState::INSERTING"));
           lcd->setText("Anna lupaus...", 1, currentTimeMillis, 2000);
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
         if (currentTimeMillis > stateManager.millisWhenToExitDroppedState) {
           stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::NO_NOTE);
 
-          DEBUG_NOTE_STATE_PRINTLN("Change to NoteState::NO_NOTE");
+          DEBUG_NOTE_STATE_PRINTLN(F("Change to NoteState::NO_NOTE"));
           nextAllowedNoteStateChange = currentTimeMillis + 1000;
         }
         break;

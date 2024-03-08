@@ -44,12 +44,12 @@ StateManager::StateManager(void) {
 }
 
 void StateManager::debugPrint(void){
-  Serial.println("StateManager::debugPrint - begins");
+  Serial.println(F("StateManager::debugPrint - begins"));
 
   Serial.println(getCurrentDistanceStateString());
   Serial.println(getCurrentNoteStateString());
 
-  Serial.println("StateManager::debugPrint - ends");
+  Serial.println(F("StateManager::debugPrint - ends"));
 }
 
 StateManager *StateManager::setDistanceState(unsigned long currentTimeMillis, DistanceState state) {

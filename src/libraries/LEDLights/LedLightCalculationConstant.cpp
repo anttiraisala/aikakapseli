@@ -32,7 +32,7 @@ LedLightCalculationValue LedLightCalculationConstant::getValue(void){
 }
 
 void LedLightCalculationConstant::debugPrint(void) {
-  Serial.println("\nLedLightCalculationConstant::debugPrint -begins");
+  Serial.println(F("\nLedLightCalculationConstant::debugPrint -begins"));
   ledLightCalculationValue.debugPrint();
-  Serial.println("LedLightCalculationConstant::debugPrint -ends\n");
+  Serial.println(F("LedLightCalculationConstant::debugPrint -ends\n"));
 }
