@@ -25,9 +25,6 @@ private:
   CalculationElementLink *controlElementLink;
   CalculationElementLink *input0ElementLink;
   CalculationElementLink *input1ElementLink;
-
-  LedLightCalculationTwoOperands *calculationTwoOperands;
-  LedLightCalculationConstant *llc_one;
 };
 
 

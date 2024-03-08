@@ -17,6 +17,7 @@ LedLights ledLights;
 #include "LedLightCalculationSine.h"
 #include "LedLightCalculationTwoOperands.h"
 #include "BranchByState.h"
+#include "CrossDissolve.h"
 
 #include "HelperFunctions.h"
 
@@ -251,7 +252,7 @@ delay(2000);
 }
 
 void patternInitDistanceStateChange(void) {
-  Serial.println("\patternInitDistanceStateChange - begins");
+  Serial.println(F("\npatternInitDistanceStateChange - begins"));
 
   LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
   LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
@@ -269,7 +270,48 @@ void patternInitDistanceStateChange(void) {
 
 
 
-  Serial.println("\patternInitDistanceStateChange - ends");
+  Serial.println(F("\npatternInitDistanceStateChange - ends"));
+}
+
+
+void patternInitCrossDissolve(void) {
+  Serial.println(F("\npatternInitCrossDissolve - begins"));
+
+  LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
+  LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 1.0, 0.5, 0.5))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
+  CrossDissolve *cd = new CrossDissolve();
+  cd->setControlElement(new CalculationElementLink(llc_sinePattern));
+  cd->setInput0Element(new CalculationElementLink(llc_colorRed));
+  cd->setInput1Element(new CalculationElementLink(llc_colorGreen));
+
+
+  int ledCount = 49;
+  double endPhase = 1.0;
+
+  ledLights.init();
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(cd, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(cd, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(cd, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(cd, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(cd, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+
+Serial.println(F("CrossDissolve 0.0"));
+  cd->getValue(0, 0.0, 0.0).debugPrint();
+Serial.println(F("CrossDissolve 0.2"));
+  cd->getValue(0, 0.0, 0.2).debugPrint();
+Serial.println(F("CrossDissolve 0.4"));
+  cd->getValue(0, 0.0, 0.4).debugPrint();
+Serial.println(F("CrossDissolve 0.6"));
+  cd->getValue(0, 0.0, 0.6).debugPrint();
+Serial.println(F("CrossDissolve 0.8"));
+  cd->getValue(0, 0.0, 0.8).debugPrint();
+Serial.println(F("CrossDissolve 1.0"));
+  cd->getValue(0, 0.0, 1.0).debugPrint();
+
+
+  Serial.println(F("\npatternInitCrossDissolve - ends"));
+  delay(3000);
 }
 
 
@@ -289,25 +331,26 @@ void setup() {
 
   delay(2000);
 
-  Serial.println("setup starts...");
+  Serial.println(F("setup starts..."));
   delay(1000);
 
-  Serial.println("ledLights.debugPrintLedSticks() - before ledLights.init()");
+  Serial.println(F("ledLights.debugPrintLedSticks() - before ledLights.init()"));
   ledLights.debugPrintLedSticks();
   ledLights.init();
-  Serial.println("ledLights.debugPrintLedSticks() - after ledLights.init()");
+  Serial.println(F("ledLights.debugPrintLedSticks() - after ledLights.init()"));
   ledLights.debugPrintLedSticks();
   delay(1000);
 
   //tests();
   ledLights.init();
-  patternInitBreathing();
-  Serial.println("ledLights.debugPrintLedSticks() - after patternInitBreathing()");
+  //patternInitBreathing();
+  Serial.println(F("ledLights.debugPrintLedSticks() - after patternInitBreathing()"));
   ledLights.debugPrintLedSticks();
-  //
-  patternInitDistanceStateChange();
+  ledLights.init();
+  //patternInitDistanceStateChange();
+  patternInitCrossDissolve();
   //ledLights.debugPrintLedSticks();
-  ledLights.getCalculationElementLink(0)->debugPrint();
+  //ledLights.getCalculationElementLink(0)->debugPrint();
   /*
   delay(1000);
   ledLights.getCalculationElementLink(0)->debugPrint();
@@ -331,18 +374,19 @@ void setup() {
   delay(1000);
 
 */
-  Serial.println("\nloopSetColors alkaa");
+  Serial.println(F("\nloopSetColors alkaa"));
   stateManager.setDistanceState(750, StateManager::DistanceState::FAR);
   stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
   ledLights.loopSetColors(750);
-  Serial.println("\nloopShow alkaa");
+  Serial.println(F("\nloopShow alkaa"));
   ledLights.loopShow();
+  delay(5000);
 
 
 
-  Serial.println("");
-  Serial.println("");
-  Serial.println("setup done.");
+  Serial.println(F(""));
+  Serial.println(F(""));
+  Serial.println(F("setup done."));
 }
 
 double r0, r1;

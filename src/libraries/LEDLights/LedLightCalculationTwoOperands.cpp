@@ -52,7 +52,7 @@ static void LedLightCalculationTwoOperands::performOperation(LedLightCalculation
           resultValue->setValue(valueA->getValueV() / valueB->getValueV());
         } else {
           resultValue->setValue(0.0);
-          Serial.println("ERROR: Tried to divide by zero.");
+          Serial.println(F("ERROR: Tried to divide by zero."));
         }
         break;
 
