@@ -2,6 +2,8 @@
 #define AIKAKAPSELI_EEPROM_H
 
 /*
+https://github.com/PRosenb/EEPROMWearLevel
+
 https://arduino.stackexchange.com/questions/226/what-is-the-real-lifetime-of-eeprom
 
 SD Card wear leveling

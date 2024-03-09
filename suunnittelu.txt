@@ -143,6 +143,8 @@ Jos tilannetta ei saada luettua EEPROM:sta, niin mihin kellonaikaan "mennään",
 
 Kuinka usein aika pitäisi kirjoittaa muistiin
 -----------------------------------------------------------
+https://github.com/PRosenb/EEPROMWearLevel
+
 https://arduino.stackexchange.com/questions/226/what-is-the-real-lifetime-of-eeprom
 
 SD Card wear leveling
