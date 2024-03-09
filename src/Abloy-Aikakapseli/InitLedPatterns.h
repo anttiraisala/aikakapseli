@@ -12,6 +12,8 @@
 #include "LedLightCalculationSine.h"
 #include "BranchByState.h"
 #include "LedLights.h"
+#include "StateChangePulse.h"
+#include "CrossDissolve.h"
 
 void initPatterns(void);
 

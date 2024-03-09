@@ -29,5 +29,19 @@ void initPatterns(void) {
   ledLights.loopSetColors(750);
   ledLights.loopShow();
   delay(4000);
+
+  StateChangePulse *ssp = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED);
+  CrossDissolve *cd = new CrossDissolve();
+  cd->setControlElement(new CalculationElementLink(ssp));
+  cd->setInput0Element(new CalculationElementLink(llc_colorWhite));
+  cd->setInput1Element(new CalculationElementLink(llc_colorGreen));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(cd));
+
+
+
+
+
+
+
   Serial.println(F("initPatterns - ends"));
 }
