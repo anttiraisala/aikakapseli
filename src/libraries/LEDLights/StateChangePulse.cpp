@@ -41,23 +41,23 @@ StateChangePulse *StateChangePulse::setPostOutput(double postOutput) {
 }
 
 LedLightCalculationValue StateChangePulse::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
-  serialPrintLnDouble("currentTimeSeconds:[", currentTimeSeconds, "]");
+  //serialPrintLnDouble("currentTimeSeconds:[", currentTimeSeconds, "]");
   double secondsAfterStateChange = 0.0;
   bool found = false;
   for (byte i = 0; i < elementCount; i++) {
     byte stateProspect = activeStates[i];
     if (stateProspect == (byte)stateManager.getDistanceState()) {
-      Serial.print(F("stateProspect:["));
+  /*    Serial.print(F("stateProspect:["));
       Serial.print(stateProspect, DEC);
-      Serial.println(F("]"));
+      Serial.println(F("]"));*/
       secondsAfterStateChange = stateManager.getSecondsAfterPreviousDistanceStateChange();
       found = true;
       break;
     }
     if (stateProspect == (byte)stateManager.getNoteState()) {
-      Serial.print(F("stateProspect:["));
+ /*     Serial.print(F("stateProspect:["));
       Serial.print(stateProspect, DEC);
-      Serial.println(F("]"));
+      Serial.println(F("]"));*/
       secondsAfterStateChange = stateManager.getSecondsAfterPreviousNoteStateChange();
       found = true;
       break;
@@ -69,20 +69,20 @@ LedLightCalculationValue StateChangePulse::getValue(unsigned long loopSetColorsC
   if (found == false) {
     return ledLightCalculationValue;
   }
-
+/*
   Serial.println("found=true");
   serialPrintLnDouble("preDelay:[", preDelay, "]");
 
-
+*/
   if (secondsAfterStateChange <= preDelay) {
-    serialPrintLnDouble("secondsAfterStateChange <= preDelay secondsAfterStateChange:[", secondsAfterStateChange, "]");
+    //serialPrintLnDouble("secondsAfterStateChange <= preDelay secondsAfterStateChange:[", secondsAfterStateChange, "]");
     return ledLightCalculationValue;
   }
 
   ledLightCalculationValue.setValue(secondsAfterStateChange);
 
   double secondsSincePulseStart = secondsAfterStateChange - preDelay;
-  serialPrintLnDouble("secondsSincePulseStart:[", secondsSincePulseStart, "]");
+  //serialPrintLnDouble("secondsSincePulseStart:[", secondsSincePulseStart, "]");
 
   /* Missä pulssissa ollaan menossa */
   /*
@@ -94,18 +94,18 @@ LedLightCalculationValue StateChangePulse::getValue(unsigned long loopSetColorsC
   */
 
   double a = secondsSincePulseStart / (pulseHighTimeSeconds + pulseLowTimeSeconds);
-  serialPrintLnDouble("a:[", a, "]");
+ /* serialPrintLnDouble("a:[", a, "]");
   serialPrintLnDouble("(double)((int)(a)):[", (double)((int)(a)), "]");
-
+*/
   if (floor(a) >= (double)pulseCount) {
     ledLightCalculationValue.setValue(postOutput);
     return ledLightCalculationValue;
   }
 
   double decimalPart = a - (double)((int)(a));
-  serialPrintLnDouble("decimalPart:[", decimalPart, "]");
+  //serialPrintLnDouble("decimalPart:[", decimalPart, "]");
   double b = pulseHighTimeSeconds / (pulseHighTimeSeconds + pulseLowTimeSeconds);
-  serialPrintLnDouble("b:[", b, "]");
+  //serialPrintLnDouble("b:[", b, "]");
 
   if (decimalPart <= b) {
     ledLightCalculationValue.setValue(1.0);

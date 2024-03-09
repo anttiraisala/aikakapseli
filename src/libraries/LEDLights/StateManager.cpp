@@ -92,10 +92,10 @@ StateManager *StateManager::updateSecondsAfterPreviousStateChanges(unsigned long
 
   secondsAfterPreviousDistanceStateChange = (currentTimeMillis - previousDistanceStateChange) / 1000.0;
   secondsAfterPreviousNoteStateChange = (currentTimeMillis - previousNoteStateChange) / 1000.0;
-
+/*
   serialPrintLnDouble("StateManager::secondsAfterPreviousDistanceStateChange:[", secondsAfterPreviousDistanceStateChange, "]");
   serialPrintLnDouble("StateManager::secondsAfterPreviousNoteStateChange:[", secondsAfterPreviousNoteStateChange, "]");
-
+*/
   return this;
 }
 
