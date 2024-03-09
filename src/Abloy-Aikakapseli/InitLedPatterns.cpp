@@ -23,13 +23,13 @@ void initPatterns(void) {
   branchByDistance->debugPrint();
   delay(1000);
 
-
+/*
   stateManager.setDistanceState(750, StateManager::DistanceState::FAR);
   stateManager.setNoteState(750, StateManager::NoteState::NO_NOTE);
   ledLights.loopSetColors(750);
   ledLights.loopShow();
   delay(4000);
-
+*/
   StateChangePulse *ssp = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED);
   CrossDissolve *cd = new CrossDissolve();
   cd->setControlElement(new CalculationElementLink(ssp));

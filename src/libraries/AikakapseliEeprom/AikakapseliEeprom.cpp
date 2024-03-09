@@ -104,6 +104,23 @@ bool AikakapseliEeprom::read(void) {
   this->eepromObject.minutes = EEPROMwl.read(4);
   this->eepromObject.seconds = EEPROMwl.read(5);
 
+  if (this->eepromObject.years > 100) {
+    this->eepromObject.years = 100;
+  }
+
+  if (this->eepromObject.days > 364) {
+    this->eepromObject.days = 364;
+  }
+  if (this->eepromObject.hours > 23) {
+    this->eepromObject.hours = 23;
+  }
+  if (this->eepromObject.minutes > 59) {
+    this->eepromObject.minutes = 59;
+  }
+  if (this->eepromObject.seconds > 59) {
+    this->eepromObject.seconds = 59;
+  }
+
   if (AIKAKAPSELI_MAGICNUMBER == this->eepromObject.magicNumber) {
     return true;
   } else {

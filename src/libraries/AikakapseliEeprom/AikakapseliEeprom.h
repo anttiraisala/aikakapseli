@@ -42,7 +42,7 @@ YYY:DDD:HH:MM:SS
   };
 
   AikakapseliEepromObject eepromObject;
-  #define TIME_FORMAT "YYY:DDD:HH:MM:SS"
+#define TIME_FORMAT "YYY:DDD:HH:MM:SS"
   char stringRepresentation[sizeof(TIME_FORMAT)];
 
 public:

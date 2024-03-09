@@ -11,7 +11,7 @@ void setup() {
   aikakapseliEeprom.init();
 
   //aikakapseliEeprom.clear();
- 
+
 
   Serial.println(F("Setup done."));
 }
