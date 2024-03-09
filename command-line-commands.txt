@@ -28,6 +28,9 @@ git clean -f
 
 git diff main implement-calculation-state-branch
 
+cd /home/anttir/projects-own/aikakapseli
+
+
 
 Arduinon kytkeminen portteihin
 ------------------------------------------
