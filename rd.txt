@@ -348,3 +348,14 @@ void loop()
     delay(500);
 }
 
+
+Simplex noise -library
+--------------------------------------------------------
+https://github.com/jshaw/SimplexNoise/tree/master
+
+
+
+Linear interpolation
+----------------------------------
+https://math.stackexchange.com/questions/3160718/cross-fading-between-2-values-on-number-lines
+
