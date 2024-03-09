@@ -149,6 +149,9 @@ void loop() {
   // Tilanvahdot 10ms välein
   stateChangeTimer->loop(currentTimeMillis);
 
+  // Tilamanagerin kirjanpitoa
+  stateManager.updateSecondsAfterPreviousStateChanges(currentTimeMillis);
+
   // Countdown -laskurin ajan vähentäminen ja arvon tulostus tasan sekunnin välein
   decreaseTimeAndShowTimer->loop(currentTimeMillis);
   // Countdown -laskurin ajan tallennus EEPROM:iin sähkökatkojen varalle
@@ -169,8 +172,7 @@ void loop() {
   /* Hoidetaan LCD-näytön tekstien häviäminen ajallaan */
   lcd->loop(currentTimeMillis);
 
-  // Tilamanagerin kirjanpitoa
-  stateManager.updateSecondsAfterPreviousStateChanges(currentTimeMillis);
+
 }
 
 void checkForStateChanges() {

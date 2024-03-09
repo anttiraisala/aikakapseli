@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+#include "HelperFunctions.h"
+
 /*
 
 enum class NoteState {
@@ -82,6 +84,9 @@ public:
   unsigned long millisWhenToExitDroppedState = 0;
 
   void debugPrint(void);
+
+  double getSecondsAfterPreviousDistanceStateChange(void);
+  double getSecondsAfterPreviousNoteStateChange(void);
 
 private:
 

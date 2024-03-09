@@ -3,15 +3,15 @@
 /*
 
   enum class NoteState {
-    NO_NOTE,
-    INSERTING,
-    DROPPED
+    NO_NOTE = 1,
+    INSERTING = 2,
+    DROPPED = 3
   };
 
   enum class DistanceState {
-    FAR,
-    NEAR,
-    RETREATING
+    FAR = 4,
+    NEAR = 5,
+    RETREATING = 6
   };
 
   
@@ -43,6 +43,15 @@ StateManager::StateManager(void) {
   previousNoteStateChange = millis();
 }
 
+double StateManager::getSecondsAfterPreviousDistanceStateChange(void){
+  return secondsAfterPreviousDistanceStateChange;
+}
+
+double StateManager::getSecondsAfterPreviousNoteStateChange(void){
+  return secondsAfterPreviousNoteStateChange;
+}
+
+
 void StateManager::debugPrint(void){
   Serial.println(F("StateManager::debugPrint - begins"));
 
@@ -61,6 +70,8 @@ StateManager *StateManager::setDistanceState(unsigned long currentTimeMillis, Di
   distanceState = state;
   previousDistanceStateChange = currentTimeMillis;
 
+  updateSecondsAfterPreviousStateChanges(currentTimeMillis);
+
   return this;
 }
 
@@ -73,12 +84,18 @@ StateManager *StateManager::setNoteState(unsigned long currentTimeMillis, NoteSt
   noteState = state;
   previousNoteStateChange = currentTimeMillis;
 
+  updateSecondsAfterPreviousStateChanges(currentTimeMillis);
+
   return this;
 }
 StateManager *StateManager::updateSecondsAfterPreviousStateChanges(unsigned long currentTimeMillis) {
 
   secondsAfterPreviousDistanceStateChange = (currentTimeMillis - previousDistanceStateChange) / 1000.0;
   secondsAfterPreviousNoteStateChange = (currentTimeMillis - previousNoteStateChange) / 1000.0;
+
+  serialPrintLnDouble("StateManager::secondsAfterPreviousDistanceStateChange:[", secondsAfterPreviousDistanceStateChange, "]");
+  serialPrintLnDouble("StateManager::secondsAfterPreviousNoteStateChange:[", secondsAfterPreviousNoteStateChange, "]");
+
   return this;
 }
 

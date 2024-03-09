@@ -18,6 +18,7 @@ LedLights ledLights;
 #include "LedLightCalculationTwoOperands.h"
 #include "BranchByState.h"
 #include "CrossDissolve.h"
+#include "StateChangePulse.h"
 
 #include "HelperFunctions.h"
 
@@ -296,21 +297,78 @@ void patternInitCrossDissolve(void) {
   ledLights.setCalculationElementLink(3, new CalculationElementLink(cd, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
   ledLights.setCalculationElementLink(4, new CalculationElementLink(cd, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
 
-Serial.println(F("CrossDissolve 0.0"));
+  Serial.println(F("CrossDissolve 0.0"));
   cd->getValue(0, 0.0, 0.0).debugPrint();
-Serial.println(F("CrossDissolve 0.2"));
+  Serial.println(F("CrossDissolve 0.2"));
   cd->getValue(0, 0.0, 0.2).debugPrint();
-Serial.println(F("CrossDissolve 0.4"));
+  Serial.println(F("CrossDissolve 0.4"));
   cd->getValue(0, 0.0, 0.4).debugPrint();
-Serial.println(F("CrossDissolve 0.6"));
+  Serial.println(F("CrossDissolve 0.6"));
   cd->getValue(0, 0.0, 0.6).debugPrint();
-Serial.println(F("CrossDissolve 0.8"));
+  Serial.println(F("CrossDissolve 0.8"));
   cd->getValue(0, 0.0, 0.8).debugPrint();
-Serial.println(F("CrossDissolve 1.0"));
+  Serial.println(F("CrossDissolve 1.0"));
   cd->getValue(0, 0.0, 1.0).debugPrint();
 
 
   Serial.println(F("\npatternInitCrossDissolve - ends"));
+  delay(3000);
+}
+
+
+void patternInitStateChangePulse(void) {
+  Serial.println(F("\npatternInitStateChangePulse - begins"));
+
+  StateChangePulse *ssp = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED);
+
+  int ledCount = 49;
+  double endPhase = 1.0;
+
+  ledLights.init();
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(ssp, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(ssp, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(ssp, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(ssp, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(ssp, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+
+
+  unsigned long ctMillis = 0;
+
+
+  Serial.println(F("NO_NOTE 0"));
+  stateManager.setNoteState(ctMillis, StateManager::NoteState::NO_NOTE);
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+
+  ctMillis = 10;
+  Serial.println(F("NO_NOTE 10"));
+  stateManager.setNoteState(ctMillis, StateManager::NoteState::DROPPED);
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ctMillis = 130;
+  Serial.println(F("DROPPED 130"));
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ctMillis = 400;
+  Serial.println(F("DROPPED 400"));
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ctMillis = 500;
+  Serial.println(F("DROPPED 500"));
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ctMillis = 670;
+  Serial.println(F("DROPPED 670"));
+  stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
+  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+
+/*
+  stateManager.setNoteState(0, StateManager::NoteState::INSERTING);
+  stateManager.setNoteState(0, StateManager::NoteState::DROPPED);
+*/
+
+
+  Serial.println(F("\npatternInitStateChangePulse - ends"));
   delay(3000);
 }
 
@@ -348,7 +406,8 @@ void setup() {
   ledLights.debugPrintLedSticks();
   ledLights.init();
   //patternInitDistanceStateChange();
-  patternInitCrossDissolve();
+  //patternInitCrossDissolve();
+  patternInitStateChangePulse();
   //ledLights.debugPrintLedSticks();
   //ledLights.getCalculationElementLink(0)->debugPrint();
   /*
