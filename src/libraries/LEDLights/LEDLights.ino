@@ -19,6 +19,7 @@ LedLights ledLights;
 #include "BranchByState.h"
 #include "CrossDissolve.h"
 #include "StateChangePulse.h"
+#include "CalculationSimplexNoise.h"
 
 #include "HelperFunctions.h"
 
@@ -338,37 +339,64 @@ void patternInitStateChangePulse(void) {
   Serial.println(F("NO_NOTE 0"));
   stateManager.setNoteState(ctMillis, StateManager::NoteState::NO_NOTE);
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
 
   ctMillis = 10;
   Serial.println(F("NO_NOTE 10"));
   stateManager.setNoteState(ctMillis, StateManager::NoteState::DROPPED);
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
   ctMillis = 130;
   Serial.println(F("DROPPED 130"));
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
   ctMillis = 400;
   Serial.println(F("DROPPED 400"));
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
   ctMillis = 500;
   Serial.println(F("DROPPED 500"));
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
   ctMillis = 670;
   Serial.println(F("DROPPED 670"));
   stateManager.updateSecondsAfterPreviousStateChanges(ctMillis);
-  ssp->getValue(0, ctMillis/1000.0f, 0.0).debugPrint();
+  ssp->getValue(0, ctMillis / 1000.0f, 0.0).debugPrint();
 
-/*
+  /*
   stateManager.setNoteState(0, StateManager::NoteState::INSERTING);
   stateManager.setNoteState(0, StateManager::NoteState::DROPPED);
 */
 
 
   Serial.println(F("\npatternInitStateChangePulse - ends"));
+  delay(3000);
+}
+
+
+
+void patternInitSimplexNoise(void) {
+  Serial.println(F("\npatternInitSimplexNoise - begins"));
+
+  CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setOutputAmplitude(0.5)->setOutputOffset(0.5)->setYRatio(0.5)->setCalculationElementPhaseMapping(0.0, 1.0);
+  LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
+  LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(cSN), new CalculationElementLink(llc_five));
+
+  LedLightCalculationConstant *color1 = new LedLightCalculationConstant(255, 128, 0);
+  LedLightCalculationTwoOperands *operation = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(o_PowerFive), new CalculationElementLink(color1));
+
+  int ledCount = 49;
+  double endPhase = 1.0;
+
+  ledLights.init();
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(operation, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(operation, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(operation, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(operation, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(operation, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+
+
+  Serial.println(F("\npatternInitSimplexNoise - ends"));
   delay(3000);
 }
 
@@ -407,7 +435,8 @@ void setup() {
   ledLights.init();
   //patternInitDistanceStateChange();
   //patternInitCrossDissolve();
-  patternInitStateChangePulse();
+  //patternInitStateChangePulse();
+  patternInitSimplexNoise();
   //ledLights.debugPrintLedSticks();
   //ledLights.getCalculationElementLink(0)->debugPrint();
   /*
