@@ -408,7 +408,7 @@ void patternInitSweepingDot(void) {
   
 
   LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
-  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(true);
+  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(false);
   //CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setYRatio(0.1250)->setOutputAmplitude(0.3)->setOutputOffset(0.4)->setCalculationElementPhaseMapping(0.0, 2.0);
   //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(cSN))->setRotateInsteadOfSweep(false);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
