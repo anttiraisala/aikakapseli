@@ -21,14 +21,18 @@ LedLightCalculationValue SweepingDot::getValue(unsigned long loopSetColorsCounte
 
   LedLightCalculationValue speedRatioValue = speedRatioElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, speedRatioElementLink->getMappedRelativePhase(relativePhase));
   double speedRatio = speedRatioValue.getValueV();
-  internalTimeSeconds += (currentTimeSeconds - previousTimeSeconds) * speedRatio;
+  double timeDifference = (currentTimeSeconds - previousTimeSeconds) * speedRatio;
+  internalTimeSeconds += timeDifference;
   previousTimeSeconds = currentTimeSeconds;
 
-  double timeDecimalPart = internalTimeSeconds - ((double)((long)(internalTimeSeconds)));
-  double dotXLocation = timeDecimalPart;
-  if (speedRatio < 0.0) {
-    dotXLocation = 1.0 + dotXLocation;
+  double timeDecimalPart = 0.0;
+  if (internalTimeSeconds >= 0.0) {
+    timeDecimalPart = internalTimeSeconds - ((double)((long)(internalTimeSeconds)));
+  } else {
+    double t2 = -1.0 * internalTimeSeconds;
+    timeDecimalPart = t2 - ((double)((long)(t2)));
   }
+  double dotXLocation = timeDecimalPart;
 
   if (rotateInsteadOfSweep == false) {
     dotXLocation = dotXLocation * 2.0;
