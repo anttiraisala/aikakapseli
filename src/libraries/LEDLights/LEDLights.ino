@@ -21,6 +21,7 @@ LedLights ledLights;
 #include "StateChangePulse.h"
 #include "CalculationSimplexNoise.h"
 #include "SweepingDot.h"
+#include "Threshold.h"
 
 #include "HelperFunctions.h"
 
@@ -407,14 +408,14 @@ void patternInitSweepingDot(void) {
 
 
   //
-  LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
-  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(false);
+  //LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
+  //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(false);
   //
   //CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setYRatio(0.051250)->setOutputAmplitude(0.2)->setOutputOffset(0.1)->setCalculationElementPhaseMapping(0.0, 6.0);
   //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(cSN))->setRotateInsteadOfSweep(true);
   //
-  //LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.20, 0.4, 0.10))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
-  //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_sinePattern))->setRotateInsteadOfSweep(true);
+  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.20, 0.4, 0.10))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
+  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_sinePattern))->setRotateInsteadOfSweep(true);
   //
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
   LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(sw), new CalculationElementLink(llc_five));
@@ -430,6 +431,14 @@ void patternInitSweepingDot(void) {
   ledLights.setCalculationElementLink(1, new CalculationElementLink(operation, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
   ledLights.setCalculationElementLink(2, new CalculationElementLink(operation, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
   ledLights.setCalculationElementLink(3, new CalculationElementLink(operation, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+
+
+  //
+  Threshold *t = (new Threshold())->setInputElement(new CalculationElementLink(new LedLightCalculationConstant(0.40)));
+  //
+  t->getValue(0, 0.0, 0.0).debugPrint();
+  t->setInputElement(new CalculationElementLink(new LedLightCalculationConstant(0.50)))->getValue(0, 0.0, 0.0).debugPrint();
+  t->setInputElement(new CalculationElementLink(new LedLightCalculationConstant(1.50)))->getValue(0, 0.0, 0.0).debugPrint();
 
 
   Serial.println(F("\npatternInitSweepingDot - ends"));
