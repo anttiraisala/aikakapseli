@@ -405,8 +405,12 @@ void patternInitSimplexNoise(void) {
 void patternInitSweepingDot(void) {
   Serial.println(F("\npatternInitSweepingDot - begins"));
 
-  LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.5);
-  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(false);
+  
+
+  LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
+  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(true);
+  //CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setYRatio(0.1250)->setOutputAmplitude(0.3)->setOutputOffset(0.4)->setCalculationElementPhaseMapping(0.0, 2.0);
+  //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(cSN))->setRotateInsteadOfSweep(false);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
   LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(sw), new CalculationElementLink(llc_five));
 

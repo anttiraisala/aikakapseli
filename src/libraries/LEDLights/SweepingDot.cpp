@@ -26,6 +26,9 @@ LedLightCalculationValue SweepingDot::getValue(unsigned long loopSetColorsCounte
 
   double timeDecimalPart = internalTimeSeconds - ((double)((long)(internalTimeSeconds)));
   double dotXLocation = timeDecimalPart;
+  if (speedRatio < 0.0) {
+    dotXLocation = 1.0 + dotXLocation;
+  }
 
   if (rotateInsteadOfSweep == false) {
     dotXLocation = dotXLocation * 2.0;
