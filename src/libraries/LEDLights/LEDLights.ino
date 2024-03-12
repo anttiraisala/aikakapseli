@@ -20,6 +20,7 @@ LedLights ledLights;
 #include "CrossDissolve.h"
 #include "StateChangePulse.h"
 #include "CalculationSimplexNoise.h"
+#include "SweepingDot.h"
 
 #include "HelperFunctions.h"
 
@@ -402,6 +403,34 @@ void patternInitSimplexNoise(void) {
 
 
 
+void patternInitSweepingDot(void) {
+  Serial.println(F("\npatternInitSweepingDot - begins"));
+
+  LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.5);
+  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number));
+  LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
+  LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(sw), new CalculationElementLink(llc_five));
+
+  LedLightCalculationConstant *color1 = new LedLightCalculationConstant(255, 128, 0);
+  LedLightCalculationTwoOperands *operation = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(o_PowerFive), new CalculationElementLink(color1));
+
+  int ledCount = 49;
+  double endPhase = 1.0;
+
+  ledLights.init();
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(operation, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(operation, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(operation, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(operation, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(operation, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+
+
+  Serial.println(F("\npatternInitSweepingDot - ends"));
+  delay(3000);
+}
+
+
+
 
 
 void setup() {
@@ -435,8 +464,9 @@ void setup() {
   ledLights.init();
   //patternInitDistanceStateChange();
   //patternInitCrossDissolve();
-  //patternInitStateChangePulse();
-  patternInitSimplexNoise();
+  //patternInitStateChangePulse();  
+  //patternInitSimplexNoise();
+  patternInitSweepingDot();
   //ledLights.debugPrintLedSticks();
   //ledLights.getCalculationElementLink(0)->debugPrint();
   /*
