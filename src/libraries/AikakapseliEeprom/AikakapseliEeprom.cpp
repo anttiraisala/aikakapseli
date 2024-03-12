@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <EEPROMWearLevel.h>
 
+// EEPROM.h tarvitaan EEPROM -rw-operaatioihin
+#include <EEPROM.h>
+
 
 AikakapseliEeprom::AikakapseliEeprom(void) {
   this->init();
@@ -24,7 +27,7 @@ char* AikakapseliEeprom::getTimeString(void) {
 
 void AikakapseliEeprom::init(void) {
   this->setToTime(0, 0, 0, 0, 0);
-  EEPROMwl.begin(6, 3500);
+  //EEPROMwl.begin(6, 3500);
 }
 
 boolean AikakapseliEeprom::decreaseTime(void) {
@@ -66,12 +69,15 @@ boolean AikakapseliEeprom::decreaseTime(void) {
 
 void AikakapseliEeprom::write(void) {
   this->eepromObject.magicNumber = AIKAKAPSELI_MAGICNUMBER;
+  /*
   EEPROMwl.write(0, this->eepromObject.magicNumber);
   EEPROMwl.write(1, this->eepromObject.years);
   EEPROMwl.write(2, this->eepromObject.days);
   EEPROMwl.write(3, this->eepromObject.hours);
   EEPROMwl.write(4, this->eepromObject.minutes);
   EEPROMwl.write(5, this->eepromObject.seconds);
+  */
+  EEPROM.put(0, eepromObject);
 }
 
 void AikakapseliEeprom::clear(void) {
@@ -96,13 +102,16 @@ void AikakapseliEeprom::clear(void) {
   Serial.println(F("EEPROM cleared!"));
 }
 
-bool AikakapseliEeprom::read(void) {
+bool AikakapseliEeprom::read(void) {/*
   this->eepromObject.magicNumber = EEPROMwl.read(0);
   this->eepromObject.years = EEPROMwl.read(1);
   this->eepromObject.days = EEPROMwl.read(2);
   this->eepromObject.hours = EEPROMwl.read(3);
   this->eepromObject.minutes = EEPROMwl.read(4);
-  this->eepromObject.seconds = EEPROMwl.read(5);
+  this->eepromObject.seconds = EEPROMwl.read(5);*/
+
+  EEPROM.get(0, eepromObject);
+
 
   if (this->eepromObject.years > 100) {
     this->eepromObject.years = 100;

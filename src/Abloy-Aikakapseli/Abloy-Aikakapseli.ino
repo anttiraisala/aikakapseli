@@ -48,7 +48,7 @@ void setLightsToRandom(void) {
 //
 #include "InitLedPatterns.h"
 CallbackTimer *updateColorsLoopTimer;
-void updateColorsLoop(void){
+void updateColorsLoop(void) {
   ledLights.loopSetColors(currentTimeMillis);
   ledLights.loopShow();
 }
@@ -120,7 +120,7 @@ void setup() {
   stateChangeTimer = new CallbackTimer(checkForStateChanges, currentTimeMillis, (unsigned long)10);
 
   decreaseTimeAndShowTimer = new CallbackTimer(decreaseTimeAndShow, currentTimeMillis, (unsigned long)1000);
-  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 120);
+  writeCountdownTimeToEepromTimer = new CallbackTimer(writeTime, currentTimeMillis, (unsigned long)1000 * 60 * 60 * 10);
 
   setLightsToRandomTimer = new CallbackTimer(setLightsToRandom, currentTimeMillis, (unsigned long)1000 / 20);
 
@@ -171,8 +171,6 @@ void loop() {
 
   /* Hoidetaan LCD-näytön tekstien häviäminen ajallaan */
   lcd->loop(currentTimeMillis);
-
-
 }
 
 void checkForStateChanges() {
