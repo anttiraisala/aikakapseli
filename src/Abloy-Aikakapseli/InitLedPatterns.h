@@ -14,6 +14,9 @@
 #include "LedLights.h"
 #include "StateChangePulse.h"
 #include "CrossDissolve.h"
+#include "CalculationSimplexNoise.h"
+#include "SweepingDot.h"
+#include "Threshold.h"
 
 void initPatterns(void);
 
