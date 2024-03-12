@@ -25,16 +25,36 @@ LedLightCalculationValue SweepingDot::getValue(unsigned long loopSetColorsCounte
   previousTimeSeconds = currentTimeSeconds;
 
   double timeDecimalPart = internalTimeSeconds - ((double)((long)(internalTimeSeconds)));
-  if(rotateInsteadOfSweep == true){
-    ledLightCalculationValue.setValue(timeDecimalPart);
-    return ledLightCalculationValue;
+  double dotXLocation = timeDecimalPart;
+
+  if (rotateInsteadOfSweep == false) {
+    dotXLocation = dotXLocation * 2.0;
+
+    if (dotXLocation >= 1.0) {
+      dotXLocation = 2.0 - dotXLocation;
+    }
+  }
+  /*
+    Serial.print(dotXLocation);
+  Serial.print(" ");
+*/
+  double differenceFromDotXLocation = dotXLocation - relativePhase;
+  if (differenceFromDotXLocation < 0.0) {
+    differenceFromDotXLocation = -1.0 * differenceFromDotXLocation;
   }
 
-  if(timeDecimalPart>=0.5){
-    ledLightCalculationValue.setValue(1.0-timeDecimalPart);
-  } else {
-    ledLightCalculationValue.setValue(timeDecimalPart);
-  }
+  differenceFromDotXLocation = 1.0 - differenceFromDotXLocation;
+
+
+
+  differenceFromDotXLocation = pow(differenceFromDotXLocation, 8.0);
+
+  ledLightCalculationValue.setValue(differenceFromDotXLocation);
+
+
+
+
+
 
 
   //Serial.println(timeDecimalPart);
