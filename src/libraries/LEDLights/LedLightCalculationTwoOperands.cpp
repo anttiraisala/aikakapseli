@@ -23,6 +23,12 @@ LedLightCalculationTwoOperands *LedLightCalculationTwoOperands::setOperation(Led
 }
 
 double lerp(double control, double a, double b) {
+  if(control<0.0){
+    control=0.0;
+  }
+  if(control>1.0){
+    control=1.0;
+  }
   return (b - a) * control + a;
 }
 
