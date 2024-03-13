@@ -227,7 +227,7 @@ void checkForStateChanges() {
       case StateManager::NoteState::INSERTING:
         if (isNoteDetected() == false) {
           stateManager.setNoteState(currentTimeMillis, StateManager::NoteState::DROPPED);
-          stateManager.millisWhenToExitDroppedState = currentTimeMillis + 5000;
+          stateManager.millisWhenToExitDroppedState = currentTimeMillis + 3000;
 
           DEBUG_NOTE_STATE_PRINTLN(F("Change to NoteState::DROPPED"));
           lcd->setText("Kiitos!", 1, currentTimeMillis, 2000);

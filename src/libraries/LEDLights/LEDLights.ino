@@ -380,7 +380,7 @@ void patternInitStateChangePulse(void) {
 void patternInitSimplexNoise(void) {
   Serial.println(F("\npatternInitSimplexNoise - begins"));
 
-  CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setOutputAmplitude(0.5)->setOutputOffset(0.5)->setYRatio(0.250)->setCalculationElementPhaseMapping(0.0, 6.0);
+  CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setOutputAmplitude(0.2)->setOutputOffset(0.5)->setYRatio(0.250)->setCalculationElementPhaseMapping(0.0, 3.0);
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
   LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(cSN), new CalculationElementLink(llc_five));
 
@@ -481,8 +481,8 @@ void setup() {
   //patternInitDistanceStateChange();
   //patternInitCrossDissolve();
   //patternInitStateChangePulse();
-  //patternInitSimplexNoise();
-  patternInitSweepingDot();
+  patternInitSimplexNoise();
+  //patternInitSweepingDot();
   //ledLights.debugPrintLedSticks();
   //ledLights.getCalculationElementLink(0)->debugPrint();
   /*

@@ -20,6 +20,7 @@ float y = 0.0;
 void setup() {
   Serial.begin(19200);
   delay(3000);
+  sn.init();
 
 
   for (y = 0.0; y < RANGE; y += RANGE / 20.0) {
