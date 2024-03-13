@@ -62,4 +62,7 @@ for(;;);
         
         
 
+// Original
+Sketch uses 6088 bytes (2%) of program storage space. Maximum is 253952 bytes.
+Global variables use 1536 bytes (18%) of dynamic memory, leaving 6656 bytes for local variables. Maximum is 8192 bytes.
 
