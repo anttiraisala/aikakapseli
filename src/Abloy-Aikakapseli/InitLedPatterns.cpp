@@ -63,17 +63,26 @@ void initPatterns(void) {
   /* DROPPED - begins */
   LedLightCalculationConstant *slotDroppedWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
   LedLightCalculationConstant *slotDroppedGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
-  StateChangePulse *slotDroppedScp = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED);
+  StateChangePulse *slotDroppedScp = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED)->setPostOutput(1.0);
   //
   CrossDissolve *slotCD = new CrossDissolve();
   slotCD->setControlElement(new CalculationElementLink(slotDroppedScp));
   slotCD->setInput0Element(new CalculationElementLink(slotDroppedWhite));
   slotCD->setInput1Element(new CalculationElementLink(slotDroppedGreen));
-  ledLights.setCalculationElementLink(2, new CalculationElementLink(slotCD));
+  //ledLights.setCalculationElementLink(2, new CalculationElementLink(slotCD));
   /* DROPPED - ends */
 
 
   /* Combined slot - begins */
+  BranchByState *slotCombinedBranch = new BranchByState();
+  slotCombinedBranch->setDefaultCalculationElementLink(new CalculationElementLink(slotNoNoteMultiplication));
+  slotCombinedBranch->setStateAndCalculationElementLink((byte)StateManager::NoteState::INSERTING, new CalculationElementLink(slotLightGreen));
+  slotCombinedBranch->setStateAndCalculationElementLink((byte)StateManager::NoteState::DROPPED, new CalculationElementLink(slotCD));
+    
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 00.0, slotEndPhase / slotLedCount * 09.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 10.0, slotEndPhase / slotLedCount * 19.0));
+  
+
 
 
 
