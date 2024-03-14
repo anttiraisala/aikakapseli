@@ -408,14 +408,14 @@ void patternInitSweepingDot(void) {
 
 
   //
-  //LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
-  //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(false);
+  LedLightCalculationConstant *llc_number = new LedLightCalculationConstant(0.20);
+  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_number))->setRotateInsteadOfSweep(true);
   //
   //CalculationSimplexNoise *cSN = (new CalculationSimplexNoise())->setYRatio(0.051250)->setOutputAmplitude(0.2)->setOutputOffset(0.1)->setCalculationElementPhaseMapping(0.0, 6.0);
   //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(cSN))->setRotateInsteadOfSweep(true);
   //
-  LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.20, 0.4, 0.10))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
-  SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_sinePattern))->setRotateInsteadOfSweep(true);
+  //LedLightCalculationSine *llc_sinePattern = (new LedLightCalculationSine(0.0, 0.20, 0.4, 0.10))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 1.0);
+  //SweepingDot *sw = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(llc_sinePattern))->setRotateInsteadOfSweep(true);
   //
   LedLightCalculationConstant *llc_five = new LedLightCalculationConstant(3.0);
   LedLightCalculationTwoOperands *o_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(sw), new CalculationElementLink(llc_five));
@@ -481,8 +481,8 @@ void setup() {
   //patternInitDistanceStateChange();
   //patternInitCrossDissolve();
   //patternInitStateChangePulse();
-  patternInitSimplexNoise();
-  //patternInitSweepingDot();
+  //patternInitSimplexNoise();
+  patternInitSweepingDot();
   //ledLights.debugPrintLedSticks();
   //ledLights.getCalculationElementLink(0)->debugPrint();
   /*

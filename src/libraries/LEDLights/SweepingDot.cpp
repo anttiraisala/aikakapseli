@@ -4,7 +4,7 @@
 
 SweepingDot::SweepingDot(void) {
   previousTimeSeconds = 0.0;
-  internalTimeSeconds = 0.0;
+  internalTimeSeconds = -1000.0;
 }
 
 SweepingDot *SweepingDot::setRotateInsteadOfSweep(boolean rotateInsteadOfSweep) {
@@ -30,7 +30,7 @@ LedLightCalculationValue SweepingDot::getValue(unsigned long loopSetColorsCounte
     timeDecimalPart = internalTimeSeconds - ((double)((long)(internalTimeSeconds)));
   } else {
     double t2 = -1.0 * internalTimeSeconds;
-    timeDecimalPart = t2 - ((double)((long)(t2)));
+    timeDecimalPart = 1.0 - (t2 - ((double)((long)(t2))));
   }
   double dotXLocation = timeDecimalPart;
 

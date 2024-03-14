@@ -8,6 +8,8 @@ void initPatterns(void) {
   ledLights.init();
   ledLights.setLightsToZero();
 
+
+
   LedLightCalculationConstant *llc_colorRed = new LedLightCalculationConstant(255.0, 0.0, 0.0);
   LedLightCalculationConstant *llc_colorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
   LedLightCalculationConstant *llc_colorBlue = new LedLightCalculationConstant(0.0, 0.0, 255.0);
@@ -18,7 +20,7 @@ void initPatterns(void) {
   branchByDistance->setStateAndCalculationElementLink((byte)StateManager::DistanceState::NEAR, new CalculationElementLink(llc_colorGreen));
   branchByDistance->setStateAndCalculationElementLink((byte)StateManager::DistanceState::RETREATING, new CalculationElementLink(llc_colorBlue));
   branchByDistance->setDefaultCalculationElementLink(new CalculationElementLink(llc_colorWhite));
-  ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
+  //ledLights.setCalculationElementLink(0, new CalculationElementLink(branchByDistance));
 
   branchByDistance->debugPrint();
   delay(1000);
@@ -36,7 +38,44 @@ void initPatterns(void) {
   cd->setControlElement(new CalculationElementLink(ssp));
   cd->setInput0Element(new CalculationElementLink(llc_colorWhite));
   cd->setInput1Element(new CalculationElementLink(llc_colorGreen));
-  ledLights.setCalculationElementLink(1, new CalculationElementLink(cd));
+  //ledLights.setCalculationElementLink(1, new CalculationElementLink(cd));
+
+
+  /* DistanceState - FAR - begins */
+
+  
+
+  LedLightCalculationConstant *distanceFar_ColorWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
+
+  // Sine rotating left
+  LedLightCalculationConstant *number_Five = new LedLightCalculationConstant(5.0);
+  LedLightCalculationSine *distanceFar_Sine = (new LedLightCalculationSine(0.0, 0.10, 0.3, 0.70))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 4.0);
+  LedLightCalculationTwoOperands *distanceFar_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_Sine), new CalculationElementLink(number_Five));
+  LedLightCalculationTwoOperands *distanceFar_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
+
+  // rotate left
+  LedLightCalculationConstant *distanceFar_RotateLeft_RotateLeftSpeed = new LedLightCalculationConstant(-0.1);
+  SweepingDot *distanceFar_RotateLeft_Rotate = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(distanceFar_RotateLeft_RotateLeftSpeed))->setRotateInsteadOfSweep(true);
+  LedLightCalculationTwoOperands *distanceFar_RotateLeft_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_RotateLeft_Rotate), new CalculationElementLink(number_Five));
+  LedLightCalculationTwoOperands *distanceFar_RotateLeft_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_ColorWhite), new CalculationElementLink(distanceFar_RotateLeft_PowerFive));
+
+
+
+  /* DistanceState - FAR - ends */
+
+
+  LedLightCalculationElement *testElement = distanceFar_RotateLeft_MultiplyByColor;
+
+  int ledCount = 59;
+  double endPhase = 1.0;
+  //
+  ledLights.init();
+  ledLights.setCalculationElementLink(0, new CalculationElementLink(testElement, endPhase / ledCount * 00.0, endPhase / ledCount * 09.0));
+  ledLights.setCalculationElementLink(1, new CalculationElementLink(testElement, endPhase / ledCount * 10.0, endPhase / ledCount * 19.0));
+  ledLights.setCalculationElementLink(2, new CalculationElementLink(testElement, endPhase / ledCount * 20.0, endPhase / ledCount * 29.0));
+  ledLights.setCalculationElementLink(3, new CalculationElementLink(testElement, endPhase / ledCount * 30.0, endPhase / ledCount * 39.0));
+  ledLights.setCalculationElementLink(4, new CalculationElementLink(testElement, endPhase / ledCount * 40.0, endPhase / ledCount * 49.0));
+  ledLights.setCalculationElementLink(5, new CalculationElementLink(testElement, endPhase / ledCount * 50.0, endPhase / ledCount * 59.0));
 
 
   /************************************************************/
