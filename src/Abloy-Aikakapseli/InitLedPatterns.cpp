@@ -54,7 +54,7 @@ void initPatterns(void) {
   LedLightCalculationTwoOperands *distanceFar_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
 
   // rotate left
-  LedLightCalculationConstant *distanceFar_RotateLeft_RotateLeftSpeed = new LedLightCalculationConstant(-0.1);
+  LedLightCalculationConstant *distanceFar_RotateLeft_RotateLeftSpeed = new LedLightCalculationConstant(-0.07);
   SweepingDot *distanceFar_RotateLeft_Rotate = (new SweepingDot())->setSpeedRatioElement(new CalculationElementLink(distanceFar_RotateLeft_RotateLeftSpeed))->setRotateInsteadOfSweep(true);
   LedLightCalculationTwoOperands *distanceFar_RotateLeft_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_RotateLeft_Rotate), new CalculationElementLink(number_Five));
   LedLightCalculationTwoOperands *distanceFar_RotateLeft_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_ColorWhite), new CalculationElementLink(distanceFar_RotateLeft_PowerFive));
