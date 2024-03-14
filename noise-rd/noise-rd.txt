@@ -10,7 +10,7 @@ git checkout 27e45ca4b39f305b84e4a5d41360a22fdbc13385 SimplexNoise.h ;
 https://www.arduino.cc/reference/en/language/variables/utilities/progmem/
 
 
-
+pgm_read_byte_near(signMessage + k);
 
 
     //static const uint8_t p[256];
@@ -63,10 +63,15 @@ PROGMEM const uint8_t SimplexNoise::permMod12[512] = {7, 4, 5, 7, 6, 3, 11, 1, 9
     ;
 
 
-
-
         //perm[i] = p[i & 255];
         perm[i] = pgm_read_byte_near(p + (i & 255));
+
+
+ uint8_t gi0 = permMod12[ii + perm[jj]];
+  uint8_t gi1 = permMod12[ii + i1 + perm[jj + j1]];
+  uint8_t gi2 = permMod12[ii + 1 + perm[jj + 1]];
+
+
         
         
 
