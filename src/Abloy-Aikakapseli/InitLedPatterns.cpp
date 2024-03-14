@@ -43,7 +43,7 @@ void initPatterns(void) {
 
   /* DistanceState - FAR - begins */
 
-  
+
 
   LedLightCalculationConstant *distanceFar_ColorWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
 
@@ -59,12 +59,17 @@ void initPatterns(void) {
   LedLightCalculationTwoOperands *distanceFar_RotateLeft_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_RotateLeft_Rotate), new CalculationElementLink(number_Five));
   LedLightCalculationTwoOperands *distanceFar_RotateLeft_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_ColorWhite), new CalculationElementLink(distanceFar_RotateLeft_PowerFive));
 
+  // Noise
+  LedLightCalculationConstant *number_NoisePowerNumber = new LedLightCalculationConstant(2.5);
+  CalculationSimplexNoise *distanceFar_Noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.2)->setOutputOffset(0.8)->setYRatio(0.15)->setCalculationElementPhaseMapping(0.0, 2.0);
+  LedLightCalculationTwoOperands *distanceFar_Noise_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_Noise), new CalculationElementLink(number_NoisePowerNumber));
+  LedLightCalculationTwoOperands *distanceFar_Noise_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_ColorWhite), new CalculationElementLink(distanceFar_Noise_PowerFive));
 
 
   /* DistanceState - FAR - ends */
 
 
-  LedLightCalculationElement *testElement = distanceFar_RotateLeft_MultiplyByColor;
+  LedLightCalculationElement *testElement = distanceFar_Noise_MultiplyByColor;
 
   int ledCount = 59;
   double endPhase = 1.0;
@@ -99,7 +104,7 @@ void initPatterns(void) {
   LedLightCalculationConstant *slotLightGreen = new LedLightCalculationConstant(75.0, 255.0, 75.0);
   LedLightCalculationConstant *slotGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
 
-/*
+  /*
   Serial.println(F("new CalculationSimplexNoise() - before"));
   CalculationSimplexNoise *slotInserting_noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.05)->setOutputOffset(0.95)->setYRatio(0.250)->setCalculationElementPhaseMapping(0.0, 6.0);
   Serial.println(F("new CalculationSimplexNoise() - after"));
