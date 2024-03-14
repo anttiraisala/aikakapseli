@@ -47,8 +47,8 @@ private:
   static const double F2;
   static const double G2;
   static const Grad grad3[12];
-  static const uint8_t perm[512];
-  static const uint8_t permMod12[512];
+  static const uint16_t perm[512];
+  static const uint16_t permMod12[512];
 };
 
 #endif

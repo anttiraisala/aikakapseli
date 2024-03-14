@@ -71,6 +71,18 @@ PROGMEM const uint8_t SimplexNoise::permMod12[512] = {7, 4, 5, 7, 6, 3, 11, 1, 9
   uint8_t gi1 = permMod12[ii + i1 + perm[jj + j1]];
   uint8_t gi2 = permMod12[ii + 1 + perm[jj + 1]];
 
+ uint8_t gi0 = permMod12[ii + perm[jj]];
+  uint8_t gi1 = permMod12[ii + i1 + perm[jj + j1]];
+  uint8_t gi2 = permMod12[ii + 1 + perm[jj + 1]];
+
+  pgm_read_byte_near()
+
+  pgm_read_byte_near(permMod12 + ii + pgm_read_byte_near(perm + jj))
+
+  pgm_read_byte_near(permMod12 + ii + i1 + pgm_read_byte_near(perm + jj + j1))
+
+  pgm_read_byte_near(permMod12 + ii + 1 + pgm_read_byte_near(perm + jj + 1))
+
 
         
         
@@ -110,3 +122,6 @@ Global variables use 1270 bytes (15%) of dynamic memory, leaving 6922 bytes for 
 
 
 
+
+Sketch uses 7336 bytes (2%) of program storage space. Maximum is 253952 bytes.
+Global variables use 254 bytes (3%) of dynamic memory, leaving 7938 bytes for local variables. Maximum is 8192 bytes.
