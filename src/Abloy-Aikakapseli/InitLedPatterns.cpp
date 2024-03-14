@@ -65,7 +65,7 @@ void initPatterns(void) {
   CalculationSimplexNoise *slotInserting_noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.05)->setOutputOffset(0.95)->setYRatio(0.250)->setCalculationElementPhaseMapping(0.0, 6.0);
   Serial.println(F("new CalculationSimplexNoise() - after"));
   */
-  
+
   //
   LedLightCalculationSine *slotInserting_sine = (new LedLightCalculationSine(0.0, 0.5, 0.4, 0.5))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 2.0);
   LedLightCalculationTwoOperands *slotInserting_multiply = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(slotGreen), new CalculationElementLink(slotInserting_sine));
@@ -94,8 +94,8 @@ void initPatterns(void) {
   slotCombinedBranch->setStateAndCalculationElementLink((byte)StateManager::NoteState::INSERTING, new CalculationElementLink(slotInserting_multiply));
   slotCombinedBranch->setStateAndCalculationElementLink((byte)StateManager::NoteState::DROPPED, new CalculationElementLink(slotCD));
 
-  ledLights.setCalculationElementLink(2, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 00.0, slotEndPhase / slotLedCount * 09.0));
-  ledLights.setCalculationElementLink(3, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 10.0, slotEndPhase / slotLedCount * 19.0));
+  ledLights.setCalculationElementLink(6, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 00.0, slotEndPhase / slotLedCount * 09.0));
+  ledLights.setCalculationElementLink(7, new CalculationElementLink(slotCombinedBranch, slotEndPhase / slotLedCount * 10.0, slotEndPhase / slotLedCount * 19.0));
 
 
 
