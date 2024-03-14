@@ -23,7 +23,14 @@ Threshold *Threshold::setInputElement(CalculationElementLink *inputElementLink) 
 }
 
 LedLightCalculationValue Threshold::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
-  LedLightCalculationValue inputValue = inputElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, inputElementLink->getMappedRelativePhase(relativePhase));
+  LedLightCalculationValue inputValue;
+  if (previousLoopSetColorsCounter != loopSetColorsCounter) {
+    inputValue = inputElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, inputElementLink->getMappedRelativePhase(relativePhase));
+    previousInputValue = inputValue;
+    previousLoopSetColorsCounter = loopSetColorsCounter;
+  } else {
+    inputValue = previousInputValue;
+  }
 
   if (inputValue.getValueV() >= thresholdLevelForHigh) {
     ledLightCalculationValue.setValue(outputHighLevel);

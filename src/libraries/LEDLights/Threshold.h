@@ -22,6 +22,9 @@ private:
   double outputHighLevel = 1.0;
   double thresholdLevelForHigh = 0.5;
   CalculationElementLink *inputElementLink;
+
+  unsigned long previousLoopSetColorsCounter = 0;
+  LedLightCalculationValue previousInputValue;
 };
 
 #endif  // THRESHOLD_H
