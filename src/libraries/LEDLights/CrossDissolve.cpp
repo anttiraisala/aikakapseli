@@ -14,12 +14,33 @@ CrossDissolve *CrossDissolve::setInput1Element(CalculationElementLink *input1Ele
   this->input1ElementLink = input1ElementLink;
 }
 
+CrossDissolve *CrossDissolve::setUseSmoothStep(boolean useSmoothStep) {
+  this->useSmoothStep = useSmoothStep;
+  return this;
+}
+CrossDissolve *CrossDissolve::setSmoothStepA(double smoothStepA) {
+  this->smoothStepA = smoothStepA;
+  return this;
+}
+CrossDissolve *CrossDissolve::setSmoothStepB(double smoothStepB) {
+  this->smoothStepB = smoothStepB;
+  return this;
+}
+
 LedLightCalculationValue CrossDissolve::getValue(unsigned long loopSetColorsCounter, double currentTimeSeconds, double relativePhase) {
 
-  LedLightCalculationValue controlValue = controlElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, controlElementLink->getMappedRelativePhase(relativePhase));
+  LedLightCalculationValue controlValue;
+  if (previousLoopSetColorsCounter != loopSetColorsCounter) {
+    controlValue = controlElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, controlElementLink->getMappedRelativePhase(relativePhase));
+    previousInputValue = controlValue;
+    previousLoopSetColorsCounter = loopSetColorsCounter;
+  } else {
+    controlValue = previousInputValue;
+  }
+
   LedLightCalculationValue input0Value = input0ElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, input0ElementLink->getMappedRelativePhase(relativePhase));
   LedLightCalculationValue input1Value = input1ElementLink->getCalculationElement()->getValue(loopSetColorsCounter, currentTimeSeconds, input1ElementLink->getMappedRelativePhase(relativePhase));
-/*
+  /*
   Serial.println(F("\nCrossDissolve::getValue - debug begins"));
   Serial.println(F("controlValue"));
   controlValue.debugPrint();
@@ -36,11 +57,17 @@ LedLightCalculationValue CrossDissolve::getValue(unsigned long loopSetColorsCoun
 
 //LedLightCalculationTwoOperands::performOperation();
 */
-/*
+  /*
   Serial.println(F("\nLedLightCalculationTwoOperands::performOperation - before"));
   */
+
+  if (useSmoothStep == true) {
+    double t = min(max((controlValue.getValueV() - smoothStepA) / (smoothStepB - smoothStepA), 0.0), 1.0);
+    controlValue.setValue(t * t * (3.0 - 2.0 * t));
+  }
+
   LedLightCalculationTwoOperands::performOperation(&ledLightCalculationValue, LedLightCalculationTwoOperandsOperation::CROSS_DISSOLVE, &controlValue, &input0Value, &input1Value);
- /* Serial.println(F("performOperation's value"));
+  /* Serial.println(F("performOperation's value"));
   ledLightCalculationValue.debugPrint();
   Serial.println(F("\nLedLightCalculationTwoOperands::performOperation - after"));
   delay(5000);
@@ -54,4 +81,8 @@ void CrossDissolve::debugPrint(void) {}
   CalculationElementLink *controlElementLink;
   CalculationElementLink *input0ElementLink;
   CalculationElementLink *input1ElementLink;
+
+  boolean useSmoothStep = false;
+  double smoothStepA = 0.0;
+  double smoothStepB = 1.0;
 */
