@@ -25,6 +25,7 @@ LedLightCalculationValue CalculationSimplexNoise::getValue(unsigned long loopSet
   double elementSpecificMapping = getMappedPhase(relativePhase);
 
   double noise = sn.noise(elementSpecificMapping * xRatio, currentTimeSeconds * yRatio) * outputAmplitude + outputOffset;
+  //Serial.print(noise); Serial.print(" ");
 
 
   ledLightCalculationValue.setValue(noise);

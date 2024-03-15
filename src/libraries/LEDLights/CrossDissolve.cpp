@@ -67,11 +67,11 @@ LedLightCalculationValue CrossDissolve::getValue(unsigned long loopSetColorsCoun
   }
 
   LedLightCalculationTwoOperands::performOperation(&ledLightCalculationValue, LedLightCalculationTwoOperandsOperation::CROSS_DISSOLVE, &controlValue, &input0Value, &input1Value);
-  /* Serial.println(F("performOperation's value"));
-  ledLightCalculationValue.debugPrint();
-  Serial.println(F("\nLedLightCalculationTwoOperands::performOperation - after"));
-  delay(5000);
-*/
+  //Serial.println(F("performOperation's value"));
+  //ledLightCalculationValue.debugPrint();
+  //Serial.println(F("\nLedLightCalculationTwoOperands::performOperation - after"));
+  //delay(5000);
+
   return ledLightCalculationValue;
 }
 
