@@ -121,9 +121,9 @@ void initPatterns(void) {
   leds_CrossDissolve_PulseNoteDropped->setInput0Element(new CalculationElementLink(leds_BranchByDistanceState));
   leds_CrossDissolve_PulseNoteDropped->setInput1Element(new CalculationElementLink(leds_CrossDissolve_ColorGreen));
 
-
-
   /* LED branch by state - ends */
+
+  
 
   LedLightCalculationElement *testElement = leds_CrossDissolve_PulseNoteDropped;
 
