@@ -124,7 +124,10 @@ void initPatterns(void) {
   /* LED branch by state - ends */
 
   
-
+  /*
+    // Basic case; 
+    LedLightCalculationElement *testElement = leds_CrossDissolve_PulseNoteDropped;
+  */
   LedLightCalculationElement *testElement = leds_CrossDissolve_PulseNoteDropped;
 
   int ledCount = 59;
