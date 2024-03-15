@@ -89,18 +89,43 @@ void initPatterns(void) {
 
   /* DistanceState - FAR - ends */
 
+
+/* DistanceState - NEAR - begins */
+
    // Sine rotating left
   LedLightCalculationSine *distanceNear_Sine = (new LedLightCalculationSine(0.0, -0.6, 0.3, 0.70))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 2.0);
   LedLightCalculationTwoOperands *distanceNear_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceNear_Sine), new CalculationElementLink(new LedLightCalculationConstant(5.0)));
   LedLightCalculationTwoOperands *distanceNear_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceNear_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
 
-
-  /* DistanceState - NEAR - begins */
-
-
   /* DistanceState - NEAR - ends */
 
-  LedLightCalculationElement *testElement = distanceNear_MultiplyByColor;
+/* DistanceState - RETREATING - begins */
+
+  LedLightCalculationSine *distanceRetreating_Sine = (new LedLightCalculationSine(0.0, -0.1, 0.3, 0.70))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 2.0);
+  LedLightCalculationTwoOperands *distanceRetreating_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceRetreating_Sine), new CalculationElementLink(new LedLightCalculationConstant(5.0)));
+  LedLightCalculationTwoOperands *distanceRetreating_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceRetreating_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
+
+  /* DistanceState - RETREATING - ends */
+
+  /* LED branch by state - begins */
+
+  BranchByState *leds_BranchByDistanceState = new BranchByState();
+  leds_BranchByDistanceState->setDefaultCalculationElementLink(new CalculationElementLink(distanceFar_breathing));
+  leds_BranchByDistanceState->setStateAndCalculationElementLink((byte)StateManager::DistanceState::NEAR, new CalculationElementLink(distanceNear_MultiplyByColor));
+  leds_BranchByDistanceState->setStateAndCalculationElementLink((byte)StateManager::DistanceState::RETREATING, new CalculationElementLink(distanceRetreating_MultiplyByColor));
+
+  LedLightCalculationConstant *leds_CrossDissolve_ColorGreen = new LedLightCalculationConstant(0.0, 255.0, 0.0);
+  StateChangePulse *leds_StateChange_PulseNoteDropped = (new StateChangePulse())->setState((byte)StateManager::NoteState::DROPPED)->setPostOutput(0.0);
+  CrossDissolve *leds_CrossDissolve_PulseNoteDropped = new CrossDissolve();
+  leds_CrossDissolve_PulseNoteDropped->setControlElement(new CalculationElementLink(leds_StateChange_PulseNoteDropped));
+  leds_CrossDissolve_PulseNoteDropped->setInput0Element(new CalculationElementLink(leds_BranchByDistanceState));
+  leds_CrossDissolve_PulseNoteDropped->setInput1Element(new CalculationElementLink(leds_CrossDissolve_ColorGreen));
+
+
+
+  /* LED branch by state - ends */
+
+  LedLightCalculationElement *testElement = leds_CrossDissolve_PulseNoteDropped;
 
   int ledCount = 59;
   double endPhase = 1.0;
