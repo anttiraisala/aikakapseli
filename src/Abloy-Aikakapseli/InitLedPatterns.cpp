@@ -62,13 +62,13 @@ void initPatterns(void) {
 
   // Noise
   LedLightCalculationConstant *number_NoisePowerNumber = new LedLightCalculationConstant(2.5);
-  CalculationSimplexNoise *distanceFar_Noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.2)->setOutputOffset(0.8)->setYRatio(0.15)->setCalculationElementPhaseMapping(0.0, 2.0);
+  CalculationSimplexNoise *distanceFar_Noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.5)->setOutputOffset(0.5)->setYRatio(0.15)->setCalculationElementPhaseMapping(4.0, 9.0);
   LedLightCalculationTwoOperands *distanceFar_Noise_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_Noise), new CalculationElementLink(number_NoisePowerNumber));
   LedLightCalculationTwoOperands *distanceFar_Noise_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_ColorWhite), new CalculationElementLink(distanceFar_Noise_PowerFive));
 
   // CrossDissolve sine and rotate
-  CalculationSimplexNoise *distanceFar_Combine_CD_Sine_Rotate_Noise = (new CalculationSimplexNoise())->setOutputAmplitude(0.5)->setOutputOffset(0.5)->setYRatio(0.305)->setCalculationElementPhaseMapping(1.0, 2.0);
-  CrossDissolve *distanceFar_Combine_CD_Sine_Rotate = (new CrossDissolve())->setUseSmoothStep(true)->setSmoothStepA(0.95)->setSmoothStepB(1.0);
+  CalculationSimplexNoise *distanceFar_Combine_CD_Sine_Rotate_Noise = (new CalculationSimplexNoise())->setOutputAmplitude(255.0*0.5)->setOutputOffset(255.0*0.5)->setYRatio(0.305)->setCalculationElementPhaseMapping(0.0, 3.0);
+  CrossDissolve *distanceFar_Combine_CD_Sine_Rotate = (new CrossDissolve())->setUseSmoothStep(true)->setSmoothStepA(0.15)->setSmoothStepB(1.0);
   //distanceFar_Combine_CD_Sine_Rotate->setControlElement(new CalculationElementLink(new LedLightCalculationConstant(1.0)));
   distanceFar_Combine_CD_Sine_Rotate->setControlElement(new CalculationElementLink(distanceFar_Combine_CD_Sine_Rotate_Noise));
   distanceFar_Combine_CD_Sine_Rotate->setInput0Element(new CalculationElementLink(distanceFar_MultiplyByColor));
@@ -78,7 +78,7 @@ void initPatterns(void) {
   /* DistanceState - FAR - ends */
 
 
-  LedLightCalculationElement *testElement = distanceFar_Combine_CD_Sine_Rotate;
+  LedLightCalculationElement *testElement = distanceFar_Noise_MultiplyByColor;
 
   int ledCount = 59;
   double endPhase = 1.0;
