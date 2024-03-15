@@ -84,17 +84,23 @@ void initPatterns(void) {
   distanceFar_Combine_Noise_SineRotate_CD->setInput1Element(new CalculationElementLink(distanceFar_Combine_CD_Sine_Rotate));
 */
 
-  LedLightCalculationSine *distanceFar_BreathingSine = (new LedLightCalculationSine(0.0, 0.2, 0.20, 0.25))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationSine *distanceFar_BreathingSine = (new LedLightCalculationSine(0.0, 0.2, 0.15, 0.25))->setCalculationElementConstantMapping(0.0);
   LedLightCalculationTwoOperands *distanceFar_breathing = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_MultiplyByColor), new CalculationElementLink(distanceFar_BreathingSine));
 
   /* DistanceState - FAR - ends */
 
+   // Sine rotating left
+  LedLightCalculationSine *distanceNear_Sine = (new LedLightCalculationSine(0.0, -0.6, 0.3, 0.70))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 2.0);
+  LedLightCalculationTwoOperands *distanceNear_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceNear_Sine), new CalculationElementLink(new LedLightCalculationConstant(5.0)));
+  LedLightCalculationTwoOperands *distanceNear_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceNear_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
+
+
   /* DistanceState - NEAR - begins */
 
-  
+
   /* DistanceState - NEAR - ends */
 
-  LedLightCalculationElement *testElement = distanceFar_breathing;
+  LedLightCalculationElement *testElement = distanceNear_MultiplyByColor;
 
   int ledCount = 59;
   double endPhase = 1.0;
