@@ -10,7 +10,8 @@ private:
   rgb_lcd lcd;
 
   unsigned long disappearTime0;
-  unsigned long disappearTime1; 
+  unsigned long disappearTime1;
+  unsigned long millisWhenAbloyXHeurekaShouldAppear;
 
 public:
 

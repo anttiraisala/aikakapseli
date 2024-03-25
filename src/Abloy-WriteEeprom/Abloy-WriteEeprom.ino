@@ -35,11 +35,11 @@ void setup() {
   ///////////////////////////////////////////////////////////////
   /* Kommentoi pois / päälle sopiva koodi ja aja */
 
-  //clear();
+  clear();
 
-  read();
+  //read();
 
-  //write();
+  write();
 
   //clear();
   ///////////////////////////////////////////////////////////////
@@ -62,7 +62,7 @@ void write(void){
   aikakapseliEeprom.setToTime(100, 0, 0, 0, 56);
   aikakapseliEeprom.setToTime(0, 0, 0, 0, 6);
   */
-  aikakapseliEeprom.setToTime(100, 0, 0, 0, 10);
+  aikakapseliEeprom.setToTime(99, 353, 0, 0, 10);
   aikakapseliEeprom.write();
 
   Serial.println(F("Reading after write..."));
