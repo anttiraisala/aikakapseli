@@ -1,9 +1,4 @@
 
-GIT
------------------------------------------------
-
-https://github.com/anttiraisala/aikakapseli
-
 git clone https://github.com/anttiraisala/aikakapseli.git
 
 # arduino-ide.AppImage /home/anttir/projects-own/aikakapseli/Abloy-Aikakapseli.ino &

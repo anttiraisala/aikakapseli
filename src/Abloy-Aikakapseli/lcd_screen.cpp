@@ -12,7 +12,7 @@
 */
 
 Lcd_screen::Lcd_screen(void){
-  this->init();  
+  this->init();
 }
 
 void Lcd_screen::loop(unsigned long currentTime){
@@ -24,7 +24,12 @@ void Lcd_screen::loop(unsigned long currentTime){
   if(disappearTime1>0){
     if(currentTime>disappearTime1){
       this->setText("", 1);
+      millisWhenAbloyXHeurekaShouldAppear = currentTime + 10000;
     }
+  }
+
+  if(millisWhenAbloyXHeurekaShouldAppear > 0 && currentTime >= millisWhenAbloyXHeurekaShouldAppear){
+    this->setText("ABLOY x Heureka", 1, 0, 0);
   }
 }
 
@@ -42,6 +47,7 @@ void Lcd_screen::setText(char *text, int row, unsigned long currentTime, unsigne
     disappearTime0 = currentTime + duration;
   } else {
     disappearTime1 = currentTime + duration;
+    millisWhenAbloyXHeurekaShouldAppear = 0;
   }
 }
 
@@ -56,6 +62,7 @@ void Lcd_screen::init(void){
   this->lcd.noBlink();
   disappearTime0=0;
   disappearTime1=0; 
+  millisWhenAbloyXHeurekaShouldAppear = millis() + 10000;
 
   this->setText("     ABLOY", 0, millis(), 3000);
   this->setText("  Aikakapseli", 1, millis(), 3000);

@@ -46,9 +46,9 @@ void initPatterns(void) {
   LedLightCalculationConstant *distanceFar_ColorWhite = new LedLightCalculationConstant(255.0, 255.0, 255.0);
 
   // Sine rotating left
-  LedLightCalculationConstant *number_Five = new LedLightCalculationConstant(5.0);
+  LedLightCalculationConstant *number_Five = new LedLightCalculationConstant(8.0);
   LedLightCalculationSine *distanceFar_Sine = (new LedLightCalculationSine(0.0, 0.10, 0.3, 0.70))->setCalculationElementPhaseMapping(0.0, 2.0 * 3.14159265359 * 2.0);
-  LedLightCalculationTwoOperands *distanceFar_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_Sine), new CalculationElementLink(new LedLightCalculationConstant(5.0)));
+  LedLightCalculationTwoOperands *distanceFar_PowerFive = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::POW, new CalculationElementLink(distanceFar_Sine), new CalculationElementLink(number_Five));
   LedLightCalculationTwoOperands *distanceFar_MultiplyByColor = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_PowerFive), new CalculationElementLink(distanceFar_ColorWhite));
 /*
   // rotate left
@@ -84,7 +84,7 @@ void initPatterns(void) {
   distanceFar_Combine_Noise_SineRotate_CD->setInput1Element(new CalculationElementLink(distanceFar_Combine_CD_Sine_Rotate));
 */
 
-  LedLightCalculationSine *distanceFar_BreathingSine = (new LedLightCalculationSine(0.0, 0.2, 0.15, 0.25))->setCalculationElementConstantMapping(0.0);
+  LedLightCalculationSine *distanceFar_BreathingSine = (new LedLightCalculationSine(0.0, 0.4, 0.15, 0.25))->setCalculationElementConstantMapping(0.0);
   LedLightCalculationTwoOperands *distanceFar_breathing = new LedLightCalculationTwoOperands(LedLightCalculationTwoOperandsOperation::MULTIPLY, new CalculationElementLink(distanceFar_MultiplyByColor), new CalculationElementLink(distanceFar_BreathingSine));
 
   /* DistanceState - FAR - ends */
