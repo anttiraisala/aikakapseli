@@ -1,5 +1,9 @@
 
 
+Library / sketch book location "/home/anttir/projects-own/aikakapseli/src"
+
+
+
 avrdude
 avrdude: stk500_getsync() attempt 6 of 10: not in sync: resp=0xef
 -----------------------------------------------------------------------
