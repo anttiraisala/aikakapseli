@@ -59,18 +59,18 @@ void updateColorsLoop(void) {
 #include "AikakapseliEeprom.h"
 AikakapseliEeprom aikakapseliEeprom;
 void decreaseTimeAndShow(void) {
+  // Poistetaan ajan näyttäminen ja tallentaminen, kun Aikakapseli siirtyy pitkäaikaisvarastointiin
+  /*
   aikakapseliEeprom.decreaseTime();
   lcd->setText(aikakapseliEeprom.getTimeString(), 0);
+  */
+  lcd->setText("   1.3.2124    ", 0);  
 }
 CallbackTimer *decreaseTimeAndShowTimer;
 void writeTime(void) {
   aikakapseliEeprom.write();
 }
 CallbackTimer *writeCountdownTimeToEepromTimer;
-
-
-
-
 
 
 
@@ -154,8 +154,13 @@ void loop() {
 
   // Countdown -laskurin ajan vähentäminen ja arvon tulostus tasan sekunnin välein
   decreaseTimeAndShowTimer->loop(currentTimeMillis);
+  
   // Countdown -laskurin ajan tallennus EEPROM:iin sähkökatkojen varalle
+  // 
+  /*
+  Poistetaan ajan näyttäminen ja tallentaminen, kun Aikakapseli siirtyy pitkäaikaisvarastointiin
   writeCountdownTimeToEepromTimer->loop(currentTimeMillis);
+  */
 
 
   // Kehitystyön aikana vilkutellaan LEDejä sattumanvaraisesti

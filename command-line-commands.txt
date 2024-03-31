@@ -1,9 +1,4 @@
 
-GIT
------------------------------------------------
-
-https://github.com/anttiraisala/aikakapseli
-
 git clone https://github.com/anttiraisala/aikakapseli.git
 
 # arduino-ide.AppImage /home/anttir/projects-own/aikakapseli/Abloy-Aikakapseli.ino &
@@ -34,6 +29,13 @@ cd /home/anttir/projects-own/aikakapseli
 
 Arduinon kytkeminen portteihin
 ------------------------------------------
+
+https://askubuntu.com/questions/1056314/uploading-code-to-arduino-gives-me-the-error-avrdude-ser-open-cant-open-d
+
+To confirm the port exists enter the following from the root directory:
+  ll /dev/ttyACM0
+To set read/write permissions, enter the following
+  sudo chmod a+rw /dev/ttyACM0
 
 # plug un-plug your device and then verify:
 ls /dev/tty* ; ls /dev/ttyU* ; ls /dev/ttyA* ;
